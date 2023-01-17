@@ -21,7 +21,7 @@ class VideoSystem {
     }
 
     #findPerson(array, element) {
-        return array.findIndex(p => p.name === element.title);
+        return array.findIndex(p => p.id === element.id);
     }
 
     /* constructor(name){
@@ -96,15 +96,15 @@ class VideoSystem {
         }
     }
 
-    addProduction(prod) {
+    addProduction(production) {
         //Excepción
 
-        this.#productions.push(prod);
+        this.#productions.push(production);
 
         return this.#productions.length();
     }
 
-    removeProduction(prod) {
+    removeProduction(production) {
 
     }
 
@@ -156,6 +156,44 @@ class VideoSystem {
 
     }
 
-    
+    assignCategory(category, production){
+
+    }
+
+    deassingCategory(category, production){
+
+    }
+
+    assignDirector(director, production){
+
+    }
+
+    deassingDirector(director, production){
+
+    }
+
+    assignActor(actor, production){
+
+    }
+
+    deassingActor(actor, production){
+
+    }
+
+    getCast(production){
+
+    }
+
+    getProductionsDirector(director){
+        
+    }
+
+    getProductionsActor(actor){
+
+    }
+
+    getProductionsCategory(category){
+
+    }
 
 }
