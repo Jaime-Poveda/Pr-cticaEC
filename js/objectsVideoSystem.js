@@ -10,12 +10,23 @@ class Person {
     constructor(name, lastname1, lastname2 = "", born, picture = "") {
         //Excepciones
 
-
+        this.#id = Person.id();
         this.#name = name;
         this.#lastname1 = lastname1;
         this.#lastname2 = lastname2;
         this.#born = born;
         this.#picture = picture;
+    }
+
+    static id() {
+        if (!this.latestId) {
+            this.latestId = 1;
+        }
+        else {
+            this.latestId++;
+        }
+
+        return this.latestId;
     }
 
     get name() {
@@ -229,7 +240,7 @@ class User {
     }
 }
 
-class User {
+class Coordinate {
     #latitude;
     #longitude;
 
