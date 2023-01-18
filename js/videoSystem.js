@@ -8,6 +8,34 @@ class VideoSystem {
     #actors = [];
     #directors = [];
 
+    /*
+        Estructura para almacenar los objetos
+        #images: [] // Array con las imágenes del gestor
+
+        #categories: [ // Array contiene objeto literal con la categoría y un array con las imágenes de esa categoría
+            { 
+                category: category,
+                productions: [ Production ] // El array contiene las referencias al objeto Production
+            }
+        ]
+
+        #directors: [ // Array contiene objeto literal con el director y un array con las imágenes de esa categoría
+            { 
+                director: director,
+                productions: [ Production ] // El array contiene las referencias al objeto Production
+            }
+        ]
+        
+        #actors: [ // Array contiene objeto literal con el actor y un array con las imágenes de esa categoría
+            { 
+                actor: actor,
+                productions: [ Production ] // El array contiene las referencias al objeto Production
+            }
+        ]
+
+    */
+
+
     #findCategory(element) {
         return this.#categories.findIndex(c => c.name === element.name);
     }
@@ -240,7 +268,7 @@ class VideoSystem {
     assignCategory(category, production) {
         //Excepciones
 
-        
+
 
     }
 
