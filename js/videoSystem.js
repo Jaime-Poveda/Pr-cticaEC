@@ -7,15 +7,19 @@ let VideoSystem = (function () {
     function init() {
         class VideoSystem {
             #name;
+
             #users = [];
             #productions = [];
+
             #categories = [];
             #actors = [];
             #directors = [];
 
             /*
                 Estructura para almacenar los objetos
-                #images: [] // Array con las imágenes del gestor
+                #users: [] // Array con los usuarios
+                
+                #productions: [] // Array con las producciones
         
                 #categories: [ // Array contiene objeto literal con la categoría y un array con las imágenes de esa categoría
                     { 
@@ -41,25 +45,32 @@ let VideoSystem = (function () {
             */
 
 
-            #findCategory(element) {
-                return this.#categories.findIndex(c => c.name === element.name);
+            #findCategory(array, element) {
+                return array.findIndex(c => c.category.name === element.name);
             }
 
-            #findUser(element) {
-                return this.#users.findIndex(u => u.username === element.username);
+            #findUser(array, element) {
+                return array.findIndex(u => u.username === element.username);
             }
 
-            #findProduction(element) {
-                return this.#productions.findIndex(p => p.title === element.title);
+            #findProduction(array, element) {
+                return array.findIndex(p => p.title === element.title);
             }
 
             #findPerson(array, element) {
                 return array.findIndex(p => p.id === element.id);
             }
 
-            /* constructor(name){
-        
-            } */
+            #findActor(array, element) {
+                return array.findIndex(p => p.actor.id === element.id);
+            }
+            #findDirector(array, element) {
+                return array.findIndex(p => p.director.id === element.id);
+            }
+
+            constructor(name = "Unknown") {
+
+            }
 
             get name() {
                 return this.#name;
@@ -84,10 +95,15 @@ let VideoSystem = (function () {
             addCategory(category) {
                 //Excepciones
 
-                let categoryPosition = this.#findCategory(category);
+                let categoryPosition = this.#findCategory(this.#categories, category);
 
                 if (categoryPosition === -1) {
-                    this.#categories.push(category);
+                    this.#categories.push(
+                        {
+                            category: category,
+                            productions: []
+                        }
+                    );
                 } else {
                     throw new Error("El elemento ya está");
                 }
@@ -98,7 +114,7 @@ let VideoSystem = (function () {
             removeCategory(category) {
                 //Excepciones
 
-                let categoryPosition = this.#findCategory(category);
+                let categoryPosition = this.#findCategory(this.#categories, category);
 
                 if (categoryPosition !== -1) {
                     this.#categories.splice(categoryPosition, 1);
@@ -124,7 +140,7 @@ let VideoSystem = (function () {
             addUser(user) {
                 //Excepciones
 
-                let userPosition = this.#findUser(user);
+                let userPosition = this.#findUser(this.#users, user);
 
                 if (userPosition === -1) {
                     this.#users.push(user);
@@ -138,7 +154,7 @@ let VideoSystem = (function () {
             removeUser(user) {
                 //Excepciones
 
-                let userPosition = this.#findUser(user);
+                let userPosition = this.#findUser(this.#users, user);
 
                 if (userPosition !== -1) {
                     this.#users.splice(userPosition, 1);
@@ -164,7 +180,7 @@ let VideoSystem = (function () {
             addProduction(production) {
                 //Excepciones
 
-                let prodPosition = this.#findProduction(production);
+                let prodPosition = this.#findProduction(this.#productions, production);
 
                 if (prodPosition === -1) {
                     this.#productions.push(production);
@@ -178,7 +194,7 @@ let VideoSystem = (function () {
             removeProduction(production) {
                 //Excepciones
 
-                let prodPosition = this.#findProduction(production);
+                let prodPosition = this.#findProduction(this.#productions, production);
 
                 if (prodPosition !== -1) {
                     this.#productions.splice(prodPosition, 1);
@@ -204,10 +220,15 @@ let VideoSystem = (function () {
             addActor(actor) {
                 //Excepciones
 
-                let actorPosition = this.#findPerson(this.#actors, actor);
+                let actorPosition = this.#findActor(this.#actors, actor);
 
                 if (actorPosition === -1) {
-                    this.#actors.push(actor);
+                    this.#actors.push(
+                        {
+                            actor: actor,
+                            productions: []
+                        }
+                    );
                 } else {
                     throw new Error("El elemento ya está");
                 }
@@ -218,7 +239,7 @@ let VideoSystem = (function () {
             removeActor(actor) {
                 //Excepciones
 
-                let actorPosition = this.#findPerson(this.#actors, actor);
+                let actorPosition = this.#findActor(this.#actors, actor);
 
                 if (actorPosition !== -1) {
                     this.#actors.splice(actorPosition, 1);
@@ -244,10 +265,15 @@ let VideoSystem = (function () {
             addDirector(director) {
                 //Excepciones
 
-                let directorPosition = this.#findPerson(this.#directors, director);
+                let directorPosition = this.#findDirector(this.#directors, director);
 
                 if (directorPosition === -1) {
-                    this.#directors.push(director);
+                    this.#directors.push(
+                        {
+                            director: director,
+                            productions: []
+                        }
+                    );
                 } else {
                     throw new Error("El elemento ya está");
                 }
@@ -259,7 +285,7 @@ let VideoSystem = (function () {
             removeDirector(director) {
                 //Excepciones
 
-                let directorPosition = this.#findPerson(this.#directors, director);
+                let directorPosition = this.#findDirector(this.#directors, director);
 
                 if (directorPosition !== -1) {
                     this.#directors.splice(directorPosition, 1);
@@ -273,14 +299,29 @@ let VideoSystem = (function () {
             assignCategory(category, production) {
                 //Excepciones
 
+                let categoryPosition = this.#findCategory(this.#categories, category);
 
+                if (categoryPosition === -1) {
+                    this.#categories[categoryPosition].productions.push(production);
+                } else {
+                    throw new Error("El elemento ya está");
+                }
 
+                return this.#categories[categoryPosition].productions.length();
             }
 
             deassingCategory(category, production) {
                 //Excepciones
 
+                let prodCatPosition = this.#findProdCat(this.#categories, category, production);
+                
+                if (directorPosition !== -1) {
+                    this.#categories[categoryPosition].splice(prodCatPosition, 1);
+                } else {
+                    throw new Error("El elemento no está");
+                }
 
+                return this.#categories[categoryPosition].productions.length();
             }
 
             assignDirector(director, production) {
@@ -344,7 +385,7 @@ let VideoSystem = (function () {
                 instantiated = init();
             }
 
-            return instantiated; 
+            return instantiated;
         }
     };
 })();
