@@ -45,28 +45,37 @@ let VideoSystem = (function () {
             */
 
 
-            #findCategory(array, element) {
-                return array.findIndex(c => c.category.name === element.name);
+
+            #findUser(array, user) {
+                return array.findIndex(u => u.username === user.username);
             }
 
-            #findUser(array, element) {
-                return array.findIndex(u => u.username === element.username);
+            #findProduction(array, production) {
+                return array.findIndex(p => p.title === production.title);
             }
 
-            #findProduction(array, element) {
-                return array.findIndex(p => p.title === element.title);
+            #findPerson(array, person) {
+                return array.findIndex(p => p.id === person.id);
             }
 
-            #findPerson(array, element) {
-                return array.findIndex(p => p.id === element.id);
+            #findCategory(array, category) {
+                return array.findIndex(c => c.category.name === category.name);
             }
 
-            #findActor(array, element) {
-                return array.findIndex(p => p.actor.id === element.id);
+            #findActor(array, actor) {
+                return array.findIndex(a => a.actor.id === actor.id);
             }
-            #findDirector(array, element) {
-                return array.findIndex(p => p.director.id === element.id);
+            #findDirector(array, director) {
+                return array.findIndex(d => d.director.id === director.id);
             }
+
+            /* #findProdCat(array, production) {
+                return array.findIndex(p => p.title === production.title);
+            }
+
+            #findProdDir(array, production) {
+                return array.findIndex(p => p.title === production.title);
+            } */
 
             constructor(name = "Unknown") {
 
@@ -313,10 +322,12 @@ let VideoSystem = (function () {
             deassingCategory(category, production) {
                 //Excepciones
 
-                let prodCatPosition = this.#findProdCat(this.#categories, category, production);
-                
-                if (directorPosition !== -1) {
-                    this.#categories[categoryPosition].splice(prodCatPosition, 1);
+                let categoryPosition = this.#findCategory(this.#categories, category);
+
+                let prodCatPosition = this.#findProduction(this.#categories[categoryPosition].productions, production);
+
+                if (prodCatPosition !== -1) {
+                    this.#categories[categoryPosition].productions.splice(prodCatPosition, 1);
                 } else {
                     throw new Error("El elemento no está");
                 }
@@ -327,49 +338,103 @@ let VideoSystem = (function () {
             assignDirector(director, production) {
                 //Excepciones
 
+                let directorPosition = this.#findDirector(this.#directors, director);
 
+                if (directorPosition === -1) {
+                    this.#directors[directorPosition].productions.push(production);
+                } else {
+                    throw new Error("El elemento ya está");
+                }
+
+                return this.#directors[directorPosition].productions.length();
             }
 
             deassingDirector(director, production) {
                 //Excepciones
 
+                let directorPosition = this.#findDirector(this.#directors, director);
 
+                let prodDirPosition = this.#findProduction(this.#directors[directorPosition].productions, production);
+
+                if (prodDirPosition === -1) {
+                    this.#directors[directorPosition].productions.splice(prodDirPosition, 1);
+                } else {
+                    throw new Error("El elemento ya está");
+                }
+
+                return this.#directors[directorPosition].productions.length();
             }
 
             assignActor(actor, production) {
                 //Excepciones
 
+                let actorPosition = this.#findActor(this.#actors, actor);
 
+                if (actorPosition === -1) {
+                    this.#actors[actorPosition].productions.push(production);
+                } else {
+                    throw new Error("El elemento ya está");
+                }
+
+                return this.#actors[actorPosition].productions.length();
             }
 
             deassingActor(actor, production) {
                 //Excepciones
 
+                let actorPosition = this.#findActor(this.#actors, actor);
 
+                let prodActPosition = this.#findProduction(this.#actors[actorPosition].productions, production);
+
+                if (prodActPosition === -1) {
+                    this.#actors[actorPosition].productions.splice(prodActPosition, 1);
+                } else {
+                    throw new Error("El elemento ya está");
+                }
+
+                return this.#actors[actorPosition].productions.length();
             }
 
-            getCast(production) {
+            * getCast(production) {
                 //Excepciones
 
+                for (let actor of this.#actors) {
+                    let prodPosition = this.#findProduction(actor.productions, production);
 
+                    if (prodPosition !== -1) {
+                        yield actor.actor;
+                    }
+                }
             }
 
-            getProductionsDirector(director) {
+            * getProductionsDirector(director) {
                 //Excepciones
 
+                let directorPosition = this.#findDirector(this.#directors, director);
 
+                for (let prod of this.#directors[directorPosition].productions) {
+                    yield prod;
+                }
             }
 
-            getProductionsActor(actor) {
+            * getProductionsActor(actor) {
                 //Excepciones
 
+                let actorPosition = this.#findActor(this.#actors, actor);
 
+                for (let prod of this.#actors[actorPosition].productions) {
+                    yield prod;
+                }
             }
 
-            getProductionsCategory(category) {
+            * getProductionsCategory(category) {
                 //Excepciones
 
+                let categoryPosition = this.#findCategory(this.#categories, category);
 
+                for (let prod of this.#categories[categoryPosition].productions) {
+                    yield prod;
+                }
             }
 
         }
