@@ -129,7 +129,7 @@ let VideoSystem = (function () {
                     throw new Error("El elemento ya está");
                 }
 
-                return this.#users.length();
+                return this.#users.length;
             }
 
             removeUser(user) {
@@ -143,7 +143,7 @@ let VideoSystem = (function () {
                     throw new Error("El elemento no está");
                 }
 
-                return this.#users.length();
+                return this.#users.length;
             }
 
             get productions() {
@@ -169,7 +169,7 @@ let VideoSystem = (function () {
                     throw new Error("El elemento ya está");
                 }
 
-                return this.#productions.length();
+                return this.#productions.length;
             }
 
             removeProduction(production) {
@@ -183,7 +183,7 @@ let VideoSystem = (function () {
                     throw new Error("El elemento no está");
                 }
 
-                return this.#productions.length();
+                return this.#productions.length;
             }
 
             get categories() {
@@ -214,7 +214,7 @@ let VideoSystem = (function () {
                     throw new Error("El elemento ya está");
                 }
 
-                return this.#categories.length();
+                return this.#categories.length;
             }
 
             removeCategory(category) {
@@ -228,7 +228,7 @@ let VideoSystem = (function () {
                     throw new Error("El elemento no está");
                 }
 
-                return this.#categories.length();
+                return this.#categories.length;
             }
 
             get actors() {
@@ -259,7 +259,7 @@ let VideoSystem = (function () {
                     throw new Error("El elemento ya está");
                 }
 
-                return this.#actors.length();
+                return this.#actors.length;
             }
 
             removeActor(actor) {
@@ -273,7 +273,7 @@ let VideoSystem = (function () {
                     throw new Error("El elemento no está");
                 }
 
-                return this.#actors.length();
+                return this.#actors.length;
             }
 
             get directors() {
@@ -305,7 +305,7 @@ let VideoSystem = (function () {
                 }
 
 
-                return this.#directors.length();
+                return this.#directors.length;
             }
 
             removeDirector(director) {
@@ -319,7 +319,7 @@ let VideoSystem = (function () {
                     throw new Error("El elemento no está");
                 }
 
-                return this.#directors.length();
+                return this.#directors.length;
             }
 
             assignCategory(category, production) {
@@ -346,7 +346,7 @@ let VideoSystem = (function () {
                     throw new Error("La producción ya está asociada a esta categoría");
                 }
 
-                return this.#categories[categoryPosition].productions.length();
+                return this.#categories[categoryPosition].productions.length;
             }
 
             deassingCategory(category, production) {
@@ -366,7 +366,7 @@ let VideoSystem = (function () {
                     throw new Error("La categoría no existe");
                 }
 
-                return this.#categories[categoryPosition].productions.length();
+                return this.#categories[categoryPosition].productions.length;
             }
 
             assignDirector(director, production) {
@@ -392,7 +392,7 @@ let VideoSystem = (function () {
                     throw new Error("La producción ya está asociada a este director");
                 }
 
-                return this.#directors[directorPosition].productions.length();
+                return this.#directors[directorPosition].productions.length;
             }
 
             deassingDirector(director, production) {
@@ -412,7 +412,7 @@ let VideoSystem = (function () {
                 }
 
 
-                return this.#directors[directorPosition].productions.length();
+                return this.#directors[directorPosition].productions.length;
             }
 
             assignActor(actor, production) {
@@ -437,7 +437,7 @@ let VideoSystem = (function () {
                     throw new Error("La producción ya está asociada a este actor");
                 }
 
-                return this.#actors[actorPosition].productions.length();
+                return this.#actors[actorPosition].productions.length;
             }
 
             deassingActor(actor, production) {
@@ -455,7 +455,7 @@ let VideoSystem = (function () {
                     throw new Error("El actor no existe");
                 }
 
-                return this.#actors[actorPosition].productions.length();
+                return this.#actors[actorPosition].productions.length;
             }
 
             * getCast(production) {
@@ -541,3 +541,5 @@ let VideoSystem = (function () {
         }
     };
 })();
+
+export { VideoSystem };

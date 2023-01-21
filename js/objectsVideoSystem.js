@@ -1,6 +1,7 @@
 "use strict";
 
 class Person {
+    #id;
     #name;
     #lastname1;
     #lastname2;
@@ -159,8 +160,9 @@ class Movie extends Production {
     #resource;
     #locations;
 
-    constructor(title, nationality = "", publication, synopsis = "", image = "", resourse = "", locations = []) {
+    constructor(title, nationality = "", publication, synopsis = "", image = "", resourse = null, locations = []) {
         //Excepciones
+        if (!(resourse instanceof Resource)) throw new Error("error");
 
         super(title, nationality, publication, synopsis, image);
 
@@ -177,7 +179,7 @@ class Movie extends Production {
     }
 
     toString() {
-        return super.toString() + ", Resource: " + this.#resource + ", Locations: " + this.#locations;
+        return super.toString() + ", Resource: { " + this.#resource + " }, Locations: " + this.#locations;
     }
 }
 
@@ -209,7 +211,7 @@ class Serie extends Production {
     }
 
     toString() {
-        return super.toString() + ", Resource: " + this.#resources + ", Locations: " + this.#locations, ", Seasons: " + this.#seasons;
+        return super.toString() + ", Resource: { " + this.#resources + " }, Locations: { " + this.#locations + " }, Seasons: " + this.#seasons;
     }
 }
 
@@ -239,7 +241,7 @@ class User {
     }
 
     toString() {
-        return "Username: " + this.#username + ", Email: " + this.#email, ", Password: " + this.#password;
+        return "Username: " + this.#username + ", Email: " + this.#email + ", Password: " + this.#password;
     }
 }
 
@@ -263,6 +265,9 @@ class Coordinate {
     }
 
     toString() {
-        return "latitude: " + this.#latitude + ", Longitude: " + this.#longitude;
+        return "Latitude: " + this.#latitude + ", Longitude: " + this.#longitude;
     }
 }
+
+//Exporto las clases que voy a utilizar
+export { Person, Category, Resource, Production, Movie, Serie, User, Coordinate };
