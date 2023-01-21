@@ -349,7 +349,7 @@ let VideoSystem = (function () {
                 return this.#categories[categoryPosition].productions.length;
             }
 
-            deassingCategory(category, production) {
+            deassignCategory(category, production) {
                 //Excepciones
 
                 let categoryPosition = this.#findCategory(this.#categories, category);
@@ -395,7 +395,7 @@ let VideoSystem = (function () {
                 return this.#directors[directorPosition].productions.length;
             }
 
-            deassingDirector(director, production) {
+            deassignDirector(director, production) {
                 //Excepciones
 
                 let directorPosition = this.#findDirector(this.#directors, director);
@@ -440,7 +440,7 @@ let VideoSystem = (function () {
                 return this.#actors[actorPosition].productions.length;
             }
 
-            deassingActor(actor, production) {
+            deassignActor(actor, production) {
                 //Excepciones
 
                 let actorPosition = this.#findActor(this.#actors, actor);
@@ -462,12 +462,12 @@ let VideoSystem = (function () {
                 //Excepciones
 
 
-                let prodPosition = this.#findProduction(actor.productions, production);
+                let prodPosition = this.#findProduction(this.#productions, production);
 
                 if (prodPosition !== -1) {
                     for (let actor of this.#actors) {
 
-                        let prodActPosition = this.#findProductionByTitle(this.#actors[actorPosition].productions, production);
+                        let prodActPosition = this.#findProductionByTitle(actor.productions, production);
                         if (prodActPosition !== -1) {
                             yield actor.actor;
                         }

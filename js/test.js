@@ -319,4 +319,140 @@ import { VideoSystem } from "./videoSystem.js";
     }
 
 
+    console.log("\n\n");
+    console.log("Assign Category:");
+    console.log(videoSystem.assignCategory(category1, movie1));
+    console.log(videoSystem.assignCategory(category2, movie1));
+    console.log(videoSystem.assignCategory(category2, movie2));
+
+    try {
+        console.log(videoSystem.assignCategory(category1, movie1));
+    } catch (error) {
+        console.log(error);
+    }
+    console.log("\n");
+    console.log("Iterador de Productions en Categories:");
+    for (let category of videoSystem.categories) {
+        console.log("Category: " + category.category.name + ", Productions: " + category.productions.toString());
+    }
+
+    console.log("\n");
+    console.log("Deassign Category:");
+    console.log(videoSystem.deassignCategory(category1, movie1));
+
+    try {
+        console.log(videoSystem.deassignCategory(category1, movie1));
+    } catch (error) {
+        console.log(error);
+    }
+    console.log("\n");
+    console.log("Iterador de Productions en Categories:");
+    for (let category of videoSystem.categories) {
+        console.log("Category: " + category.category.name + ", Productions: " + category.productions.toString());
+    }
+
+
+    console.log("\n\n");
+    console.log("Assign Director:");
+    console.log(videoSystem.assignDirector(director6, movie1));
+    console.log(videoSystem.assignDirector(director6, movie2));
+    console.log(videoSystem.assignDirector(director7, movie2));
+
+    try {
+        console.log(videoSystem.assignDirector(director6, movie1));
+    } catch (error) {
+        console.log(error);
+    }
+    console.log("\n");
+    console.log("Iterador de Productions en Directors:");
+    for (let director of videoSystem.directors) {
+        console.log("Director: " + director.director.name + " " + director.director.lastname1 + ", Productions: " + director.productions.toString());
+    }
+
+    console.log("\n");
+    console.log("Deassign Director:");
+    console.log(videoSystem.deassignDirector(director6, movie1));
+
+    try {
+        console.log(videoSystem.deassignDirector(director6, movie1));
+    } catch (error) {
+        console.log(error);
+    }
+    console.log("\n");
+    console.log("Iterador de Productions en Directors:");
+    for (let director of videoSystem.directors) {
+        console.log("Director: " + director.director.name + " " + director.director.lastname1 + ", Productions: " + director.productions.toString());
+    }
+
+
+    console.log("\n\n");
+    console.log("Assign Actor:");
+    console.log(videoSystem.assignActor(actor1, serie1));
+    console.log(videoSystem.assignActor(actor1, serie2));
+    console.log(videoSystem.assignActor(actor2, serie2));
+
+    try {
+        console.log(videoSystem.assignActor(actor1, serie1));
+    } catch (error) {
+        console.log(error);
+    }
+    console.log("\n");
+    console.log("Iterador de Productions en Actors:");
+    for (let actor of videoSystem.actors) {
+        console.log("Actor: " + actor.actor.name + " " + actor.actor.lastname1 + ", Productions: " + actor.productions.toString());
+    }
+
+    console.log("\n");
+    console.log("Deassign Actor:");
+    console.log(videoSystem.deassignActor(actor1, serie1));
+
+    try {
+        console.log(videoSystem.deassignActor(actor1, serie1));
+    } catch (error) {
+        console.log(error);
+    }
+    console.log("\n");
+    console.log("Iterador de Productions en Actors:");
+    for (let actor of videoSystem.actors) {
+        console.log("Actor: " + actor.actor.name + " " + actor.actor.lastname1 + ", Productions: " + actor.productions.toString());
+    }
+
+    /* console.log("\n\n");
+    console.log("Get Cast:");
+    //console.log(videoSystem.getCast(serie2));
+    for (let cast of videoSystem.getCast(serie2)) {
+        console.log(cast);
+    } */
+
+    console.log("\n\n");
+    console.log(videoSystem.assignDirector(director7, movie1));
+    console.log(videoSystem.assignDirector(director7, serie2));
+    console.log("Get Productions Director:");
+    for (let production of videoSystem.getProductionsDirector(director7)) {
+        console.log(production.toString());
+    }
+
+    console.log("\n\n");
+    console.log(videoSystem.assignActor(actor2, movie1));
+    console.log(videoSystem.assignActor(actor2, movie3));
+    console.log("Get Productions Actor:");
+    for (let production of videoSystem.getProductionsActor(actor2)) {
+        console.log(production.toString());
+    }
+
+    console.log("\n\n");
+    console.log(videoSystem.assignCategory(category2, serie2));
+    console.log(videoSystem.assignCategory(category2, movie3));
+    console.log("Get Productions Category:");
+    for (let production of videoSystem.getProductionsCategory(category2)) {
+        console.log(production.toString());
+    }
+
+    console.log("\n\n");
+    console.log("Get Cast:");
+    //console.log(videoSystem.getCast(serie2));
+    for (let cast of videoSystem.getCast(serie2)) {
+        console.log(cast.toString());
+    }
+
 })();
