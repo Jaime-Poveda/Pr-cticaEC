@@ -29,6 +29,9 @@ class Person {
         return this.latestId;
     }
 
+    get id() {
+        return this.#id;
+    }
     get name() {
         return this.#name;
     }
@@ -46,7 +49,7 @@ class Person {
     }
 
     toString() {
-        return "Name: " + this.#name + ", Lastname1: " + this.#lastname1 + ", Lastname2: " + this.#lastname2 + ", Born: " + this.#born + ", Picture: " + this.#picture;
+        return "Id: " + this.#id + ", Name: " + this.#name + ", Lastname1: " + this.#lastname1 + ", Lastname2: " + this.#lastname2 + ", Born: " + this.#born + ", Picture: " + this.#picture;
     }
 }
 
