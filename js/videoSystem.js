@@ -1,6 +1,7 @@
 "use strict";
 
 import { BaseException, EmptyValueException, InvalidValueException, InvalidTypeException, AbstractClassException } from "./baseException.js";
+import { Person, Category, Resource, Production, Movie, Serie, User, Coordinate } from "./objectsVideoSystem.js";
 
 //Excepción para controlar el tipo no válido
 class NullOrInvalidTypeException extends BaseException {
@@ -13,18 +14,34 @@ class NullOrInvalidTypeException extends BaseException {
 }
 
 class AlreadyRegisteredException extends BaseException {
-    constructor(param, fileName, lineNumber) {
-        super("Error: The " + param + " is already registered.", fileName, lineNumber);
-        this.param = param;
+    constructor(value, fileName, lineNumber) {
+        super("Error: The " + value + " is already registered.", fileName, lineNumber);
+        this.value = value;
         this.name = "AlreadyRegisteredException";
     }
 }
 
 class NotRegisteredException extends BaseException {
-    constructor(param, fileName, lineNumber) {
-        super("Error: The " + param + " is not registered.", fileName, lineNumber);
-        this.param = param;
+    constructor(value, fileName, lineNumber) {
+        super("Error: The " + value + " is not registered.", fileName, lineNumber);
+        this.value = value;
         this.name = "NotRegisteredException";
+    }
+}
+
+class AlreadyAssociatedProductionException extends BaseException {
+    constructor(value, fileName, lineNumber) {
+        super("Error: The " + value + " is already associated to the production.", fileName, lineNumber);
+        this.value = value;
+        this.name = "AlreadyAssociatedProductionException";
+    }
+}
+
+class NotAssociatedProductionException extends BaseException {
+    constructor(value, fileName, lineNumber) {
+        super("Error: The " + value + " is not associated to the production.", fileName, lineNumber);
+        this.value = value;
+        this.name = "NotAssociatedProductionException";
     }
 }
 
@@ -74,7 +91,7 @@ let VideoSystem = (function () {
 
 
             #findUser(array, user) {
-                return array.findIndex(u => u.username === user.username);
+                return array.findIndex(u => u.username === user.username || u.email === user.email);
             }
 
             #findProduction(array, production) {
@@ -150,13 +167,14 @@ let VideoSystem = (function () {
 
             addUser(user) {
                 //Excepciones
+                if (user === null || !(user instanceof User)) throw new NullOrInvalidTypeException("user", "User");
 
                 let userPosition = this.#findUser(this.#users, user);
 
                 if (userPosition === -1) {
                     this.#users.push(user);
                 } else {
-                    throw new Error("El elemento ya está");
+                    throw new AlreadyRegisteredException("username or email");
                 }
 
                 return this.#users.length;
@@ -164,13 +182,14 @@ let VideoSystem = (function () {
 
             removeUser(user) {
                 //Excepciones
+                if (user === null || !(user instanceof User)) throw new NullOrInvalidTypeException("user", "User");
 
                 let userPosition = this.#findUser(this.#users, user);
 
                 if (userPosition !== -1) {
                     this.#users.splice(userPosition, 1);
                 } else {
-                    throw new Error("El elemento no está");
+                    throw new NotRegisteredException("user");
                 }
 
                 return this.#users.length;
@@ -190,13 +209,14 @@ let VideoSystem = (function () {
 
             addProduction(production) {
                 //Excepciones
+                if (production === null || !(production instanceof Production)) throw new NullOrInvalidTypeException("production", "Production");
 
                 let prodPosition = this.#findProduction(this.#productions, production);
 
                 if (prodPosition === -1) {
                     this.#productions.push(production);
                 } else {
-                    throw new Error("El elemento ya está");
+                    throw new AlreadyRegisteredException("production");
                 }
 
                 return this.#productions.length;
@@ -204,13 +224,14 @@ let VideoSystem = (function () {
 
             removeProduction(production) {
                 //Excepciones
+                if (production === null || !(production instanceof Production)) throw new NullOrInvalidTypeException("production", "Production");
 
                 let prodPosition = this.#findProduction(this.#productions, production);
 
                 if (prodPosition !== -1) {
                     this.#productions.splice(prodPosition, 1);
                 } else {
-                    throw new Error("El elemento no está");
+                    throw new NotRegisteredException("production");
                 }
 
                 return this.#productions.length;
@@ -230,6 +251,7 @@ let VideoSystem = (function () {
 
             addCategory(category) {
                 //Excepciones
+                if (category === null || !(category instanceof Category)) throw new NullOrInvalidTypeException("category", "Category");
 
                 let categoryPosition = this.#findCategory(this.#categories, category);
 
@@ -241,7 +263,7 @@ let VideoSystem = (function () {
                         }
                     );
                 } else {
-                    throw new Error("El elemento ya está");
+                    throw new AlreadyRegisteredException("category");
                 }
 
                 return this.#categories.length;
@@ -249,13 +271,14 @@ let VideoSystem = (function () {
 
             removeCategory(category) {
                 //Excepciones
+                if (category === null || !(category instanceof Category)) throw new NullOrInvalidTypeException("category", "Category");
 
                 let categoryPosition = this.#findCategory(this.#categories, category);
 
                 if (categoryPosition !== -1) {
                     this.#categories.splice(categoryPosition, 1);
                 } else {
-                    throw new Error("El elemento no está");
+                    throw new NotRegisteredException("category");
                 }
 
                 return this.#categories.length;
@@ -275,6 +298,7 @@ let VideoSystem = (function () {
 
             addActor(actor) {
                 //Excepciones
+                if (actor === null || !(actor instanceof Person)) throw new NullOrInvalidTypeException("actor", "Person");
 
                 let actorPosition = this.#findActor(this.#actors, actor);
 
@@ -286,7 +310,7 @@ let VideoSystem = (function () {
                         }
                     );
                 } else {
-                    throw new Error("El elemento ya está");
+                    throw new AlreadyRegisteredException("actor");
                 }
 
                 return this.#actors.length;
@@ -294,13 +318,14 @@ let VideoSystem = (function () {
 
             removeActor(actor) {
                 //Excepciones
+                if (actor === null || !(actor instanceof Person)) throw new NullOrInvalidTypeException("actor", "Person");
 
                 let actorPosition = this.#findActor(this.#actors, actor);
 
                 if (actorPosition !== -1) {
                     this.#actors.splice(actorPosition, 1);
                 } else {
-                    throw new Error("El elemento no está");
+                    throw new NotRegisteredException("actor");
                 }
 
                 return this.#actors.length;
@@ -320,6 +345,7 @@ let VideoSystem = (function () {
 
             addDirector(director) {
                 //Excepciones
+                if (director === null || !(director instanceof Person)) throw new NullOrInvalidTypeException("director", "Person");
 
                 let directorPosition = this.#findDirector(this.#directors, director);
 
@@ -331,7 +357,7 @@ let VideoSystem = (function () {
                         }
                     );
                 } else {
-                    throw new Error("El elemento ya está");
+                    throw new AlreadyRegisteredException("director");
                 }
 
 
@@ -340,13 +366,14 @@ let VideoSystem = (function () {
 
             removeDirector(director) {
                 //Excepciones
+                if (director === null || !(director instanceof Person)) throw new NullOrInvalidTypeException("director", "Person");
 
                 let directorPosition = this.#findDirector(this.#directors, director);
 
                 if (directorPosition !== -1) {
                     this.#directors.splice(directorPosition, 1);
                 } else {
-                    throw new Error("El elemento no está");
+                    throw new NotRegisteredException("director");
                 }
 
                 return this.#directors.length;
@@ -354,6 +381,8 @@ let VideoSystem = (function () {
 
             assignCategory(category, production) {
                 //Excepciones
+                if (category === null || !(category instanceof Category)) throw new NullOrInvalidTypeException("category", "Category");
+                if (production === null || !(production instanceof Production)) throw new NullOrInvalidTypeException("production", "Production");
 
                 //Comprobar si existen
                 let categoryPosition = this.#findCategory(this.#categories, category);
@@ -373,7 +402,7 @@ let VideoSystem = (function () {
                 if (prodCatPosition === -1) {
                     this.#categories[categoryPosition].productions.push(production.title);
                 } else {
-                    throw new Error("La producción ya está asociada a esta categoría");
+                    throw new AlreadyAssociatedProductionException("category");
                 }
 
                 return this.#categories[categoryPosition].productions.length;
@@ -381,6 +410,8 @@ let VideoSystem = (function () {
 
             deassignCategory(category, production) {
                 //Excepciones
+                if (category === null || !(category instanceof Category)) throw new NullOrInvalidTypeException("category", "Category");
+                if (production === null || !(production instanceof Production)) throw new NullOrInvalidTypeException("production", "Production");
 
                 let categoryPosition = this.#findCategory(this.#categories, category);
 
@@ -390,10 +421,10 @@ let VideoSystem = (function () {
                     if (prodCatPosition !== -1) {
                         this.#categories[categoryPosition].productions.splice(prodCatPosition, 1);
                     } else {
-                        throw new Error("La producción no está asociada a esta categoría");
+                        throw new NotAssociatedProductionException("category");
                     }
                 } else {
-                    throw new Error("La categoría no existe");
+                    throw new NotRegisteredException("category");
                 }
 
                 return this.#categories[categoryPosition].productions.length;
@@ -401,6 +432,8 @@ let VideoSystem = (function () {
 
             assignDirector(director, production) {
                 //Excepciones
+                if (director === null || !(director instanceof Person)) throw new NullOrInvalidTypeException("director", "Person");
+                if (production === null || !(production instanceof Production)) throw new NullOrInvalidTypeException("production", "Production");
 
                 let directorPosition = this.#findDirector(this.#directors, director);
                 if (directorPosition === -1) {
@@ -419,7 +452,7 @@ let VideoSystem = (function () {
                 if (prodDirPosition === -1) {
                     this.#directors[directorPosition].productions.push(production.title);
                 } else {
-                    throw new Error("La producción ya está asociada a este director");
+                    throw new AlreadyAssociatedProductionException("director");
                 }
 
                 return this.#directors[directorPosition].productions.length;
@@ -427,6 +460,8 @@ let VideoSystem = (function () {
 
             deassignDirector(director, production) {
                 //Excepciones
+                if (director === null || !(director instanceof Person)) throw new NullOrInvalidTypeException("director", "Person");
+                if (production === null || !(production instanceof Production)) throw new NullOrInvalidTypeException("production", "Production");
 
                 let directorPosition = this.#findDirector(this.#directors, director);
                 if (directorPosition !== -1) {
@@ -435,10 +470,10 @@ let VideoSystem = (function () {
                     if (prodDirPosition !== -1) {
                         this.#directors[directorPosition].productions.splice(prodDirPosition, 1);
                     } else {
-                        throw new Error("La producción no está asociada a este director");
+                        throw new NotAssociatedProductionException("director");
                     }
                 } else {
-                    throw new Error("El director no existe");
+                    throw new NotRegisteredException("director");
                 }
 
 
@@ -447,6 +482,8 @@ let VideoSystem = (function () {
 
             assignActor(actor, production) {
                 //Excepciones
+                if (actor === null || !(actor instanceof Person)) throw new NullOrInvalidTypeException("actor", "Person");
+                if (production === null || !(production instanceof Production)) throw new NullOrInvalidTypeException("production", "Production");
 
                 let actorPosition = this.#findActor(this.#actors, actor);
                 if (actorPosition === -1) {
@@ -464,7 +501,7 @@ let VideoSystem = (function () {
                 if (prodActPosition === -1) {
                     this.#actors[actorPosition].productions.push(production.title);
                 } else {
-                    throw new Error("La producción ya está asociada a este actor");
+                    throw new AlreadyAssociatedProductionException("actor");
                 }
 
                 return this.#actors[actorPosition].productions.length;
@@ -472,6 +509,8 @@ let VideoSystem = (function () {
 
             deassignActor(actor, production) {
                 //Excepciones
+                if (actor === null || !(actor instanceof Person)) throw new NullOrInvalidTypeException("actor", "Person");
+                if (production === null || !(production instanceof Production)) throw new NullOrInvalidTypeException("production", "Production");
 
                 let actorPosition = this.#findActor(this.#actors, actor);
                 if (actorPosition !== -1) {
@@ -479,10 +518,10 @@ let VideoSystem = (function () {
                     if (prodActPosition !== -1) {
                         this.#actors[actorPosition].productions.splice(prodActPosition, 1);
                     } else {
-                        throw new Error("La producción no está asociada a este director");
+                        throw new NotAssociatedProductionException("actor");
                     }
                 } else {
-                    throw new Error("El actor no existe");
+                    throw new NotRegisteredException("actor");
                 }
 
                 return this.#actors[actorPosition].productions.length;
@@ -490,7 +529,7 @@ let VideoSystem = (function () {
 
             * getCast(production) {
                 //Excepciones
-
+                if (production === null || !(production instanceof Production)) throw new NullOrInvalidTypeException("production", "Production");
 
                 let prodPosition = this.#findProduction(this.#productions, production);
 
@@ -503,12 +542,13 @@ let VideoSystem = (function () {
                         }
                     }
                 } else {
-                    throw new Error("La producción no existe");
+                    throw new NotRegisteredException("production");
                 }
             }
 
             * getProductionsDirector(director) {
                 //Excepciones
+                if (director === null || !(director instanceof Person)) throw new NullOrInvalidTypeException("director", "Person");
 
                 let directorPosition = this.#findDirector(this.#directors, director);
 
@@ -519,12 +559,13 @@ let VideoSystem = (function () {
                         yield this.#productions[prodPosition];
                     }
                 } else {
-                    throw new Error("El director no existe");
+                    throw new NotRegisteredException("director");
                 }
             }
 
             * getProductionsActor(actor) {
                 //Excepciones
+                if (actor === null || !(actor instanceof Person)) throw new NullOrInvalidTypeException("actor", "Person");
 
                 let actorPosition = this.#findActor(this.#actors, actor);
 
@@ -535,12 +576,13 @@ let VideoSystem = (function () {
                         yield this.#productions[prodPosition];
                     }
                 } else {
-                    throw new Error("El actor no existe");
+                    throw new NotRegisteredException("actor");
                 }
             }
 
             * getProductionsCategory(category) {
                 //Excepciones
+                if (category === null || !(category instanceof Category)) throw new NullOrInvalidTypeException("category", "Category");
 
                 let categoryPosition = this.#findCategory(this.#categories, category);
                 if (categoryPosition !== -1) {
@@ -550,7 +592,7 @@ let VideoSystem = (function () {
                         yield this.#productions[prodPosition];
                     }
                 } else {
-                    throw new Error("La categoría no existe");
+                    throw new NotRegisteredException("category");
                 }
             }
 

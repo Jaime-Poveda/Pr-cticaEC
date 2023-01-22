@@ -47,6 +47,5 @@ class AbstractClassException extends BaseException {
     }
 }
 
-
-
+//Exporto las clases
 export { BaseException, EmptyValueException, InvalidValueException, InvalidTypeException, AbstractClassException };
