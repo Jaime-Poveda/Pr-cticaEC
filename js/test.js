@@ -1,7 +1,11 @@
 "use strict";
+
+
+//Importo las clases de los otros ficheros
 import { Person, Category, Resource, Production, Movie, Serie, User, Coordinate } from "./objectsVideoSystem.js";
 import { VideoSystem } from "./videoSystem.js";
 
+//Función de testeo
 (function () {
 
     let actor1 = new Person("Antonio", "Banderas", "", new Date("12/12/2012"), "antonio.jpg");
@@ -455,7 +459,7 @@ import { VideoSystem } from "./videoSystem.js";
         console.log(cast.toString());
     }
 
-    console.log("\n\n");
+    /* console.log("\n\n");
     try {
         let person9 = new Person("Jaime", "Poveda", "", 1234, "");
     } catch (error) {
@@ -472,6 +476,6 @@ import { VideoSystem } from "./videoSystem.js";
         let serie1 = new Serie("Game of Thrones", "EEUU", new Date("01/01/2009"), "La historia medieval de George R.R. Martin", "", [resource6, resource7, 1], [], 7);
     } catch (error) {
         console.log(error);
-    }
+    } */
 
 })();
