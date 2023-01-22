@@ -1,5 +1,32 @@
 "use strict";
 
+import { BaseException, EmptyValueException, InvalidValueException, InvalidTypeException, AbstractClassException } from "./baseException.js";
+
+//Excepción para controlar el tipo no válido
+class NullOrInvalidTypeException extends BaseException {
+    constructor(param, correctType, fileName, lineNumber) {
+        super(`Error: The paramenter "${param}" is null or has an invalid type. Type should be ` + correctType + '.', fileName, lineNumber);
+        this.param = param;
+        this.correctType = correctType;
+        this.name = "NullOrInvalidTypeException";
+    }
+}
+
+class AlreadyRegisteredException extends BaseException {
+    constructor(param, fileName, lineNumber) {
+        super("Error: The " + param + " is already registered.", fileName, lineNumber);
+        this.param = param;
+        this.name = "AlreadyRegisteredException";
+    }
+}
+
+class NotRegisteredException extends BaseException {
+    constructor(param, fileName, lineNumber) {
+        super("Error: The " + param + " is not registered.", fileName, lineNumber);
+        this.param = param;
+        this.name = "NotRegisteredException";
+    }
+}
 
 let VideoSystem = (function () {
     let instantiated;
@@ -93,9 +120,10 @@ let VideoSystem = (function () {
             } */
 
             constructor(name = "Unknown") {
+                //Validación que controla que no sea un new.target
+                if (!new.target) throw new InvalidAccessConstructorException();
 
                 this.#name = name;
-
             }
 
             get name() {
@@ -103,6 +131,8 @@ let VideoSystem = (function () {
             }
 
             set name(name) {
+                if (name === "") throw new EmptyValueException("name");
+
                 this.#name = name;
             }
 

@@ -66,9 +66,9 @@ import { VideoSystem } from "./videoSystem.js";
 
 
     console.log("\n\n");
-    let movie1 = new Movie("El señor de los anillos", "EEUU", new Date("01/01/2001"), "La épica de fantasía de Tolkien", "", resource1, "");
-    let movie2 = new Movie("Matrix", "EEUU", new Date("01/01/1999"), "", "", resource2, "");
-    let movie3 = new Movie("Shrek", "EEUU", new Date("01/01/2001"), "", "", resource3, "");
+    let movie1 = new Movie("El señor de los anillos", "EEUU", new Date("01/01/2001"), "La épica de fantasía de Tolkien", "", resource1, []);
+    let movie2 = new Movie("Matrix", "EEUU", new Date("01/01/1999"), "", "", resource2, []);
+    let movie3 = new Movie("Shrek", "EEUU", new Date("01/01/2001"), "", "", resource3, []);
 
     console.log("Movies:");
     console.log(movie1.toString());
@@ -453,6 +453,25 @@ import { VideoSystem } from "./videoSystem.js";
     //console.log(videoSystem.getCast(serie2));
     for (let cast of videoSystem.getCast(serie2)) {
         console.log(cast.toString());
+    }
+
+    console.log("\n\n");
+    try {
+        let person9 = new Person("Jaime", "Poveda", "", 1234, "");
+    } catch (error) {
+        console.log(error);
+    }
+
+    try {
+        let movie3 = new Movie("Shrek", "EEUU", new Date("01/01/2001"), "", "", resource3, [new Coordinate(23, 42), 1234]);
+    } catch (error) {
+        console.log(error);
+    }
+
+    try {
+        let serie1 = new Serie("Game of Thrones", "EEUU", new Date("01/01/2009"), "La historia medieval de George R.R. Martin", "", [resource6, resource7, 1], [], 7);
+    } catch (error) {
+        console.log(error);
     }
 
 })();

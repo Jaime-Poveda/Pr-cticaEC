@@ -1,5 +1,7 @@
 "use strict";
 
+import { BaseException, EmptyValueException, InvalidValueException, InvalidTypeException, AbstractClassException } from "./baseException.js";
+
 class Person {
     #id;
     #name;
@@ -8,8 +10,12 @@ class Person {
     #born;
     #picture;
 
-    constructor(name, lastname1, lastname2 = "", born, picture = "") {
+    constructor(name, lastname1, lastname2, born, picture) {
         //Excepciones
+        if (name === "") throw new EmptyValueException("name");
+        if (lastname1 === "") throw new EmptyValueException("lastname1");
+        if (born === "") throw new EmptyValueException("born");
+        if (!(born instanceof Date)) throw new InvalidTypeException("born", "Date");
 
         this.#id = Person.id();
         this.#name = name;
@@ -60,6 +66,7 @@ class Category {
 
     constructor(name, description = "") {
         //Excepciones
+        if (name === "") throw new EmptyValueException("name");
 
         this.#name = name;
         this.#description = description;
@@ -83,6 +90,9 @@ class Resource {
 
     constructor(duration, link) {
         //Excepciones
+        if (duration === "") throw new EmptyValueException("duration");
+        if (link === "") throw new EmptyValueException("link");
+        if (Number.isNaN(duration)) throw new InvalidValueException("duration", duration);
 
         this.#duration = duration;
         this.#link = link;
@@ -105,7 +115,7 @@ class Resource {
 class Abstract {
     constructor() {
         if (new.target === Abstract) {
-            throw new TypeError("No es posible construir instancias de una clase abstracta");
+            throw new AbstractClassException("Abstract");
         }
     }
 }
@@ -117,11 +127,15 @@ class Production extends Abstract {
     #synopsis;
     #image;
 
-    constructor(title, nationality = "", publication, synopsis = "", image = "") {
-        if (new.target === Production) {
-            throw new TypeError("No es posible construir instancias de una clase abstracta");
-        }
+    constructor(title, nationality, publication, synopsis = "", image = "") {
         //Excepciones
+        if (new.target === Production) {
+            throw new AbstractClassException("Production");
+        }
+        if (title === "") throw new EmptyValueException("title");
+        if (publication === "") throw new EmptyValueException("publication");
+        if (!(publication instanceof Date)) throw new InvalidTypeException("publication", "Date");
+
 
         super();
 
@@ -160,17 +174,19 @@ class Movie extends Production {
     #resource;
     #locations;
 
-    constructor(title, nationality = "", publication, synopsis = "", image = "", resourse = null, locations = []) {
+    constructor(title, nationality, publication, synopsis = "", image = "", resource = null, locations = []) {
         //Excepciones
-        if (!(resourse instanceof Resource)) throw new Error("error");
+        if (!(Array.isArray(locations))) throw new InvalidTypeException("locations", "Array");
+        if (!(resource instanceof Resource)) throw new InvalidTypeException("resource", "Resource");
+        if (!(locations.every(function (element) { return (element instanceof Coordinate); }))) throw new InvalidTypeException("locations", "Location");
 
         super(title, nationality, publication, synopsis, image);
 
-        this.#resource = resourse;
+        this.#resource = resource;
         this.#locations = locations;
     }
 
-    get resourse() {
+    get resource() {
         return this.#resource;
     }
 
@@ -188,17 +204,23 @@ class Serie extends Production {
     #locations;
     #seasons;
 
-    constructor(title, nationality = "", publication, synopsis = "", image = "", resourses = [], locations = [], seasons) {
+    constructor(title, nationality = "", publication, synopsis = "", image = "", resources = [], locations = [], seasons) {
         //Excepciones
+        if (!(Array.isArray(locations))) throw new InvalidTypeException("locations", "Array");
+        if (!(Array.isArray(resources))) throw new InvalidTypeException("resources", "Array");
+        if (!(resources.every(function (element) { return (element instanceof Resource); }))) throw new InvalidTypeException("resources", "Resource");
+        if (!(locations.every(function (element) { return (element instanceof Coordinate); }))) throw new InvalidTypeException("locations", "Location");
+        if (Number.isNaN(seasons)) throw new InvalidValueException("seasons", seasons);
+
 
         super(title, nationality, publication, synopsis, image);
 
-        this.#resources = resourses;
+        this.#resources = resources;
         this.#locations = locations;
         this.#seasons = seasons;
     }
 
-    get resourses() {
+    get resources() {
         return this.#resources;
     }
 
@@ -222,6 +244,9 @@ class User {
 
     constructor(username, email, password) {
         //Excepciones
+        if (username === "") throw new EmptyValueException("username");
+        if (email === "") throw new EmptyValueException("email");
+        if (password === "") throw new EmptyValueException("password");
 
         this.#username = username;
         this.#email = email;
@@ -249,8 +274,10 @@ class Coordinate {
     #latitude;
     #longitude;
 
-    constructor(latitude, longitude) {
+    constructor(latitude = 0, longitude = 0) {
         //Excepciones
+        if (Number.isNaN(latitude)) throw new InvalidValueException("latitude", latitude);
+        if (Number.isNaN(longitude)) throw new InvalidValueException("longitude", longitude);
 
         this.#latitude = latitude;
         this.#longitude = longitude;
