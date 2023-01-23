@@ -33,6 +33,24 @@ import { VideoSystem } from "./videoSystem.js";
     let director10 = new Person("Kathryn", "Bigelow", "", new Date("12/12/2012"), "bigelow.jpg");
 
     console.log("\n");
+    console.log("Compruebo la excepción de valor vacío");
+    try {
+        console.log('let person9 = new Person("", "Banderas", "", new Date("12/12/2012"), "");');
+        let person9 = new Person("", "Banderas", "", new Date("12/12/2012"), "");
+    } catch (error) {
+        console.log(error);
+    }
+
+    console.log("\n");
+    console.log("Compruebo la excepción de fecha no válida");
+    try {
+        console.log('let person9 = new Person("Antonio", "Banderas", "", 1234, "");');
+        let person9 = new Person("Antonio", "Antonio", "", 1234, "");
+    } catch (error) {
+        console.log(error);
+    }
+
+    console.log("\n");
     console.log("Actores:");
     console.log("actor1.toString(): " + actor1.toString());
     console.log("actor2.toString(): " + actor2.toString());
@@ -248,6 +266,15 @@ import { VideoSystem } from "./videoSystem.js";
     try {
         console.log("videoSystem.addUser(user1): ");
         console.log("videoSystem.addUser(user1): " + videoSystem.addUser(user1));
+    } catch (error) {
+        console.log(error);
+    }
+
+    console.log("\n");
+    console.log("Compruebo la excepción de parámetro nulo o tipo no válido:");
+    try {
+        console.log("videoSystem.addUser(123): ");
+        console.log("videoSystem.addUser(123): " + videoSystem.addUser(123));
     } catch (error) {
         console.log(error);
     }
@@ -616,13 +643,6 @@ import { VideoSystem } from "./videoSystem.js";
     console.log('for (let cast of videoSystem.getCast(serie2)) {console.log(cast.toString());}');
     for (let cast of videoSystem.getCast(serie2)) {
         console.log(cast.toString());
-    }
-
-    console.log("\n");
-    try {
-        let person9 = new Person("Jaime", "Poveda", "", 1234, "");
-    } catch (error) {
-        console.log(error);
     }
 
     console.log("\n");
