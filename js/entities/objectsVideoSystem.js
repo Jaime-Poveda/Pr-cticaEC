@@ -1,7 +1,7 @@
 "use strict";
 
 //Importo las excepciones
-import { BaseException, EmptyValueException, InvalidValueException, InvalidTypeException, AbstractClassException } from "./baseException.js";
+import { BaseException, EmptyValueException, InvalidValueException, InvalidTypeException, AbstractClassException } from "../baseException.js";
 
 //Clase Person
 class Person {

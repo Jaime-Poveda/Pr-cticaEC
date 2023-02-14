@@ -1,3 +1,5 @@
+"use strict";
+
 //Excepciones personalizadas
 class BaseException extends Error {
     constructor(message = "", fileName, lineNumber) {

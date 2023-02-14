@@ -1,8 +1,8 @@
 "use strict";
 
 //Importo las clases de los otros ficheros
-import { BaseException, EmptyValueException, InvalidValueException, InvalidTypeException, AbstractClassException } from "./baseException.js";
-import { Person, Category, Resource, Production, Movie, Serie, User, Coordinate } from "./objectsVideoSystem.js";
+import { BaseException, EmptyValueException, InvalidValueException, InvalidTypeException, AbstractClassException } from "../baseException.js";
+import { Person, Category, Resource, Production, Movie, Serie, User, Coordinate } from "../entities/objectsVideoSystem.js";
 
 //Excepción personalizada para controlar el tipo no válido
 class NullOrInvalidTypeException extends BaseException {
