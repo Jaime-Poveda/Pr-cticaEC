@@ -103,9 +103,6 @@ class VideoSystemController {
         videoSystem.addActor(actor13);
         videoSystem.addActor(actor14);
 
-        videoSystem.assignActor(actor1, movie1);
-        videoSystem.assignActor(actor2, movie1);
-
         let director1 = new Person("Matthew", "Vaughn", "", new Date("07/03/1971"), "img/matthew-vaughn.jpg");
         let director2 = new Person("Gavin", "Hood", "", new Date("12/05/1963"), "img/gavin-hood.jpg");
         let director3 = new Person("Sam", "Raimi", "", new Date("23/10/1959"), "img/sam-raimi.jpg");
@@ -129,6 +126,55 @@ class VideoSystemController {
         videoSystem.addDirector(director9);
         videoSystem.addDirector(director10);
         videoSystem.addDirector(director11);
+
+        
+        videoSystem.assignActor(actor1, movie1);
+        videoSystem.assignActor(actor2, movie1);
+        videoSystem.assignDirector(director1, movie1);
+
+        videoSystem.assignActor(actor3, movie2);
+        videoSystem.assignActor(actor4, movie2);
+        videoSystem.assignDirector(director2, movie2);
+
+        videoSystem.assignActor(actor5, movie3);
+        videoSystem.assignActor(actor6, movie3);
+        videoSystem.assignDirector(director3, movie3);
+
+        videoSystem.assignActor(actor7, movie4);
+        videoSystem.assignActor(actor8, movie4);
+        videoSystem.assignDirector(director4, movie4);
+
+        videoSystem.assignActor(actor7, movie5);
+        videoSystem.assignActor(actor6, movie5);
+        videoSystem.assignDirector(director5, movie5);
+
+        videoSystem.assignActor(actor2, movie6);
+        videoSystem.assignActor(actor9, movie6);
+        videoSystem.assignDirector(director6, movie6);
+
+        videoSystem.assignActor(actor1, movie7);
+        videoSystem.assignActor(actor10, movie7);
+        videoSystem.assignDirector(director7, movie7);
+
+        videoSystem.assignActor(actor3, movie8);
+        videoSystem.assignActor(actor11, movie8);
+        videoSystem.assignDirector(director8, movie8);
+
+        videoSystem.assignActor(actor8, movie9);
+        videoSystem.assignActor(actor11, movie9);
+        videoSystem.assignDirector(director9, movie9);
+
+        videoSystem.assignActor(actor7, movie10);
+        videoSystem.assignActor(actor12, movie10);
+        videoSystem.assignDirector(director9, movie10);
+
+        videoSystem.assignActor(actor13, movie11);
+        videoSystem.assignActor(actor12, movie11);
+        videoSystem.assignDirector(director10, movie11);
+
+        videoSystem.assignActor(actor13, serie1);
+        videoSystem.assignActor(actor14, serie1);
+        videoSystem.assignDirector(director11, serie1);
 
         let user1 = new User("John", "john@gmail.com", "john1234");
 
