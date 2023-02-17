@@ -623,6 +623,25 @@ let VideoSystem = (function () {
                     throw new NotRegisteredException("production");
                 }
             }
+            
+            //Método que devuelve el iterador de directores asociados a una producción
+            * getDirectors(production) {
+            //Excepciones
+            if (production === null || !(production instanceof Production)) throw new NullOrInvalidTypeException("production", "Production");
+
+            //Busco la producción en el array del sistema. Si existe, devuelvo los actores, en caso contrario lanzo una excepción
+            let prodPosition = this.#findProduction(this.#productions, production);
+            if (prodPosition !== -1) {
+                for (let director of this.#directors) {
+                    let prodDirPosition = this.#findProductionByTitle(director.productions, production);
+                    if (prodDirPosition !== -1) {
+                        yield director.director;
+                    }
+                }
+            } else {
+                throw new NotRegisteredException("production");
+            }
+        }
 
             //Método que devuelve el iterador de producciones asociadas a un director
             * getProductionsDirector(director) {

@@ -116,7 +116,7 @@ class VideoSystemView {
         this.showHeader();
 
         this.main.append(`
-        <div id="categorySection" class="row justify-content-center text-center">
+        <div id="categorySection" class="row justify-content-center text-center mt-4">
             <h1>`+ category + `</h1>
         </div>
         `);
@@ -139,17 +139,23 @@ class VideoSystemView {
 
     }
 
-    showProduction(production, cast) {
+    showProduction(production, cast, directors) {
         this.main.empty();
         this.showHeader();
 
         this.main.append(`
-        <div class="d-flex justify-content-center">
-            <div class="card" style="width: 18rem;">
-                <img src="`+ production.image + `" class="card-img-top" alt="` + production.title + `">
-                <div class="card-body text-center">
-                  <h5 class="card-title">`+ production.title + `</h5>
-                  <p class="card-text">`+ production.synopsis + `</p>
+        <div class="d-flex justify-content-center mt-4">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="`+ production.image + `" class="img-fluid overflow-hidden h-100 rounded-start" alt="` + production.title + `">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body text-center h-100 row d-flex">
+                        <h5 class="card-title">`+ production.title + `</h5>
+                        <p class="card-text">`+ production.synopsis + `</p>
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
@@ -161,19 +167,79 @@ class VideoSystemView {
                 </div>
             </div>
         </div>
+        <div class="container mt-2">
+            <div class="row text-center">
+                <h1 class="">Directores</h1>
+                <div id="directorsSection" class="row justify-content-center">
+
+                </div>
+            </div>
+        </div>
         `);
 
         for (let actor of cast) {
             $("#narvars-ul").append(`
             <li class="nav-item">
-                <a class=" me-4 text-light text-decoration-none" class="nav-link active" href="#">`+ actor.name + `</a>
+                <a class="actor me-4 text-light text-decoration-none" class="nav-link active" href="#" name="`+ actor.id + `">` + actor.name + `</a>
             </li>
             `);
 
             $("#actorsSection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
-                <a href="#">
-                    <img src="`+ actor.picture + `" class="rounded" alt="` + actor.name + `" style="width: 200px; height: 240px;">
+                <a class="actor" href="#">
+                    <img src="`+ actor.picture + `" class="rounded" alt="` + actor.name + `" name="` + actor.id + `" style="width: 200px; height: 240px;">
+                </a>
+            </div>
+            `);
+            
+        }
+
+        for(let director of directors){
+            $("#directorsSection").append(`
+            <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
+                <a class="director" href="#">
+                    <img src="`+ director.picture + `" class="rounded" alt="` + director.name + `" name="` + director.id + `" style="width: 200px; height: 240px;">
+                </a>
+            </div>
+            `);
+        }
+    }
+
+    showPerson(person, productions) {
+        this.main.empty();
+        this.showHeader();
+
+        this.main.append(`
+        <div class="d-flex justify-content-center mt-4">
+            <div class="card" style="width: 18rem;">
+            <img src="`+ person.picture + `" class="img-fluid overflow-hidden h-100 rounded-start" alt="` + person.name + `">
+                <div class="card-body text-center">
+                    <h5 class="card-title">`+ person.name + ` ` + person.lastname1 + `</h5>
+                    <p class="card-text">`+ person.born.toLocaleDateString() + `</p>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-2">
+            <div class="row text-center">
+                <h1 class="">Producciones</h1>
+                <div id="productsSection" class="row justify-content-center">
+
+                </div>
+            </div>
+        </div>
+        `);
+
+        for (let prod of productions) {
+            /* $("#narvars-ul").append(`
+            <li class="nav-item">
+                <a class="actor me-4 text-light text-decoration-none" class="nav-link active" href="#" name="`+ actor.id + `">` + actor.name + `</a>
+            </li>
+            `); */
+
+            $("#productsSection").append(`
+            <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
+                <a class="productionImage" href="#">
+                    <img src="`+ prod.image + `" class="rounded" alt="` + prod.title + `" style="width: 200px; height: 240px;">
                 </a>
             </div>
             `);
@@ -198,6 +264,21 @@ class VideoSystemView {
         })
         $(".productionImage").click((event) => {
             handler(event.target.alt);
+        })
+    }
+
+    bindActor(handler) {
+        $(".actor").click((event) => {
+            handler(event.target.name);
+        })
+        /* $(".actorImage").click((event) => {
+            handler(event.target.alt);
+        }) */
+    }
+    
+    bindDirector(handler) {
+        $(".director").click((event) => {
+            handler(event.target.name);
         })
     }
 

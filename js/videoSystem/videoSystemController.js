@@ -73,20 +73,20 @@ class VideoSystemController {
         videoSystem.assignCategory(category3, movie11);
         videoSystem.assignCategory(category3, serie1);
 
-        let actor1 = new Person("Taron", "Egerton", "", new Date("10/11/1989"), "img/taron-egerton.jpg");
-        let actor2 = new Person("Colin", "Firth", "", new Date("10/09/1960"), "img/colin-firth.jpg");
-        let actor3 = new Person("Hugh", "Jackman", "", new Date("12/10/1968"), "img/hugh-jackman.jpg");
-        let actor4 = new Person("Ryan", "Reynolds", "", new Date("23/10/1976"), "img/ryan-reynolds.jpg");
-        let actor5 = new Person("Tobey", "Maguire", "", new Date("27/06/1975"), "img/tobey-maguire.jpg");
-        let actor6 = new Person("J.K.", "Simmons", "", new Date("09/01/1955"), "img/jk-simmons.jpg");
-        let actor7 = new Person("Ryan", "Gosling", "", new Date("12/11/1980"), "img/ryan-gosling.jpg");
-        let actor8 = new Person("Oscar", "Isaac", "", new Date("09/03/1979"), "img/oscar-isaac.jpg");
-        let actor9 = new Person("Pierce", "Brosnan", "", new Date("16/05/1953"), "img/pierce-brosnan.jpg");
-        let actor10 = new Person("Matthew", "McConaughey", "", new Date("04/11/1969"), "img/matthew-mcconaughey.jpg");
-        let actor11 = new Person("Zendaya", "Zendaya", "", new Date("01/09/1996"), "img/zendaya.jpg");
-        let actor12 = new Person("Harrison", "Ford", "", new Date("13/07/1942"), "img/harrison-ford.jpg");
-        let actor13 = new Person("Domhall", "Gleeson", "", new Date("12/05/1983"), "img/domhall-gleeson.jpg");
-        let actor14 = new Person("Hayley", "Atwell", "", new Date("05/04/1982"), "img/hayley-atwell.jpg");
+        let actor1 = new Person("Taron", "Egerton", "", new Date("11/10/1989"), "img/taron-egerton.jpg");
+        let actor2 = new Person("Colin", "Firth", "", new Date("09/10/1960"), "img/colin-firth.jpg");
+        let actor3 = new Person("Hugh", "Jackman", "", new Date("10/12/1968"), "img/hugh-jackman.jpg");
+        let actor4 = new Person("Ryan", "Reynolds", "", new Date("10/23/1976"), "img/ryan-reynolds.jpg");
+        let actor5 = new Person("Tobey", "Maguire", "", new Date("06/27/1975"), "img/tobey-maguire.jpg");
+        let actor6 = new Person("J.K.", "Simmons", "", new Date("01/09/1955"), "img/jk-simmons.jpg");
+        let actor7 = new Person("Ryan", "Gosling", "", new Date("11/12/1980"), "img/ryan-gosling.jpg");
+        let actor8 = new Person("Oscar", "Isaac", "", new Date("03/09/1979"), "img/oscar-isaac.jpg");
+        let actor9 = new Person("Pierce", "Brosnan", "", new Date("05/16/1953"), "img/pierce-brosnan.jpg");
+        let actor10 = new Person("Matthew", "McConaughey", "", new Date("11/04/1969"), "img/matthew-mcconaughey.jpg");
+        let actor11 = new Person("Zendaya", "Zendaya", "", new Date("09/01/1996"), "img/zendaya.jpg");
+        let actor12 = new Person("Harrison", "Ford", "", new Date("07/13/1942"), "img/harrison-ford.jpg");
+        let actor13 = new Person("Domhall", "Gleeson", "", new Date("05/12/1983"), "img/domhall-gleeson.jpg");
+        let actor14 = new Person("Hayley", "Atwell", "", new Date("04/05/1982"), "img/hayley-atwell.jpg");
 
         videoSystem.addActor(actor1);
         videoSystem.addActor(actor2);
@@ -127,7 +127,7 @@ class VideoSystemController {
         videoSystem.addDirector(director10);
         videoSystem.addDirector(director11);
 
-        
+
         videoSystem.assignActor(actor1, movie1);
         videoSystem.assignActor(actor2, movie1);
         videoSystem.assignDirector(director1, movie1);
@@ -196,6 +196,8 @@ class VideoSystemController {
         this.#videoSystemView.bindInit(this.handleInit.bind(this));
         this.#videoSystemView.bindCategory(this.handleCategory.bind(this));
         this.#videoSystemView.bindProduction(this.handleProduction.bind(this));
+        this.#videoSystemView.bindActor(this.handleActor.bind(this));
+        this.#videoSystemView.bindDirector(this.handleDirector.bind(this));
     }
 
     onLoad = () => {
@@ -222,12 +224,29 @@ class VideoSystemController {
     handleProduction = (production) => {
         for (let prod of this.#videoSystem.productions) {
             if (prod.title === production) {
-                this.#videoSystemView.showProduction(prod, this.#videoSystem.getCast(prod));
+                this.#videoSystemView.showProduction(prod, this.#videoSystem.getCast(prod), this.#videoSystem.getDirectors(prod));
             }
         }
         this.binds();
     }
 
+    handleActor = (actor) => {
+        for (let act of this.#videoSystem.actors) {
+            if (act.actor.id === Number(actor)) {
+                this.#videoSystemView.showPerson(act.actor, this.#videoSystem.getProductionsActor(act.actor));
+            }
+        }
+        this.binds();
+    }
+
+    handleDirector = (director) => {
+        for (let dir of this.#videoSystem.directors) {
+            if (dir.director.id === Number(director)) {
+                this.#videoSystemView.showPerson(dir.director, this.#videoSystem.getProductionsDirector(dir.director));
+            }
+        }
+        this.binds();
+    }
 
 }
 
