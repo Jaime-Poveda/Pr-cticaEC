@@ -8,9 +8,9 @@ class VideoSystemController {
     #loadObjects() {
         let videoSystem = this.#videoSystem;
 
-        let category1 = new Category("Acción", "");
-        let category2 = new Category("Musical", "");
-        let category3 = new Category("Ciencia Ficción", "");
+        let category1 = new Category("Acción", "Producciones con un toque de adrenalina. Incluyen acrobacias físicas, persecuciones rescates y batallas.");
+        let category2 = new Category("Musical", "Música, emociones y coreografías espectaculares para disfrutar.");
+        let category3 = new Category("Ciencia Ficción", "Combinación de ciencia futurista y dilemas éticos o espacio-temporales.");
 
         videoSystem.addCategory(category1);
         videoSystem.addCategory(category2);
@@ -103,17 +103,17 @@ class VideoSystemController {
         videoSystem.addActor(actor13);
         videoSystem.addActor(actor14);
 
-        let director1 = new Person("Matthew", "Vaughn", "", new Date("07/03/1971"), "img/matthew-vaughn.jpg");
-        let director2 = new Person("Gavin", "Hood", "", new Date("12/05/1963"), "img/gavin-hood.jpg");
-        let director3 = new Person("Sam", "Raimi", "", new Date("23/10/1959"), "img/sam-raimi.jpg");
-        let director4 = new Person("Nicolas", "Winding Refn", "", new Date("29/09/1970"), "img/nicolas-winding.jpg");
-        let director5 = new Person("Damien", "Chazelle", "", new Date("19/01/1985"), "img/damien-chazelle.jpg");
-        let director6 = new Person("Phyllida", "Lloyd", "", new Date("17/06/1957"), "img/phyllida-lloyd.jpg");
-        let director7 = new Person("Garth", "Jennings", "", new Date("04/03/1972"), "img/garth-jennings.jpg");
-        let director8 = new Person("Michael", "Gracey", "", new Date("16/07/1984"), "img/michael-gracey.jpg");
-        let director9 = new Person("Denis", "Villeneuve", "", new Date("03/10/1967"), "img/denis-villeneuve.jpg");
-        let director10 = new Person("Owen", "Harris", "", new Date("22/05/1972"), "img/owen-harris.jpg");
-        let director11 = new Person("J.J.", "Abrams", "", new Date("27/06/1966"), "img/jj-abrams.jpg");
+        let director1 = new Person("Matthew", "Vaughn", "", new Date("03/07/1971"), "img/matthew-vaughn.jpg");
+        let director2 = new Person("Gavin", "Hood", "", new Date("05/12/1963"), "img/gavin-hood.jpg");
+        let director3 = new Person("Sam", "Raimi", "", new Date("10/23/1959"), "img/sam-raimi.jpg");
+        let director4 = new Person("Nicolas", "Winding Refn", "", new Date("09/29/1970"), "img/nicolas-winding.jpg");
+        let director5 = new Person("Damien", "Chazelle", "", new Date("01/19/1985"), "img/damien-chazelle.jpg");
+        let director6 = new Person("Phyllida", "Lloyd", "", new Date("06/17/1957"), "img/phyllida-lloyd.jpg");
+        let director7 = new Person("Garth", "Jennings", "", new Date("03/04/1972"), "img/garth-jennings.jpg");
+        let director8 = new Person("Michael", "Gracey", "", new Date("07/16/1984"), "img/michael-gracey.jpg");
+        let director9 = new Person("Denis", "Villeneuve", "", new Date("10/03/1967"), "img/denis-villeneuve.jpg");
+        let director10 = new Person("Owen", "Harris", "", new Date("05/22/1972"), "img/owen-harris.jpg");
+        let director11 = new Person("J.J.", "Abrams", "", new Date("06/27/1966"), "img/jj-abrams.jpg");
 
         videoSystem.addDirector(director1);
         videoSystem.addDirector(director2);
@@ -206,7 +206,9 @@ class VideoSystemController {
 
 
     onInit = () => {
+        this.#videoSystemView.showRandomProductions(this.#videoSystem.productions);
         this.#videoSystemView.showCategories(this.#videoSystem.categories);
+        this.#videoSystemView.showPersons(this.#videoSystem.actors, this.#videoSystem.directors);
     }
 
     handleInit = () => {

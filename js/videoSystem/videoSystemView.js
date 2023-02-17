@@ -30,6 +30,10 @@ class VideoSystemView {
         `);
     }
 
+    showRandomProductions(productions) {
+
+    }
+
     showCategories(categories) {
         this.main.empty();
         this.showHeader();
@@ -90,9 +94,11 @@ class VideoSystemView {
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-        <div id="categories" class="container justify-content-center text-center">
-            <h1> Cateogrías <h2>
+        <div class="container justify-content-center text-center">
+            <h1> Cateogrías </h1>
+            <div id="categories" class="container justify-content-center text-center row">
 
+            </div>
         </div>
         `);
 
@@ -104,8 +110,51 @@ class VideoSystemView {
             `);
 
             $("#categories").append(`
-            <div>
-                <a class="category " href="#">`+ category.category.name + `</a>
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <a href="#" class="category card-link"> <h5 class="card-title">`+ category.category.name + `</h5></a>
+                <p class="card-text">`+ category.category.description + `</p>
+              </div>
+            </div>
+            `);
+        }
+
+    }
+
+    showPersons(actors, directors) {
+        this.main.append(`
+        <div class="container justify-content-center text-center">
+            <h1> Actores </h1>
+            <div id="actorsInitSection" class="container justify-content-center text-center row">
+
+            </div>
+        </div>
+        
+        <div class="container justify-content-center text-center">
+            <h1> Directores </h1>
+            <div id="directorsInitSection" class="container justify-content-center text-center row">
+
+            </div>
+        </div>
+
+        `);
+
+        for (let actor of actors) {
+            $("#actorsInitSection").append(`
+            <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
+                <a class="actor" href="#">
+                    <img src="`+ actor.actor.picture + `" class="rounded" alt="` + actor.actor.name +  `" name="` + actor.actor.id + `" style="width: 200px; height: 240px;">
+                </a>
+            </div>
+            `);
+        }
+        
+        for (let director of directors) {
+            $("#directorsInitSection").append(`
+            <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
+                <a class="director" href="#">
+                    <img src="`+ director.director.picture + `" class="rounded" alt="` + director.director.name + `" name="` + director.director.id + `" style="width: 200px; height: 240px;">
+                </a>
             </div>
             `);
         }
@@ -178,11 +227,11 @@ class VideoSystemView {
         `);
 
         for (let actor of cast) {
-            $("#narvars-ul").append(`
+            /* $("#narvars-ul").append(`
             <li class="nav-item">
                 <a class="actor me-4 text-light text-decoration-none" class="nav-link active" href="#" name="`+ actor.id + `">` + actor.name + `</a>
             </li>
-            `);
+            `); */
 
             $("#actorsSection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
@@ -191,10 +240,10 @@ class VideoSystemView {
                 </a>
             </div>
             `);
-            
+
         }
 
-        for(let director of directors){
+        for (let director of directors) {
             $("#directorsSection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
                 <a class="director" href="#">
@@ -275,7 +324,7 @@ class VideoSystemView {
             handler(event.target.alt);
         }) */
     }
-    
+
     bindDirector(handler) {
         $(".director").click((event) => {
             handler(event.target.name);
