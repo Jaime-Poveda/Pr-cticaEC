@@ -60,6 +60,19 @@ class VideoSystemController {
 
         videoSystem.addProduction(serie1);
 
+        videoSystem.assignCategory(category1, movie1);
+        videoSystem.assignCategory(category1, movie2);
+        videoSystem.assignCategory(category1, movie3);
+        videoSystem.assignCategory(category1, movie4);
+        videoSystem.assignCategory(category2, movie5);
+        videoSystem.assignCategory(category2, movie6);
+        videoSystem.assignCategory(category2, movie7);
+        videoSystem.assignCategory(category2, movie8);
+        videoSystem.assignCategory(category3, movie9);
+        videoSystem.assignCategory(category3, movie10);
+        videoSystem.assignCategory(category3, movie11);
+        videoSystem.assignCategory(category3, serie1);
+
         let actor1 = new Person("Taron", "Egerton", "", new Date("10/11/1989"), "img/taron-egerton.jpg");
         let actor2 = new Person("Colin", "Firth", "", new Date("10/09/1960"), "img/colin-firth.jpg");
         let actor3 = new Person("Hugh", "Jackman", "", new Date("12/10/1968"), "img/hugh-jackman.jpg");
@@ -89,6 +102,9 @@ class VideoSystemController {
         videoSystem.addActor(actor12);
         videoSystem.addActor(actor13);
         videoSystem.addActor(actor14);
+
+        videoSystem.assignActor(actor1, movie1);
+        videoSystem.assignActor(actor2, movie1);
 
         let director1 = new Person("Matthew", "Vaughn", "", new Date("07/03/1971"), "img/matthew-vaughn.jpg");
         let director2 = new Person("Gavin", "Hood", "", new Date("12/05/1963"), "img/gavin-hood.jpg");
@@ -127,24 +143,43 @@ class VideoSystemController {
         this.onLoad();
         this.onInit();
 
-        this.#videoSystemView.init();
-        //this.#videoSystemView.bind();
+        this.binds();
+    }
+
+    binds() {
+        this.#videoSystemView.bindInit(this.handleInit.bind(this));
+        this.#videoSystemView.bindCategory(this.handleCategory.bind(this));
+        this.#videoSystemView.bindProduction(this.handleProduction.bind(this));
     }
 
     onLoad = () => {
         this.#loadObjects();
-        //this.#videoSystemView.show();
-        this.onAddCategory();
     }
+
 
     onInit = () => {
-        //this.#videoSystemView.show(this.#videoSystem.categories);
-        //this.#videoSystemView.bind();
+        this.#videoSystemView.showCategories(this.#videoSystem.categories);
     }
 
-    onAddCategory = () => {
-        //this.#videoSystemView.show(this.#videoSystem.categories);
-        //this.#videoSystemView.bind();
+    handleInit = () => {
+        this.onInit();
+        this.binds();
+    }
+
+    handleCategory = (category) => {
+        let cat = new Category(category);
+
+        this.#videoSystemView.showCategory(category, this.#videoSystem.getProductionsCategory(cat));
+        this.binds();
+    }
+
+    handleProduction = (production) => {
+        for (let prod of this.#videoSystem.productions) {
+            if (prod.title === production) {
+                this.#videoSystemView.showProduction(prod, this.#videoSystem.getCast(prod));
+            }
+        }
+        this.binds();
     }
 
 
