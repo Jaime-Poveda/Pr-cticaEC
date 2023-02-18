@@ -5,6 +5,8 @@ class VideoSystemView {
     }
 
     showHeader() {
+        this.main.empty();
+
         this.main.append(`
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -31,13 +33,6 @@ class VideoSystemView {
     }
 
     showRandomProductions(productions) {
-
-    }
-
-    showCategories(categories) {
-        this.main.empty();
-        this.showHeader();
-
         this.main.append(`
         <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" style="height: 500px;">
             <div class="carousel-indicators">
@@ -49,41 +44,7 @@ class VideoSystemView {
                     class=""></button>
             </div>
             <div class="carousel-inner h-100">
-                <div class="carousel-item active h-100">
-                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <rect width="100%" height="100%" fill="#777"></rect>
-                    </svg>
-                    <div class="container">
-                        <div class="carousel-caption">
-                            <h1>Example headline.</h1>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="carousel-item h-100">
-                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <rect width="100%" height="100%" fill="#777"></rect>
-                    </svg>
-                    <div class="container">
-                        <div class="carousel-caption">
-                            <h1>Another example headline.</h1>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="carousel-item h-100">
-                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <rect width="100%" height="100%" fill="#777"></rect>
-                    </svg>
-                    <div class="container">
-                        <div class="carousel-caption">
-                            <h1>One more for good measure.</h1>
-                        </div>
-                    </div>
-                </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon bg-dark rounded" aria-hidden="true"></span>
@@ -94,6 +55,32 @@ class VideoSystemView {
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
+        `);
+
+        let i = 0;
+        for (let prod of productions) {
+            console.log(prod);
+            if (i < 3) {
+                $(".carousel-inner").append(`
+                <div class="carousel-item active h-100 bg-dark bg-gradient">
+                    <div class="h-100 d-flex justify-content-center">
+                        <img src="`+ prod.image + `">
+                    </div>
+                    <div class="container">
+                        <div class="carousel-caption bg-dark text-light bg-opacity-50">
+                            <h1>`+ prod.title + `</h1>
+                        </div>
+                    </div>
+                </div>
+                `);
+            }
+            i++;
+        }
+
+    }
+
+    showCategories(categories) {
+        this.main.append(`
         <div class="container justify-content-center text-center">
             <h1> Cateogrías </h1>
             <div id="categories" class="container justify-content-center text-center row">
@@ -143,12 +130,12 @@ class VideoSystemView {
             $("#actorsInitSection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
                 <a class="actor" href="#">
-                    <img src="`+ actor.actor.picture + `" class="rounded" alt="` + actor.actor.name +  `" name="` + actor.actor.id + `" style="width: 200px; height: 240px;">
+                    <img src="`+ actor.actor.picture + `" class="rounded" alt="` + actor.actor.name + `" name="` + actor.actor.id + `" style="width: 200px; height: 240px;">
                 </a>
             </div>
             `);
         }
-        
+
         for (let director of directors) {
             $("#directorsInitSection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">

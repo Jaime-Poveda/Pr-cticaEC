@@ -206,6 +206,7 @@ class VideoSystemController {
 
 
     onInit = () => {
+        this.#videoSystemView.showHeader();
         this.#videoSystemView.showRandomProductions(this.#videoSystem.productions);
         this.#videoSystemView.showCategories(this.#videoSystem.categories);
         this.#videoSystemView.showPersons(this.#videoSystem.actors, this.#videoSystem.directors);
