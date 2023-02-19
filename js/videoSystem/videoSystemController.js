@@ -206,8 +206,17 @@ class VideoSystemController {
 
 
     onInit = () => {
+        let randomProductions = [];
+
+        while (randomProductions.length < 3) {
+            let newProd = [...this.#videoSystem.productions][Math.floor(Math.random() * [...this.#videoSystem.productions].length)]
+            if (randomProductions.indexOf(newProd) === -1) {
+                randomProductions.push(newProd);
+            }
+        }
+
         this.#videoSystemView.showHeader();
-        this.#videoSystemView.showRandomProductions(this.#videoSystem.productions);
+        this.#videoSystemView.showRandomProductions(randomProductions);
         this.#videoSystemView.showCategories(this.#videoSystem.categories);
         this.#videoSystemView.showPersons(this.#videoSystem.actors, this.#videoSystem.directors);
     }

@@ -43,9 +43,7 @@ class VideoSystemView {
                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"
                     class=""></button>
             </div>
-            <div class="carousel-inner h-100">
-
-            </div>
+            <div class="carousel-inner h-100"></div>
             <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon bg-dark rounded" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
@@ -57,12 +55,9 @@ class VideoSystemView {
         </div>
         `);
 
-        let i = 0;
         for (let prod of productions) {
-            console.log(prod);
-            if (i < 3) {
-                $(".carousel-inner").append(`
-                <div class="carousel-item active h-100 bg-dark bg-gradient">
+            $(".carousel-inner").append(`
+                <div class="carousel-item `+ ($(".carousel-inner").html() === "" ? `active` : ``) + ` h-100 bg-dark bg-gradient">
                     <div class="h-100 d-flex justify-content-center">
                         <img src="`+ prod.image + `">
                     </div>
@@ -72,11 +67,8 @@ class VideoSystemView {
                         </div>
                     </div>
                 </div>
-                `);
-            }
-            i++;
+            `);
         }
-
     }
 
     showCategories(categories) {
@@ -251,7 +243,7 @@ class VideoSystemView {
             <img src="`+ person.picture + `" class="img-fluid overflow-hidden h-100 rounded-start" alt="` + person.name + `">
                 <div class="card-body text-center">
                     <h5 class="card-title">`+ person.name + ` ` + person.lastname1 + `</h5>
-                    <p class="card-text">`+ person.born.toLocaleDateString() + `</p>
+                    <p class="card-text">Nacimiento: `+ person.born.toLocaleDateString() + `</p>
                 </div>
             </div>
         </div>
