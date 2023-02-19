@@ -63,7 +63,7 @@ class VideoSystemView {
                     </div>
                     <div class="container">
                         <div class="carousel-caption bg-dark text-light bg-opacity-50">
-                            <h1>`+ prod.title + `</h1>
+                            <h1><a class="productionText me-4 text-light text-decoration-none" class="nav-link active" href="#">`+ prod.title + `</a></h1>
                         </div>
                     </div>
                 </div>
@@ -152,7 +152,7 @@ class VideoSystemView {
         for (let production of productions) {
             $("#narvars-ul").append(`
             <li class="nav-item">
-                <a class="productionNav me-4 text-light text-decoration-none" class="nav-link active" href="#">`+ production.title + `</a>
+                <a class="productionText me-4 text-light text-decoration-none" class="nav-link active" href="#">`+ production.title + `</a>
             </li>
             `);
 
@@ -287,7 +287,7 @@ class VideoSystemView {
     }
 
     bindProduction(handler) {
-        $(".productionNav").click((event) => {
+        $(".productionText").click((event) => {
             handler(event.target.innerText);
         })
         $(".productionImage").click((event) => {
