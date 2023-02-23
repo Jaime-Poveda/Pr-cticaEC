@@ -21,6 +21,7 @@ class VideoSystemView {
                         </ul>
                     </div>
 
+                    <button id="close-windows" class="btn btn-danger me-3">Cerrar Ventanas</button>
                     <a id="init" class="navbar-brand" href="#">
                         <img src="img/logoBotonBlanco.png" alt="LogoBoton" style="height: 40px;">
                     </a>
@@ -179,11 +180,12 @@ class VideoSystemView {
                     <img src="`+ production.image + `" class="img-fluid h-100 rounded-start" alt="` + production.title + `">
                   </div>
                   <div class="col-md-7">
-                    <div class="card-body text-center row align-items-center h-100">
+                    <div class="card-body text-center h-100">
                         <h5 class="card-title">`+ production.title + `</h5>
                         <p class="card-text">`+ production.synopsis + `</p>
                         <p class="card-text">`+ production.nationality + `</p>
                         <p class="card-text text-secondary">`+ production.publication.toLocaleDateString() + `</p>
+                        <a href="#" class="production-window btn btn-primary">Ventana</a>
                     </div>
                   </div>
                 </div>
@@ -309,6 +311,18 @@ class VideoSystemView {
     bindDirector(handler) {
         $(".director").click((event) => {
             handler(event.target.name);
+        })
+    }
+
+    bindProductionWindow(handler) {
+        $(".production-window").click((event) => {
+            handler($(".card-title").text());
+        })
+    }
+
+    bindCloseWindows(handler) {
+        $("#close-windows").click((event) => {
+            handler();
         })
     }
 
