@@ -1,9 +1,16 @@
 class VideoSystemView {
 
+	#excecuteHandler(handler, handlerArguments, scrollElement, data, url, event) {
+		handler(...handlerArguments);
+		$(scrollElement).get(0).scrollIntoView();
+		history.pushState(data, null, url);
+		event.preventDefault();
+	}
+
     constructor() {
         this.main = $('main');
     }
-
+    
     showHeader() {
         this.main.empty();
 
@@ -85,14 +92,14 @@ class VideoSystemView {
         for (let category of categories) {
             $("#narvars-ul").append(`
             <li class="nav-item">
-                <a class="category me-4 text-light text-decoration-none" class="nav-link active" href="#">`+ category.category.name + `</a>
+                <a class="category me-4 text-light text-decoration-none" class="nav-link active" href="#single-category">`+ category.category.name + `</a>
             </li>
             `);
 
             $("#categories").append(`
             <div class="card" style="width: 18rem;">
               <div class="card-body">
-                <a href="#" class="category card-link"> <h5 class="card-title">`+ category.category.name + `</h5></a>
+                <a href="#single-category" class="category card-link"> <h5 class="card-title">`+ category.category.name + `</h5></a>
                 <p class="card-text">`+ category.category.description + `</p>
               </div>
             </div>
@@ -122,7 +129,7 @@ class VideoSystemView {
         for (let actor of actors) {
             $("#actorsInitSection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
-                <a class="actor" href="#">
+                <a class="actor" href="#single-actor">
                     <img src="`+ actor.actor.picture + `" class="rounded" alt="` + actor.actor.name + `" name="` + actor.actor.id + `" style="width: 200px; height: 240px;">
                 </a>
             </div>
@@ -132,7 +139,7 @@ class VideoSystemView {
         for (let director of directors) {
             $("#directorsInitSection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
-                <a class="director" href="#">
+                <a class="director" href="#single-director">
                     <img src="`+ director.director.picture + `" class="rounded" alt="` + director.director.name + `" name="` + director.director.id + `" style="width: 200px; height: 240px;">
                 </a>
             </div>
@@ -153,13 +160,13 @@ class VideoSystemView {
         for (let production of productions) {
             $("#narvars-ul").append(`
             <li class="nav-item">
-                <a class="productionText me-4 text-light text-decoration-none" class="nav-link active" href="#">`+ production.title + `</a>
+                <a class="productionText me-4 text-light text-decoration-none" class="nav-link active" href="#single-production">`+ production.title + `</a>
             </li>
             `);
 
             $("#categorySection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
-                <a class="productionImage" href="#">
+                <a class="productionImage" href="#single-production">
                     <img src="`+ production.image + `" class="rounded" alt="` + production.title + `" style="width: 200px; height: 240px;">
                 </a>
             </div>
@@ -185,7 +192,7 @@ class VideoSystemView {
                         <p class="card-text">`+ production.synopsis + `</p>
                         <p class="card-text">`+ production.nationality + `</p>
                         <p class="card-text text-secondary">`+ production.publication.toLocaleDateString() + `</p>
-                        <a href="#" class="production-window btn btn-primary">Ventana</a>
+                        <button class="production-window btn btn-primary">Ventana</button>
                     </div>
                   </div>
                 </div>
@@ -218,7 +225,7 @@ class VideoSystemView {
 
             $("#actorsSection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
-                <a class="actor" href="#">
+                <a class="actor" href="#single-actor">
                     <img src="`+ actor.picture + `" class="rounded" alt="` + actor.name + `" name="` + actor.id + `" style="width: 200px; height: 240px;">
                 </a>
             </div>
@@ -229,7 +236,7 @@ class VideoSystemView {
         for (let director of directors) {
             $("#directorsSection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
-                <a class="director" href="#">
+                <a class="director" href="#single-director">
                     <img src="`+ director.picture + `" class="rounded" alt="` + director.name + `" name="` + director.id + `" style="width: 200px; height: 240px;">
                 </a>
             </div>
@@ -270,7 +277,7 @@ class VideoSystemView {
 
             $("#productsSection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
-                <a class="productionImage" href="#">
+                <a class="productionImage" href="#single-production">
                     <img src="`+ prod.image + `" class="rounded" alt="` + prod.title + `" style="width: 200px; height: 240px;">
                 </a>
             </div>
@@ -278,30 +285,35 @@ class VideoSystemView {
         }
     }
 
-    bindInit(handler) {
-        $('#init').click((event) => {
-            handler();
-        })
-    }
+    
+	bindInit(handler) {
+		$('#init').click((event) => {
+			this.#excecuteHandler(handler, [], 'body', { action: 'init' }, '#', event);
+		});
+	}
 
     bindCategory(handler) {
         $(".category").click((event) => {
-            handler(event.target.innerText);
+			this.#excecuteHandler(handler, [event.target.innerText], 'body', { action: 'singleCategory', category: event.target.innerText }, '#single-category', event);
+            //handler(event.target.innerText);
         })
     }
 
     bindProduction(handler) {
         $(".productionText").click((event) => {
-            handler(event.target.innerText);
+			this.#excecuteHandler(handler, [event.target.innerText], 'body', { action: 'singleProduction', category: event.target.innerText }, '#single-production', event);
+            //handler(event.target.innerText);
         })
         $(".productionImage").click((event) => {
-            handler(event.target.alt);
+			this.#excecuteHandler(handler, [event.target.alt], 'body', { action: 'singleProduction', category: event.target.alt }, '#single-production', event);
+            //handler(event.target.alt);
         })
     }
 
     bindActor(handler) {
         $(".actor").click((event) => {
-            handler(event.target.name);
+			this.#excecuteHandler(handler, [event.target.name], 'body', { action: 'singleActor', category: event.target.name }, '#single-actor', event);
+            //handler(event.target.name);
         })
         /* $(".actorImage").click((event) => {
             handler(event.target.alt);
@@ -310,6 +322,7 @@ class VideoSystemView {
 
     bindDirector(handler) {
         $(".director").click((event) => {
+			this.#excecuteHandler(handler, [event.target.name], 'body', { action: 'singleDirector', category: event.target.name }, '#single-director', event);
             handler(event.target.name);
         })
     }
