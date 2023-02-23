@@ -173,15 +173,17 @@ class VideoSystemView {
 
         this.main.append(`
         <div class="d-flex justify-content-center mt-4">
-            <div class="card mb-3" style="max-width: 540px;">
+            <div class="card mb-3" style="max-width: 600px;">
                 <div class="row g-0">
-                  <div class="col-md-4">
-                    <img src="`+ production.image + `" class="img-fluid overflow-hidden h-100 rounded-start" alt="` + production.title + `">
+                  <div class="col-md-5">
+                    <img src="`+ production.image + `" class="img-fluid h-100 rounded-start" alt="` + production.title + `">
                   </div>
-                  <div class="col-md-8">
-                    <div class="card-body text-center h-100 row d-flex">
+                  <div class="col-md-7">
+                    <div class="card-body text-center row align-items-center h-100">
                         <h5 class="card-title">`+ production.title + `</h5>
                         <p class="card-text">`+ production.synopsis + `</p>
+                        <p class="card-text">`+ production.nationality + `</p>
+                        <p class="card-text text-secondary">`+ production.publication.toLocaleDateString() + `</p>
                     </div>
                   </div>
                 </div>
