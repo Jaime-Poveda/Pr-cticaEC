@@ -5,6 +5,8 @@ class VideoSystemController {
     #videoSystem;
     #videoSystemView;
 
+    #windows = [];
+
     #loadObjects() {
         let videoSystem = this.#videoSystem;
 
@@ -198,6 +200,8 @@ class VideoSystemController {
         this.#videoSystemView.bindProduction(this.handleProduction.bind(this));
         this.#videoSystemView.bindActor(this.handleActor.bind(this));
         this.#videoSystemView.bindDirector(this.handleDirector.bind(this));
+        this.#videoSystemView.bindProductionWindow(this.handleProductionWindow.bind(this));
+        this.#videoSystemView.bindCloseWindows(this.handleCloseWindows.bind(this));
     }
 
     onLoad = () => {
@@ -260,6 +264,58 @@ class VideoSystemController {
         this.binds();
     }
 
+    handleProductionWindow = (prodName) => {
+        let production = [...this.#videoSystem.productions].find(prod => prod.title === prodName);
+
+        this.#windows.push(window.open("production.html", production.title + " Window"));
+
+        let wind = this.#windows[this.#windows.length - 1];
+
+        wind.document.write(`
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>`+ production.title + `</title>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+                integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        </head>
+
+        <body>
+            <main>
+                <div class="d-flex justify-content-center mt-4">
+                    <div class="card mb-3" style="max-width: 600px;">
+                        <div class="row g-0">
+                          <div class="col-md-5">
+                            <img src="`+ production.image + `" class="img-fluid h-100 rounded-start" alt="` + production.title + `">
+                          </div>
+                          <div class="col-md-7">
+                            <div class="card-body text-center h-100 row justify-content-center">
+                                <h5 class="card-title">`+ production.title + `</h5>
+                                <p class="card-text">`+ production.synopsis + `</p>
+                                <p class="card-text">`+ production.nationality + `</p>
+                                <p class="card-text text-secondary">`+ production.publication.toLocaleDateString() + `</p>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+                crossorigin="anonymous"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        </body>
+        `)
+
+    }
+
+    handleCloseWindows = () => {
+        this.#windows.forEach(window => {
+            window.close();
+        });
+    }
 }
 
 export { VideoSystemController };
