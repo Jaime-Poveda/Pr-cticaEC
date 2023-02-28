@@ -201,7 +201,7 @@ class VideoSystemController {
         this.#videoSystemView.bindActor(this.handleActor.bind(this));
         this.#videoSystemView.bindDirector(this.handleDirector.bind(this));
         this.#videoSystemView.bindProductionWindow(this.handleProductionWindow.bind(this));
-        this.#videoSystemView.bindCloseWindows(this.handleCloseWindows.bind(this));
+        this.#videoSystemView.bindForms(this.handleForms.bind(this));
     }
 
     onLoad = () => {
@@ -276,6 +276,11 @@ class VideoSystemController {
         this.#windows.forEach(window => {
             window.close();
         });
+    }
+
+    handleForms = () => {
+        this.#videoSystemView.showForms([...this.#videoSystem.directors], [...this.#videoSystem.productions], [...this.#videoSystem.actors]);
+        this.binds();
     }
 }
 

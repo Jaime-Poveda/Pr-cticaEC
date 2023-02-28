@@ -1,16 +1,16 @@
 class VideoSystemView {
 
-	#excecuteHandler(handler, handlerArguments, scrollElement, data, url, event) {
-		handler(...handlerArguments);
-		$(scrollElement).get(0).scrollIntoView();
-		history.pushState(data, null, url);
-		event.preventDefault();
-	}
+    #excecuteHandler(handler, handlerArguments, scrollElement, data, url, event) {
+        handler(...handlerArguments);
+        $(scrollElement).get(0).scrollIntoView();
+        history.pushState(data, null, url);
+        event.preventDefault();
+    }
 
     constructor() {
         this.main = $('main');
     }
-    
+
     showHeader() {
         this.main.empty();
 
@@ -27,6 +27,8 @@ class VideoSystemView {
 
                         </ul>
                     </div>
+                    
+                    <a class="me-3 btn btn-info" id="formsButton" href="#forms">Formularios</a>
 
                     <button id="close-windows" class="btn btn-danger me-3">Cerrar Ventanas</button>
                     <a id="init" class="navbar-brand" href="#">
@@ -285,7 +287,7 @@ class VideoSystemView {
         }
     }
 
-    showWindowProduction(window, production){
+    showWindowProduction(window, production) {
         window.document.write(`
         <head>
             <meta charset="UTF-8">
@@ -325,34 +327,230 @@ class VideoSystemView {
         `)
     }
 
-    
-	bindInit(handler) {
-		$('#init').click((event) => {
-			this.#excecuteHandler(handler, [], 'body', { action: 'init' }, '#', event);
-		});
-	}
+    showForms(directors, productions, actors) {
+        this.main.empty();
+        this.showHeader();
+
+        let persons = [].concat(directors, actors);
+
+        this.main.append(`
+        <div class="container my-4">
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#createProduction">
+              Crear producción
+            </button>
+            
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#deleteProduction">
+              Eliminar producción
+            </button>
+            
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#productionsAssignments">
+              Asignaciones en producciones
+            </button>
+
+            
+            <div class="modal fade" id="createProduction" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Crear producción</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+
+                    <label>
+                    Tipo de producción
+                    </label>
+                      <div class="mb-3">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="productionType" value="movie" checked>
+                          <label class="form-check-label">
+                            Película
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="productionType" value="serie">
+                          <label class="form-check-label">
+                            Serie
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <label>
+                            Director
+                        </label>
+                        <select id="directorSelect" class="form-select">
+
+                        </select>
+                      </div>
+
+                      <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                      </div>
+
+                      <button type="submit" class="btn btn-primary">Crear</button>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="modal fade" id="deleteProduction" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar producción</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label>
+                            Producción
+                        </label>
+                        <select class="form-select productionSelect">
+
+                        </select>
+                      </div>
+                      <button type="button" class="btn btn-danger">Eliminar</button>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="productionsAssignments" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Asignaciones de producciones</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                  
+                    <label>
+                    Tipo
+                    </label>
+                    <div class="mb-3">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="productionType" value="assign" checked>
+                        <label class="form-check-label">
+                          Asignar
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="productionType" value="deassign">
+                        <label class="form-check-label">
+                          Desasignar
+                        </label>
+                      </div>
+                    </div>
+
+                      <div class="mb-3">
+                        <label>
+                            Producción
+                        </label>
+                        <select class="form-select productionSelect">
+
+                        </select>
+                      </div>
+
+                      <div class="mb-3">
+                        <label>
+                            Persona
+                        </label>
+                        <select class="form-select personSelect">
+
+                        </select>
+                      </div>
+                      
+                        <label>
+                        Rol
+                        </label>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="rol" value="actor" checked>
+                        <label class="form-check-label">
+                          Actor
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="rol" value="director">
+                        <label class="form-check-label">
+                          Director
+                        </label>
+                      </div>
+                    </div>
+
+                      <button type="button" class="btn btn-primary">Realizar</button>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+        `);
+
+        for (let director of directors) {
+            $("#directorSelect").append(`
+                <option>`+ director.director.name + " " + director.director.lastname1 + `</option>
+            `);
+
+            $(".personSelect").append(`
+                <option>`+ director.director.name + " " + director.director.lastname1 + `</option>
+            `);
+        }
+
+        for (let production of productions) {
+            $(".productionSelect").append(`
+                <option>`+ production.title + `</option>
+            `);
+        }
+
+        for (let actor of actors){
+            $(".personSelect").append(`
+                <option>`+ actor.actor.name + " " + actor.actor.lastname1 + `</option>
+            `);
+
+        }
+    }
+
+
+    bindInit(handler) {
+        $('#init').click((event) => {
+            this.#excecuteHandler(handler, [], 'body', { action: 'init' }, '#', event);
+        });
+    }
 
     bindCategory(handler) {
         $(".category").click((event) => {
-			this.#excecuteHandler(handler, [event.target.innerText], 'body', { action: 'singleCategory', category: event.target.innerText }, '#single-category', event);
+            this.#excecuteHandler(handler, [event.target.innerText], 'body', { action: 'singleCategory', category: event.target.innerText }, '#single-category', event);
             //handler(event.target.innerText);
         })
     }
 
     bindProduction(handler) {
         $(".productionText").click((event) => {
-			this.#excecuteHandler(handler, [event.target.innerText], 'body', { action: 'singleProduction', category: event.target.innerText }, '#single-production', event);
+            this.#excecuteHandler(handler, [event.target.innerText], 'body', { action: 'singleProduction', category: event.target.innerText }, '#single-production', event);
             //handler(event.target.innerText);
         })
         $(".productionImage").click((event) => {
-			this.#excecuteHandler(handler, [event.target.alt], 'body', { action: 'singleProduction', category: event.target.alt }, '#single-production', event);
+            this.#excecuteHandler(handler, [event.target.alt], 'body', { action: 'singleProduction', category: event.target.alt }, '#single-production', event);
             //handler(event.target.alt);
         })
     }
 
     bindActor(handler) {
         $(".actor").click((event) => {
-			this.#excecuteHandler(handler, [event.target.name], 'body', { action: 'singleActor', category: event.target.name }, '#single-actor', event);
+            this.#excecuteHandler(handler, [event.target.name], 'body', { action: 'singleActor', category: event.target.name }, '#single-actor', event);
             //handler(event.target.name);
         })
         /* $(".actorImage").click((event) => {
@@ -362,7 +560,7 @@ class VideoSystemView {
 
     bindDirector(handler) {
         $(".director").click((event) => {
-			this.#excecuteHandler(handler, [event.target.name], 'body', { action: 'singleDirector', category: event.target.name }, '#single-director', event);
+            this.#excecuteHandler(handler, [event.target.name], 'body', { action: 'singleDirector', category: event.target.name }, '#single-director', event);
             handler(event.target.name);
         })
     }
@@ -376,6 +574,12 @@ class VideoSystemView {
     bindCloseWindows(handler) {
         $("#close-windows").click((event) => {
             handler();
+        })
+    }
+
+    bindForms(handler) {
+        $("#formsButton").click((event) => {
+            this.#excecuteHandler(handler, [], 'body', { action: 'forms' }, '#forms', event);
         })
     }
 

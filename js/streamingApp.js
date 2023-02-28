@@ -20,6 +20,9 @@ $(function () {
         },
         singleDirector: (event) => {
             StramingApp.handleDirector(event);
+        },
+        forms: (event) => {
+            StramingApp.handleForms(event);
         }
     }
 
