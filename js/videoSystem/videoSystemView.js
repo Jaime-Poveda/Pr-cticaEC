@@ -327,7 +327,7 @@ class VideoSystemView {
         `)
     }
 
-    showForms(directors, productions, actors) {
+    showForms(directors, productions, actors, categories) {
         this.main.empty();
         this.showHeader();
 
@@ -335,16 +335,32 @@ class VideoSystemView {
 
         this.main.append(`
         <div class="container my-4">
-            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#createProduction">
+            <button type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#createProduction">
               Crear producción
             </button>
             
-            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#deleteProduction">
+            <button type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#deleteProduction">
               Eliminar producción
             </button>
             
-            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#productionsAssignments">
+            <button type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#productionsAssignments">
               Asignaciones en producciones
+            </button>
+            
+            <button type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#createCategory">
+              Crear categoría
+            </button>
+            
+            <button type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#deleteCategory">
+              Eliminar categoría
+            </button>
+            
+            <button type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#createPerson">
+              Crear persona
+            </button>
+            
+            <button type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#deletePerson">
+              Eliminar persona
             </button>
 
             
@@ -356,41 +372,59 @@ class VideoSystemView {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <form>
+                    <form name="" role="form">
 
-                    <label>
-                    Tipo de producción
-                    </label>
-                      <div class="mb-3">
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="productionType" value="movie" checked>
-                          <label class="form-check-label">
-                            Película
-                          </label>
+                        <div class="mb-3">
+                          <label class="form-label">Título</label>
+                          <input type="text" class="form-control" placeholder="Título">
                         </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="radio" name="productionType" value="serie">
-                          <label class="form-check-label">
-                            Serie
-                          </label>
+
+                        <div class="mb-3">
+                            <label>
+                                Tipo de producción
+                            </label>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="productionType" value="movie" checked>
+                              <label class="form-check-label">
+                                Película
+                              </label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="productionType" value="serie">
+                              <label class="form-check-label">
+                                Serie
+                              </label>
+                            </div>
                         </div>
-                      </div>
 
-                      <div class="mb-3">
-                        <label>
-                            Director
-                        </label>
-                        <select id="directorSelect" class="form-select">
+                        <div class="mb-3">
+                            <label>
+                                Director
+                            </label>
+                            <select class="form-select directorSelect">
 
-                        </select>
-                      </div>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label>
+                                Actor
+                            </label>
+                            <select multiple class="form-select actorSelect">
 
-                      <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                      </div>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label>
+                                Categoría
+                            </label>
+                            <select multiple class="form-select categorySelect">
 
-                      <button type="submit" class="btn btn-primary">Crear</button>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Crear</button>
                     </form>
                   </div>
                   <div class="modal-footer">
@@ -426,68 +460,193 @@ class VideoSystemView {
             </div>
 
             <div class="modal fade" id="productionsAssignments" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exampleModalLabel">Asignaciones de producciones</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                              <label>
+                              Tipo
+                              </label>
+                              <div class="mb-3">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="productionType" value="assign" checked>
+                                  <label class="form-check-label">
+                                    Asignar
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="productionType" value="deassign">
+                                  <label class="form-check-label">
+                                    Desasignar
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="mb-3">
+                              <label>
+                                  Producción
+                              </label>
+                                <select class="form-select productionSelect">
+
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                              <label>
+                                  Persona
+                              </label>
+                                <select class="form-select personSelect">
+
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                              <label>
+                              Rol
+                              </label>
+                              <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="rol" value="actor" checked>
+                                  <label class="form-check-label">
+                                    Actor
+                                  </label>
+                              </div>
+                              <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="rol" value="director">
+                                  <label class="form-check-label">
+                                    Director
+                                  </label>
+                              </div>
+                            </div>
+
+                                <button type="button" class="btn btn-primary">Realizar</button>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        
+            <div class="modal fade" id="createCategory" tabindex="-1">
+                <form name="fNewCategory" role="form" novalidate>
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Crear categoría</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label">Categoría</label>
+                                <input type="text" class="form-control" name="ncName"  placeholder="Categoría">
+                                <div class="invalid-feedback">El nombre es obligatorio.</div>
+							    <div class="valid-feedback">Correcto.</div>
+                            </div>
+
+                            <div class="mb-3">
+                              <label class="form-label">Descripción</label>
+                              <input type="text" class="form-control" placeholder="Descripción">
+                            </div>
+
+                          <button type="submit" class="btn btn-primary">Crear</button>
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+            </div>
+                        
+            <div class="modal fade" id="deleteCategory" tabindex="-1">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Asignaciones de producciones</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar categoría</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                  
-                    <label>
-                    Tipo
-                    </label>
-                    <div class="mb-3">
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="productionType" value="assign" checked>
-                        <label class="form-check-label">
-                          Asignar
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="productionType" value="deassign">
-                        <label class="form-check-label">
-                          Desasignar
-                        </label>
-                      </div>
-                    </div>
-
                       <div class="mb-3">
                         <label>
-                            Producción
+                            Categoría
                         </label>
-                        <select class="form-select productionSelect">
+                        <select class="form-select categorySelect">
 
                         </select>
                       </div>
+                      <button type="button" class="btn btn-danger">Eliminar</button>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="modal fade" id="createPerson" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Crear persona</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                          <label class="form-label">Nombre</label>
+                          <input type="text" class="form-control" placeholder="Nombre">
+                        </div>
+                        
+                        <div class="mb-3">
+                          <label class="form-label">Apellido1</label>
+                          <input type="text" class="form-control" placeholder="Apellido1">
+                        </div>
+                        
+                        <div class="mb-3">
+                          <label class="form-label">Apellido2</label>
+                          <input type="text" class="form-control" placeholder="Apellido2">
+                        </div>
+                        
+                        <div class="mb-3">
+                          <label class="form-label">Nacimiento</label>
+                          <input type="date" class="form-control">
+                        </div>
+                        
+                        <div class="mb-3">
+                          <label class="form-label">Imagen</label>
+                          <input type="file" class="form-control">
+                        </div>
 
-                      <div class="mb-3">
-                        <label>
-                            Persona
-                        </label>
-                        <select class="form-select personSelect">
+                        <div class="mb-3">
+                            <label>
+                            Rol
+                            </label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rol" value="actor" checked>
+                                <label class="form-check-label">
+                                  Actor
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rol" value="director">
+                                <label class="form-check-label">
+                                  Director
+                                </label>
+                            </div>
+                        </div>
 
-                        </select>
-                      </div>
-                      
-                        <label>
-                        Rol
-                        </label>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="rol" value="actor" checked>
-                        <label class="form-check-label">
-                          Actor
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="rol" value="director">
-                        <label class="form-check-label">
-                          Director
-                        </label>
-                      </div>
-                    </div>
-
-                      <button type="button" class="btn btn-primary">Realizar</button>
+                      <button type="submit" class="btn btn-primary">Crear</button>
+                    </form>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -496,11 +655,36 @@ class VideoSystemView {
               </div>
             </div>
 
+            <div class="modal fade" id="deletePerson" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar persona</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                          <label>
+                              Persona
+                          </label>
+                          <select class="form-select personSelect">
+
+                          </select>
+                        </div>
+                        <button type="button" class="btn btn-danger">Eliminar</button>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
         </div>
         `);
 
         for (let director of directors) {
-            $("#directorSelect").append(`
+            $(".directorSelect").append(`
                 <option>`+ director.director.name + " " + director.director.lastname1 + `</option>
             `);
 
@@ -519,9 +703,23 @@ class VideoSystemView {
             $(".personSelect").append(`
                 <option>`+ actor.actor.name + " " + actor.actor.lastname1 + `</option>
             `);
+            
+            $(".actorSelect").append(`
+                <option>`+ actor.actor.name + " " + actor.actor.lastname1 + `</option>
+            `);
 
         }
+
+        for(let category of categories){
+            $(".categorySelect").append(`
+                <option>`+ category.category.name + `</option>
+            `);
+        }
     }
+    
+    bindNewCategoryForm(handler) {
+		newCategoryValidation(handler);
+	}
 
 
     bindInit(handler) {

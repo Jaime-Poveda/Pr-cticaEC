@@ -279,8 +279,28 @@ class VideoSystemController {
     }
 
     handleForms = () => {
-        this.#videoSystemView.showForms([...this.#videoSystem.directors], [...this.#videoSystem.productions], [...this.#videoSystem.actors]);
+        this.#videoSystemView.showForms([...this.#videoSystem.directors], [...this.#videoSystem.productions], [...this.#videoSystem.actors], [...this.#videoSystem.categories]);
         this.binds();
+    }
+
+    handleNewCategoryForm = () => {
+        this.#videoSystemView.bindNewCategoryForm(this.handleCreateCategory);
+    }
+
+    handleCreateCategory = (title, url, desc) => {
+        let cat = this.#videoSystemView.getCategory(title, url);
+        cat.name = desc;
+
+        let done, error;
+        try {
+            this.#videoSystem.addCategory(cat);
+            done = true;
+        } catch (exception) {
+            done = false;
+            error = exception;
+        }
+        this.#videoSystemView.showNewCategoryModal(done, cat, error);
+        this.onAddCategory();
     }
 }
 
