@@ -703,6 +703,14 @@ let VideoSystem = (function () {
                 }
             }
 
+            getPersonById(personId){
+
+            }
+
+            getCategoryByName(catName){
+                
+            }
+
         }
 
 
