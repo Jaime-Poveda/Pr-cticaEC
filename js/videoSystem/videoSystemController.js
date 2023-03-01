@@ -230,6 +230,31 @@ class VideoSystemController {
         this.binds();
     }
 
+    onDeleteProduction = () => {
+        this.#videoSystemView.updateProductions([...this.#videoSystem.productions]);
+
+        this.binds();
+    }
+
+    onAddCategory = () => {
+        this.#videoSystemView.updateCategories([...this.#videoSystem.categories]);
+
+        this.binds();
+    }
+
+    onDeleteCategory = () => {
+        this.#videoSystemView.updateCategories([...this.#videoSystem.categories]);
+
+        this.binds();
+    }
+
+    onDeletePersons = () => {
+        this.#videoSystemView.updateDirectors([...this.#videoSystem.directors]);
+        this.#videoSystemView.updateActors([...this.#videoSystem.actors]);
+
+        this.binds();
+    }
+
     handleCategory = (category) => {
         let cat = new Category(category);
 
@@ -280,6 +305,8 @@ class VideoSystemController {
 
     handleForms = () => {
         this.#videoSystemView.showForms([...this.#videoSystem.directors], [...this.#videoSystem.productions], [...this.#videoSystem.actors], [...this.#videoSystem.categories]);
+
+        this.#videoSystemView.bindAdminButtons(this.handleRemoveProductionForm, this.handleNewCategoryForm, this.handleRemoveCategoryForm, this.handleRemovePersonForm);
         this.binds();
     }
 
@@ -287,9 +314,35 @@ class VideoSystemController {
         this.#videoSystemView.bindNewCategoryForm(this.handleCreateCategory);
     }
 
-    handleCreateCategory = (title, url, desc) => {
-        let cat = this.#videoSystemView.getCategory(title, url);
-        cat.name = desc;
+    handleRemoveProductionForm = () => {
+        this.#videoSystemView.bindRemoveProductionForm(this.handleRemoveProduction);
+    }
+
+    handleRemoveProduction = (prodName) => {
+        let done, error;
+        try {
+            let prod;
+            [...this.#videoSystem.productions].find((production) => {
+                if (production.title === prodName) {
+                    prod = production;
+                }
+                return production.title === prodName;
+            });
+            this.#videoSystem.removeProduction(prod);
+            done = true;
+        } catch (exception) {
+            done = false;
+            error = exception;
+        }
+
+        this.#videoSystemView.showResultModal(done, error, "Eliminación de producción", "La producción ha sido eliminada correctamente");
+
+        this.onDeleteProduction();
+    }
+
+
+    handleCreateCategory = (cName, cDesc) => {
+        let cat = new Category(cName, cDesc);
 
         let done, error;
         try {
@@ -299,8 +352,71 @@ class VideoSystemController {
             done = false;
             error = exception;
         }
-        this.#videoSystemView.showNewCategoryModal(done, cat, error);
+
+        this.#videoSystemView.showResultModal(done, error, "Creación de categoría", "La categoría ha sido añadida correctamente");
+
         this.onAddCategory();
+    }
+
+    handleRemoveCategoryForm = () => {
+        this.#videoSystemView.bindRemoveCategoryForm(this.handleRemoveCategory);
+    }
+
+    handleRemoveCategory = (cName) => {
+        let category = new Category(cName);
+
+        let done, error;
+        try {
+            this.#videoSystem.removeCategory(category);
+            done = true;
+        } catch (exception) {
+            done = false;
+            error = exception;
+        }
+
+        this.#videoSystemView.showResultModal(done, error, "Eliminación de categoría", "La categoría ha sido eliminada correctamente");
+
+        this.onDeleteCategory();
+    }
+
+    handleRemovePersonForm = () => {
+        this.#videoSystemView.bindRemovePersonForm(this.handleRemovePerson);
+    }
+
+    handleRemovePerson = (pId) => {
+        let person = new Person(pId, "empty", "", new Date(), "");
+
+        //person = this.#videoSystem.getPerson();
+
+        let done, error;
+        try {
+            let person;
+            //this.#videoSystem.removePerson(person);
+            if ([...this.#videoSystem.actors].find((act) => {
+                if (act.actor.id === parseInt(pId)) {
+                    person = act.actor;
+                }
+                return act.actor.id === parseInt(pId);
+            })) {
+                this.#videoSystem.removeActor(person);
+            } else {
+                [...this.#videoSystem.directors].find((dir) => {
+                    if (dir.director.id === parseInt(pId)) {
+                        person = dir.director;
+                    }
+                    return dir.director.id === parseInt(pId);
+                });
+                this.#videoSystem.removeDirector(person);
+            }
+            done = true;
+        } catch (exception) {
+            done = false;
+            error = exception;
+        }
+
+        this.#videoSystemView.showResultModal(done, error, "Eliminación de persona", "La persona ha sido eliminada correctamente");
+
+        this.onDeletePersons();
     }
 }
 

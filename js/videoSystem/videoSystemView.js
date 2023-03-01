@@ -1,20 +1,22 @@
+import { removeProductionValidation, newCategoryValidation, removeCategoryValidation, removePersonValidation } from './validation.js';
+
 class VideoSystemView {
 
-    #excecuteHandler(handler, handlerArguments, scrollElement, data, url, event) {
-        handler(...handlerArguments);
-        $(scrollElement).get(0).scrollIntoView();
-        history.pushState(data, null, url);
-        event.preventDefault();
-    }
+  #excecuteHandler(handler, handlerArguments, scrollElement, data, url, event) {
+    handler(...handlerArguments);
+    $(scrollElement).get(0).scrollIntoView();
+    history.pushState(data, null, url);
+    event.preventDefault();
+  }
 
-    constructor() {
-        this.main = $('main');
-    }
+  constructor() {
+    this.main = $('main');
+  }
 
-    showHeader() {
-        this.main.empty();
+  showHeader() {
+    this.main.empty();
 
-        this.main.append(`
+    this.main.append(`
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                 <div class="container-fluid">
@@ -40,10 +42,10 @@ class VideoSystemView {
 
         <div style="height: 65px;"></div>
         `);
-    }
+  }
 
-    showRandomProductions(productions) {
-        this.main.append(`
+  showRandomProductions(productions) {
+    this.main.append(`
         <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" style="height: 500px;">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"
@@ -65,8 +67,8 @@ class VideoSystemView {
         </div>
         `);
 
-        for (let prod of productions) {
-            $(".carousel-inner").append(`
+    for (let prod of productions) {
+      $(".carousel-inner").append(`
                 <div class="carousel-item `+ ($(".carousel-inner").html() === "" ? `active` : ``) + ` h-100 bg-dark bg-gradient">
                     <div class="h-100 d-flex justify-content-center">
                         <img src="`+ prod.image + `">
@@ -78,11 +80,11 @@ class VideoSystemView {
                     </div>
                 </div>
             `);
-        }
     }
+  }
 
-    showCategories(categories) {
-        this.main.append(`
+  showCategories(categories) {
+    this.main.append(`
         <div class="container justify-content-center text-center">
             <h1> Cateogrías </h1>
             <div id="categories" class="container justify-content-center text-center row">
@@ -91,14 +93,14 @@ class VideoSystemView {
         </div>
         `);
 
-        for (let category of categories) {
-            $("#narvars-ul").append(`
+    for (let category of categories) {
+      $("#narvars-ul").append(`
             <li class="nav-item">
                 <a class="category me-4 text-light text-decoration-none" class="nav-link active" href="#single-category">`+ category.category.name + `</a>
             </li>
             `);
 
-            $("#categories").append(`
+      $("#categories").append(`
             <div class="card" style="width: 18rem;">
               <div class="card-body">
                 <a href="#single-category" class="category card-link"> <h5 class="card-title">`+ category.category.name + `</h5></a>
@@ -106,12 +108,12 @@ class VideoSystemView {
               </div>
             </div>
             `);
-        }
-
     }
 
-    showPersons(actors, directors) {
-        this.main.append(`
+  }
+
+  showPersons(actors, directors) {
+    this.main.append(`
         <div class="container justify-content-center text-center">
             <h1> Actores </h1>
             <div id="actorsInitSection" class="container justify-content-center text-center row">
@@ -128,60 +130,60 @@ class VideoSystemView {
 
         `);
 
-        for (let actor of actors) {
-            $("#actorsInitSection").append(`
+    for (let actor of actors) {
+      $("#actorsInitSection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
                 <a class="actor" href="#single-actor">
                     <img src="`+ actor.actor.picture + `" class="rounded" alt="` + actor.actor.name + `" name="` + actor.actor.id + `" style="width: 200px; height: 240px;">
                 </a>
             </div>
             `);
-        }
+    }
 
-        for (let director of directors) {
-            $("#directorsInitSection").append(`
+    for (let director of directors) {
+      $("#directorsInitSection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
                 <a class="director" href="#single-director">
                     <img src="`+ director.director.picture + `" class="rounded" alt="` + director.director.name + `" name="` + director.director.id + `" style="width: 200px; height: 240px;">
                 </a>
             </div>
             `);
-        }
     }
+  }
 
-    showCategory(category, productions) {
-        this.main.empty();
-        this.showHeader();
+  showCategory(category, productions) {
+    this.main.empty();
+    this.showHeader();
 
-        this.main.append(`
+    this.main.append(`
         <div id="categorySection" class="row justify-content-center text-center mt-4">
             <h1>`+ category + `</h1>
         </div>
         `);
 
-        for (let production of productions) {
-            $("#narvars-ul").append(`
+    for (let production of productions) {
+      $("#narvars-ul").append(`
             <li class="nav-item">
                 <a class="productionText me-4 text-light text-decoration-none" class="nav-link active" href="#single-production">`+ production.title + `</a>
             </li>
             `);
 
-            $("#categorySection").append(`
+      $("#categorySection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
                 <a class="productionImage" href="#single-production">
                     <img src="`+ production.image + `" class="rounded" alt="` + production.title + `" style="width: 200px; height: 240px;">
                 </a>
             </div>
             `);
-        }
-
     }
 
-    showProduction(production, cast, directors) {
-        this.main.empty();
-        this.showHeader();
+  }
 
-        this.main.append(`
+  showProduction(production, cast, directors) {
+    this.main.empty();
+    this.showHeader();
+
+    this.main.append(`
         <div class="d-flex justify-content-center mt-4">
             <div class="card mb-3" style="max-width: 600px;">
                 <div class="row g-0">
@@ -218,14 +220,14 @@ class VideoSystemView {
         </div>
         `);
 
-        for (let actor of cast) {
-            /* $("#narvars-ul").append(`
-            <li class="nav-item">
-                <a class="actor me-4 text-light text-decoration-none" class="nav-link active" href="#" name="`+ actor.id + `">` + actor.name + `</a>
-            </li>
-            `); */
+    for (let actor of cast) {
+      /* $("#narvars-ul").append(`
+      <li class="nav-item">
+          <a class="actor me-4 text-light text-decoration-none" class="nav-link active" href="#" name="`+ actor.id + `">` + actor.name + `</a>
+      </li>
+      `); */
 
-            $("#actorsSection").append(`
+      $("#actorsSection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
                 <a class="actor" href="#single-actor">
                     <img src="`+ actor.picture + `" class="rounded" alt="` + actor.name + `" name="` + actor.id + `" style="width: 200px; height: 240px;">
@@ -233,24 +235,24 @@ class VideoSystemView {
             </div>
             `);
 
-        }
+    }
 
-        for (let director of directors) {
-            $("#directorsSection").append(`
+    for (let director of directors) {
+      $("#directorsSection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
                 <a class="director" href="#single-director">
                     <img src="`+ director.picture + `" class="rounded" alt="` + director.name + `" name="` + director.id + `" style="width: 200px; height: 240px;">
                 </a>
             </div>
             `);
-        }
     }
+  }
 
-    showPerson(person, productions) {
-        this.main.empty();
-        this.showHeader();
+  showPerson(person, productions) {
+    this.main.empty();
+    this.showHeader();
 
-        this.main.append(`
+    this.main.append(`
         <div class="d-flex justify-content-center mt-4">
             <div class="card" style="width: 18rem;">
             <img src="`+ person.picture + `" class="img-fluid overflow-hidden h-100 rounded-start" alt="` + person.name + `">
@@ -270,25 +272,25 @@ class VideoSystemView {
         </div>
         `);
 
-        for (let prod of productions) {
-            /* $("#narvars-ul").append(`
-            <li class="nav-item">
-                <a class="actor me-4 text-light text-decoration-none" class="nav-link active" href="#" name="`+ actor.id + `">` + actor.name + `</a>
-            </li>
-            `); */
+    for (let prod of productions) {
+      /* $("#narvars-ul").append(`
+      <li class="nav-item">
+          <a class="actor me-4 text-light text-decoration-none" class="nav-link active" href="#" name="`+ actor.id + `">` + actor.name + `</a>
+      </li>
+      `); */
 
-            $("#productsSection").append(`
+      $("#productsSection").append(`
             <div class="card col-m m-2 p-0" style="width: 200px; height: 240px;">
                 <a class="productionImage" href="#single-production">
                     <img src="`+ prod.image + `" class="rounded" alt="` + prod.title + `" style="width: 200px; height: 240px;">
                 </a>
             </div>
             `);
-        }
     }
+  }
 
-    showWindowProduction(window, production) {
-        window.document.write(`
+  showWindowProduction(window, production) {
+    window.document.write(`
         <head>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -325,21 +327,21 @@ class VideoSystemView {
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         </body>
         `)
-    }
+  }
 
-    showForms(directors, productions, actors, categories) {
-        this.main.empty();
-        this.showHeader();
+  showForms(directors, productions, actors, categories) {
+    this.main.empty();
+    this.showHeader();
 
-        let persons = [].concat(directors, actors);
+    let persons = [].concat(directors, actors);
 
-        this.main.append(`
+    this.main.append(`
         <div class="container my-4">
             <button type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#createProduction">
               Crear producción
             </button>
             
-            <button type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#deleteProduction">
+            <button id="bDeleteProduction" type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#deleteProduction">
               Eliminar producción
             </button>
             
@@ -347,11 +349,11 @@ class VideoSystemView {
               Asignaciones en producciones
             </button>
             
-            <button type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#createCategory">
+            <button id="bNewCategory" type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#createCategory">
               Crear categoría
             </button>
             
-            <button type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#deleteCategory">
+            <button id="bDeleteCategory" type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#deleteCategory">
               Eliminar categoría
             </button>
             
@@ -359,7 +361,7 @@ class VideoSystemView {
               Crear persona
             </button>
             
-            <button type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#deletePerson">
+            <button id="bRemovePerson" type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#deletePerson">
               Eliminar persona
             </button>
 
@@ -435,28 +437,30 @@ class VideoSystemView {
             </div>
             
             <div class="modal fade" id="deleteProduction" tabindex="-1">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar producción</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      <div class="mb-3">
-                        <label>
-                            Producción
-                        </label>
-                        <select class="form-select productionSelect">
+              <form name="fRemoveCategory" role="form" novalidate>
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar producción</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                          <label>
+                              Producción
+                          </label>
+                          <select class="form-select productionSelect" name="rProdName">
 
-                        </select>
-                      </div>
-                      <button type="button" class="btn btn-danger">Eliminar</button>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                          </select>
+                        </div>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
 
             <div class="modal fade" id="productionsAssignments" tabindex="-1">
@@ -546,15 +550,17 @@ class VideoSystemView {
                       <div class="modal-body">
                         <form>
                             <div class="mb-3">
-                                <label class="form-label">Categoría</label>
-                                <input type="text" class="form-control" name="ncName"  placeholder="Categoría">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" class="form-control" name="ncName" placeholder="Nombre" required>
                                 <div class="invalid-feedback">El nombre es obligatorio.</div>
-							    <div class="valid-feedback">Correcto.</div>
+							                  <div class="valid-feedback">Correcto.</div>
                             </div>
 
                             <div class="mb-3">
                               <label class="form-label">Descripción</label>
-                              <input type="text" class="form-control" placeholder="Descripción">
+                              <input type="text" class="form-control" name="ncDesc" placeholder="Descripción" required>
+                              <div class="invalid-feedback">La descripcción es obligatoria.</div>
+                              <div class="valid-feedback">Correcto.</div>
                             </div>
 
                           <button type="submit" class="btn btn-primary">Crear</button>
@@ -569,28 +575,30 @@ class VideoSystemView {
             </div>
                         
             <div class="modal fade" id="deleteCategory" tabindex="-1">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar categoría</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      <div class="mb-3">
-                        <label>
-                            Categoría
-                        </label>
-                        <select class="form-select categorySelect">
+              <form name="fRemoveCategory" role="form" novalidate>
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar categoría</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                          <label>
+                              Categoría
+                          </label>
+                          <select class="form-select categorySelect" name="rcName" required>
 
-                        </select>
-                      </div>
-                      <button type="button" class="btn btn-danger">Eliminar</button>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                          </select>
+                        </div>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
             
             <div class="modal fade" id="createPerson" tabindex="-1">
@@ -656,6 +664,7 @@ class VideoSystemView {
             </div>
 
             <div class="modal fade" id="deletePerson" tabindex="-1">
+              <form name="fRemovePerson" role="form" novalidate>
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -667,119 +676,215 @@ class VideoSystemView {
                           <label>
                               Persona
                           </label>
-                          <select class="form-select personSelect">
+                          <select class="form-select personSelect" name="rpName" required>
 
                           </select>
                         </div>
-                        <button type="button" class="btn btn-danger">Eliminar</button>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     </div>
                   </div>
                 </div>
+              </form>
             </div>
 
         </div>
         `);
 
-        for (let director of directors) {
-            $(".directorSelect").append(`
-                <option>`+ director.director.name + " " + director.director.lastname1 + `</option>
+    this.updateDirectors(directors);
+    this.updateProductions(productions);
+    this.updateActors(actors);
+    this.updateCategories(categories);
+  }
+
+  updateDirectors(directors) {
+    $(".personSelect").empty();
+    $(".directorSelect").empty();
+    for (let director of directors) {
+      $(".directorSelect").append(`
+                <option>` + director.director.name + " " + director.director.lastname1 + `</option>
             `);
 
-            $(".personSelect").append(`
-                <option>`+ director.director.name + " " + director.director.lastname1 + `</option>
+      $(".personSelect").append(`
+                <option value="`+ director.director.id + `">`+ director.director.name + " " + director.director.lastname1 + `</option>
             `);
-        }
+    }
+  }
 
-        for (let production of productions) {
-            $(".productionSelect").append(`
+  updateProductions(productions) {
+    $(".productionSelect").empty();
+    for (let production of productions) {
+      $(".productionSelect").append(`
                 <option>`+ production.title + `</option>
             `);
-        }
+    }
+  }
 
-        for (let actor of actors){
-            $(".personSelect").append(`
+  updateActors(actors) {
+    $(".actorSelect").empty();
+    for (let actor of actors) {
+      $(".personSelect").append(`
+                <option value="`+ actor.actor.id + `">`+ actor.actor.name + " " + actor.actor.lastname1 + `</option>
+            `);
+
+      $(".actorSelect").append(`
                 <option>`+ actor.actor.name + " " + actor.actor.lastname1 + `</option>
             `);
-            
-            $(".actorSelect").append(`
-                <option>`+ actor.actor.name + " " + actor.actor.lastname1 + `</option>
-            `);
+    }
+  }
 
-        }
-
-        for(let category of categories){
-            $(".categorySelect").append(`
+  updateCategories(categories) {
+    $(".categorySelect").empty();
+    for (let category of categories) {
+      $(".categorySelect").append(`
                 <option>`+ category.category.name + `</option>
             `);
-        }
     }
-    
-    bindNewCategoryForm(handler) {
-		newCategoryValidation(handler);
-	}
+  }
 
+  showResultModal(done, error, type, message) {
+    $('body').append(`
+    <div class="modal fade text-light" id="resultModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content bg-dark">
+          <div class="modal-header">
+            <h5 class="modal-title">`+ type + `</h5>
+            <button type="button" class="close bg-dark text-light" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            `+ (done ? message : error) + `
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
 
-    bindInit(handler) {
-        $('#init').click((event) => {
-            this.#excecuteHandler(handler, [], 'body', { action: 'init' }, '#', event);
-        });
+    //$(".modal").modal('hide');
+
+    let newResultModal = $("#resultModal");
+    newResultModal.modal("show");
+    newResultModal.find('button').click(() => {
+      newResultModal.on('hidden.bs.modal', function (event) {
+        document.fNewCategory.reset();
+        document.fNewCategory.ncName.focus();
+        this.remove();
+      });
+      newResultModal.modal('hide');
+    })
+  }
+
+  bindInit(handler) {
+    $('#init').click((event) => {
+      this.#excecuteHandler(handler, [], 'body', { action: 'init' }, '#', event);
+    });
+  }
+
+  bindCategory(handler) {
+    $(".category").click((event) => {
+      this.#excecuteHandler(handler, [event.target.innerText], 'body', { action: 'singleCategory', category: event.target.innerText }, '#single-category', event);
+      //handler(event.target.innerText);
+    })
+  }
+
+  bindProduction(handler) {
+    $(".productionText").click((event) => {
+      this.#excecuteHandler(handler, [event.target.innerText], 'body', { action: 'singleProduction', category: event.target.innerText }, '#single-production', event);
+      //handler(event.target.innerText);
+    })
+    $(".productionImage").click((event) => {
+      this.#excecuteHandler(handler, [event.target.alt], 'body', { action: 'singleProduction', category: event.target.alt }, '#single-production', event);
+      //handler(event.target.alt);
+    })
+  }
+
+  bindActor(handler) {
+    $(".actor").click((event) => {
+      this.#excecuteHandler(handler, [event.target.name], 'body', { action: 'singleActor', category: event.target.name }, '#single-actor', event);
+      //handler(event.target.name);
+    })
+    /* $(".actorImage").click((event) => {
+        handler(event.target.alt);
+    }) */
+  }
+
+  bindDirector(handler) {
+    $(".director").click((event) => {
+      this.#excecuteHandler(handler, [event.target.name], 'body', { action: 'singleDirector', category: event.target.name }, '#single-director', event);
+      //handler(event.target.name);
+    })
+  }
+
+  bindProductionWindow(handler) {
+    $(".production-window").click((event) => {
+      handler($(".card-title").text());
+    })
+  }
+
+  bindCloseWindows(handler) {
+    $("#close-windows").click((event) => {
+      handler();
+    })
+  }
+
+  bindForms(handler) {
+    $("#formsButton").click((event) => {
+      this.#excecuteHandler(handler, [], 'body', { action: 'forms' }, '#forms', event);
+    })
+  }
+
+  bindAdminButtons(hRemoveProduction, hNewCategory, hRemoveCategory, hRemovePerson) {
+    $('#bDeleteProduction').click((event) => {
+      this.#excecuteHandler(hRemoveProduction, [], 'body', { action: 'forms' }, '#forms', event);
+    });
+    $('#bNewCategory').click((event) => {
+      this.#excecuteHandler(hNewCategory, [], 'body', { action: 'forms' }, '#forms', event);
+    });
+    $('#bDeleteCategory').click((event) => {
+      this.#excecuteHandler(hRemoveCategory, [], 'body', { action: 'forms' }, '#forms', event);
+    });
+    $('#bRemovePerson').click((event) => {
+      this.#excecuteHandler(hRemovePerson, [], 'body', { action: 'forms' }, '#forms', event);
+    });
+  }
+
+  bindRemoveProductionForm(handler) {
+    try {
+      removeProductionValidation(handler);
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    bindCategory(handler) {
-        $(".category").click((event) => {
-            this.#excecuteHandler(handler, [event.target.innerText], 'body', { action: 'singleCategory', category: event.target.innerText }, '#single-category', event);
-            //handler(event.target.innerText);
-        })
+  bindNewCategoryForm(handler) {
+    try {
+      newCategoryValidation(handler);
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    bindProduction(handler) {
-        $(".productionText").click((event) => {
-            this.#excecuteHandler(handler, [event.target.innerText], 'body', { action: 'singleProduction', category: event.target.innerText }, '#single-production', event);
-            //handler(event.target.innerText);
-        })
-        $(".productionImage").click((event) => {
-            this.#excecuteHandler(handler, [event.target.alt], 'body', { action: 'singleProduction', category: event.target.alt }, '#single-production', event);
-            //handler(event.target.alt);
-        })
+  bindRemoveCategoryForm(handler) {
+    try {
+      removeCategoryValidation(handler);
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    bindActor(handler) {
-        $(".actor").click((event) => {
-            this.#excecuteHandler(handler, [event.target.name], 'body', { action: 'singleActor', category: event.target.name }, '#single-actor', event);
-            //handler(event.target.name);
-        })
-        /* $(".actorImage").click((event) => {
-            handler(event.target.alt);
-        }) */
+  bindRemovePersonForm(handler) {
+    try {
+      removePersonValidation(handler);
+    } catch (error) {
+      console.log(error);
     }
-
-    bindDirector(handler) {
-        $(".director").click((event) => {
-            this.#excecuteHandler(handler, [event.target.name], 'body', { action: 'singleDirector', category: event.target.name }, '#single-director', event);
-            handler(event.target.name);
-        })
-    }
-
-    bindProductionWindow(handler) {
-        $(".production-window").click((event) => {
-            handler($(".card-title").text());
-        })
-    }
-
-    bindCloseWindows(handler) {
-        $("#close-windows").click((event) => {
-            handler();
-        })
-    }
-
-    bindForms(handler) {
-        $("#formsButton").click((event) => {
-            this.#excecuteHandler(handler, [], 'body', { action: 'forms' }, '#forms', event);
-        })
-    }
+  }
 
 }
 

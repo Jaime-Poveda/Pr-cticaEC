@@ -251,6 +251,8 @@ let VideoSystem = (function () {
                     throw new NotRegisteredException("production");
                 }
 
+                
+
                 //Devuelvo el tamaño actual del array
                 return this.#productions.length;
             }
