@@ -236,6 +236,12 @@ class VideoSystemController {
         this.binds();
     }
 
+    onAssignProduction = () => {
+        //this.#videoSystemView.updateProductions([...this.#videoSystem.productions]);
+
+        this.binds();
+    }
+
     onAddCategory = () => {
         this.#videoSystemView.updateCategories([...this.#videoSystem.categories]);
 
@@ -306,12 +312,8 @@ class VideoSystemController {
     handleForms = () => {
         this.#videoSystemView.showForms([...this.#videoSystem.directors], [...this.#videoSystem.productions], [...this.#videoSystem.actors], [...this.#videoSystem.categories]);
 
-        this.#videoSystemView.bindAdminButtons(this.handleRemoveProductionForm, this.handleNewCategoryForm, this.handleRemoveCategoryForm, this.handleRemovePersonForm);
+        this.#videoSystemView.bindAdminButtons(this.handleRemoveProductionForm, this.handleAssignProductionForm, this.handleNewCategoryForm, this.handleRemoveCategoryForm, this.handleRemovePersonForm);
         this.binds();
-    }
-
-    handleNewCategoryForm = () => {
-        this.#videoSystemView.bindNewCategoryForm(this.handleCreateCategory);
     }
 
     handleRemoveProductionForm = () => {
@@ -340,6 +342,61 @@ class VideoSystemController {
         this.onDeleteProduction();
     }
 
+    handleAssignProductionForm = () => {
+        this.#videoSystemView.bindAssignProductionForm(this.handleAssignProduction);
+    }
+
+    handleAssignProduction = (prodType, prodTitle, personId, role) => {
+        let done, error;
+
+        try {
+            let prod;
+            let person = "";
+            [...this.#videoSystem.productions].find((production) => {
+                if (production.title === prodTitle) {
+                    prod = production;
+                }
+                return production.title === prodTitle;
+            });
+
+            [...this.#videoSystem.actors].find((act) => {
+                if (act.actor.id === parseInt(personId)) {
+                    person = act.actor;
+                }
+                return act.actor.id === parseInt(personId);
+            })
+
+            if (person === "") {
+                [...this.#videoSystem.directors].find((dir) => {
+                    if (dir.director.id === parseInt(personId)) {
+                        person = dir.director;
+                    }
+                    return dir.director.id === parseInt(personId);
+                });
+            }
+
+            if (prodType === "Asignar") {
+                role === "Actor" ? this.#videoSystem.assignActor(person, prod) : this.#videoSystem.assignDirector(person, prod);
+            } else {
+                role === "Actor" ? this.#videoSystem.deassignActor(person, prod) : this.#videoSystem.deassignDirector(person, prod);
+            }
+
+            done = true;
+        } catch (exception) {
+            done = false;
+            error = exception;
+        }
+
+
+        this.#videoSystemView.showResultModal(done, error, "Asignación de producción", "La producción ha sido " + (prodType === "Asignar" ? "asignada" : "desasignada") + "  correctamente");
+
+        this.onAssignProduction();
+    }
+
+
+    handleNewCategoryForm = () => {
+        this.#videoSystemView.bindNewCategoryForm(this.handleCreateCategory);
+    }
 
     handleCreateCategory = (cName, cDesc) => {
         let cat = new Category(cName, cDesc);
@@ -384,8 +441,7 @@ class VideoSystemController {
     }
 
     handleRemovePerson = (pId) => {
-        let person = new Person(pId, "empty", "", new Date(), "");
-
+        //let person = new Person(pId, "empty", "", new Date(), "");
         //person = this.#videoSystem.getPerson();
 
         let done, error;
@@ -408,6 +464,8 @@ class VideoSystemController {
                 });
                 this.#videoSystem.removeDirector(person);
             }
+
+
             done = true;
         } catch (exception) {
             done = false;

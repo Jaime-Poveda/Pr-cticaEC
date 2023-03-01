@@ -37,7 +37,7 @@ function removeProductionValidation(handler) {
 
         event.preventDefault();
         event.stopPropagation();
-        
+
         if (!isValid) {
             firstInvalidElement.focus();
         } else {
@@ -54,6 +54,70 @@ function removeProductionValidation(handler) {
     }));
 
     $(form.rProdName).change(defaultCheckElement);
+}
+
+function assignProductionValidation(handler) {
+    let form = document.forms.fAssignProduction;
+    $(form).attr('novalidate', true);
+
+
+    $(form).submit(function (event) {
+        let isValid = true;
+        let firstInvalidElement = null;
+
+        if (!this.productionType.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.productionType), false);
+            firstInvalidElement = this.productionType;
+        } else {
+            showFeedBack($(this.productionType), true);
+        }
+
+        if (!this.productionTitle.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.productionTitle), false);
+            firstInvalidElement = this.productionTitle;
+        } else {
+            showFeedBack($(this.productionTitle), true);
+        }
+
+        if (!this.person.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.person), false);
+            firstInvalidElement = this.person;
+        } else {
+            showFeedBack($(this.person), true);
+        }
+
+        if (!this.role.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.role), false);
+            firstInvalidElement = this.role;
+        } else {
+            showFeedBack($(this.role), true);
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (!isValid) {
+            firstInvalidElement.focus();
+        } else {
+            handler(this.productionType.value, this.productionTitle.value, this.person.value, this.role.value);
+        }
+    })
+
+    form.addEventListener('reset', (function (event) {
+        let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
+        feedDivs.removeClass('d-block').addClass('d-none');
+        let inputs = $(this).find('input');
+        inputs.removeClass('is-vlaid is-invalid');
+    }));
+
+    $(form.productionType).change(defaultCheckElement);
+    $(form.productionTitle).change(defaultCheckElement);
+    $(form.person).change(defaultCheckElement);
+    $(form.role).change(defaultCheckElement);
 }
 
 function newCategoryValidation(handler) {
@@ -152,7 +216,7 @@ function removePersonValidation(handler) {
         } else {
             showFeedBack($(this.rpName), true);
         }
-        
+
         event.preventDefault();
         event.stopPropagation();
 
@@ -163,7 +227,7 @@ function removePersonValidation(handler) {
         }
 
     })
-    
+
 
     form.addEventListener('reset', (function (event) {
         let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
@@ -175,4 +239,4 @@ function removePersonValidation(handler) {
     $(form.rpName).change(defaultCheckElement);
 }
 
-export { removeProductionValidation, newCategoryValidation, removeCategoryValidation, removePersonValidation };
+export { removeProductionValidation, assignProductionValidation, newCategoryValidation, removeCategoryValidation, removePersonValidation };

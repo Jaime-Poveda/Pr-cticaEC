@@ -251,7 +251,7 @@ let VideoSystem = (function () {
                     throw new NotRegisteredException("production");
                 }
 
-                
+
 
                 //Devuelvo el tamaño actual del array
                 return this.#productions.length;
@@ -557,6 +557,7 @@ let VideoSystem = (function () {
 
                 //Comprobar si existen los parámetros en el sistema, en caso contrario los añado y vuelvo a calcular la posición
                 let actorPosition = this.#findActor(this.#actors, actor);
+
                 if (actorPosition === -1) {
                     this.addActor(actor);
                     actorPosition = this.#findActor(this.#actors, actor);
@@ -625,25 +626,25 @@ let VideoSystem = (function () {
                     throw new NotRegisteredException("production");
                 }
             }
-            
+
             //Método que devuelve el iterador de directores asociados a una producción
             * getDirectors(production) {
-            //Excepciones
-            if (production === null || !(production instanceof Production)) throw new NullOrInvalidTypeException("production", "Production");
+                //Excepciones
+                if (production === null || !(production instanceof Production)) throw new NullOrInvalidTypeException("production", "Production");
 
-            //Busco la producción en el array del sistema. Si existe, devuelvo los actores, en caso contrario lanzo una excepción
-            let prodPosition = this.#findProduction(this.#productions, production);
-            if (prodPosition !== -1) {
-                for (let director of this.#directors) {
-                    let prodDirPosition = this.#findProductionByTitle(director.productions, production);
-                    if (prodDirPosition !== -1) {
-                        yield director.director;
+                //Busco la producción en el array del sistema. Si existe, devuelvo los actores, en caso contrario lanzo una excepción
+                let prodPosition = this.#findProduction(this.#productions, production);
+                if (prodPosition !== -1) {
+                    for (let director of this.#directors) {
+                        let prodDirPosition = this.#findProductionByTitle(director.productions, production);
+                        if (prodDirPosition !== -1) {
+                            yield director.director;
+                        }
                     }
+                } else {
+                    throw new NotRegisteredException("production");
                 }
-            } else {
-                throw new NotRegisteredException("production");
             }
-        }
 
             //Método que devuelve el iterador de producciones asociadas a un director
             * getProductionsDirector(director) {

@@ -1,4 +1,4 @@
-import { removeProductionValidation, newCategoryValidation, removeCategoryValidation, removePersonValidation } from './validation.js';
+import { removeProductionValidation, assignProductionValidation, newCategoryValidation, removeCategoryValidation, removePersonValidation } from './validation.js';
 
 class VideoSystemView {
 
@@ -337,7 +337,7 @@ class VideoSystemView {
 
     this.main.append(`
         <div class="container my-4">
-            <button type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#createProduction">
+            <button id="bCreateProduction" type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#createProduction">
               Crear producción
             </button>
             
@@ -345,7 +345,7 @@ class VideoSystemView {
               Eliminar producción
             </button>
             
-            <button type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#productionsAssignments">
+            <button id="bAssignProduction" type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#productionsAssignments">
               Asignaciones en producciones
             </button>
             
@@ -437,7 +437,7 @@ class VideoSystemView {
             </div>
             
             <div class="modal fade" id="deleteProduction" tabindex="-1">
-              <form name="fRemoveCategory" role="form" novalidate>
+              <form name="fRemoveProduction" role="form" novalidate>
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -464,6 +464,7 @@ class VideoSystemView {
             </div>
 
             <div class="modal fade" id="productionsAssignments" tabindex="-1">
+              <form name="fAssignProduction" role="form" novalidate>
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -475,61 +476,44 @@ class VideoSystemView {
                         <form>
                             <div class="mb-3">
                               <label>
-                              Tipo
+                                Tipo
                               </label>
-                              <div class="mb-3">
-                                <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="productionType" value="assign" checked>
-                                  <label class="form-check-label">
-                                    Asignar
-                                  </label>
-                                </div>
-                                <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="productionType" value="deassign">
-                                  <label class="form-check-label">
-                                    Desasignar
-                                  </label>
-                                </div>
-                              </div>
+                                <select class="form-select" name="productionType" required>
+                                  <option>Asignar</option>
+                                  <option>Desasignar</option>
+                                </select>
                             </div>
 
                             <div class="mb-3">
                               <label>
-                                  Producción
+                                Producción
                               </label>
-                                <select class="form-select productionSelect">
+                                <select class="form-select productionSelect" name="productionTitle" required>
 
                                 </select>
                             </div>
 
                             <div class="mb-3">
                               <label>
-                                  Persona
+                                Persona
                               </label>
-                                <select class="form-select personSelect">
+                                <select class="form-select personSelect" name="person" required>
 
                                 </select>
                             </div>
 
+                            
                             <div class="mb-3">
                               <label>
-                              Rol
+                                Rol
                               </label>
-                              <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="rol" value="actor" checked>
-                                  <label class="form-check-label">
-                                    Actor
-                                  </label>
-                              </div>
-                              <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="rol" value="director">
-                                  <label class="form-check-label">
-                                    Director
-                                  </label>
-                              </div>
+                                <select class="form-select" name="role" required>
+                                  <option>Actor</option>
+                                  <option>Director</option>
+                                </select>
                             </div>
 
-                                <button type="button" class="btn btn-primary">Realizar</button>
+                                <button type="submit" class="btn btn-primary">Realizar</button>
                           </form>
                         </div>
                         <div class="modal-footer">
@@ -537,6 +521,7 @@ class VideoSystemView {
                         </div>
                     </div>
                 </div>
+              </form>
             </div>
                         
             <div class="modal fade" id="createCategory" tabindex="-1">
@@ -708,7 +693,7 @@ class VideoSystemView {
             `);
 
       $(".personSelect").append(`
-                <option value="`+ director.director.id + `">`+ director.director.name + " " + director.director.lastname1 + `</option>
+                <option value="`+ director.director.id + `">` + director.director.name + " " + director.director.lastname1 + `</option>
             `);
     }
   }
@@ -726,7 +711,7 @@ class VideoSystemView {
     $(".actorSelect").empty();
     for (let actor of actors) {
       $(".personSelect").append(`
-                <option value="`+ actor.actor.id + `">`+ actor.actor.name + " " + actor.actor.lastname1 + `</option>
+                <option value="`+ actor.actor.id + `">` + actor.actor.name + " " + actor.actor.lastname1 + `</option>
             `);
 
       $(".actorSelect").append(`
@@ -839,24 +824,40 @@ class VideoSystemView {
     })
   }
 
-  bindAdminButtons(hRemoveProduction, hNewCategory, hRemoveCategory, hRemovePerson) {
+  bindAdminButtons(hRemoveProduction, hAssignProduction, hNewCategory, hRemoveCategory, hRemovePerson) {
     $('#bDeleteProduction').click((event) => {
-      this.#excecuteHandler(hRemoveProduction, [], 'body', { action: 'forms' }, '#forms', event);
+      hRemoveProduction(event);
+      //this.#excecuteHandler(hRemoveProduction, [], 'body', { action: 'forms' }, '#forms', event);
+    });
+    $('#bAssignProduction').click((event) => {
+      hAssignProduction(event);
+      //this.#excecuteHandler(hRemoveProduction, [], 'body', { action: 'forms' }, '#forms', event);
     });
     $('#bNewCategory').click((event) => {
-      this.#excecuteHandler(hNewCategory, [], 'body', { action: 'forms' }, '#forms', event);
+      hNewCategory(event);
+      //this.#excecuteHandler(hNewCategory, [], 'body', { action: 'forms' }, '#forms', event);
     });
     $('#bDeleteCategory').click((event) => {
-      this.#excecuteHandler(hRemoveCategory, [], 'body', { action: 'forms' }, '#forms', event);
+      hRemoveCategory(event);
+      //this.#excecuteHandler(hRemoveCategory, [], 'body', { action: 'forms' }, '#forms', event);
     });
     $('#bRemovePerson').click((event) => {
-      this.#excecuteHandler(hRemovePerson, [], 'body', { action: 'forms' }, '#forms', event);
+      hRemovePerson(event);
+      //this.#excecuteHandler(hRemovePerson, [], 'body', { action: 'forms' }, '#forms', event);
     });
   }
 
   bindRemoveProductionForm(handler) {
     try {
       removeProductionValidation(handler);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  bindAssignProductionForm(handler) {
+    try {
+      assignProductionValidation(handler);
     } catch (error) {
       console.log(error);
     }
