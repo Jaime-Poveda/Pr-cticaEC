@@ -45,6 +45,38 @@ function createProductionValidation(handler) {
         } else {
             showFeedBack($(this.prodType), true);
         }
+        
+        if (!this.nationality.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.nationality), false);
+            firstInvalidElement = this.nationality;
+        } else {
+            showFeedBack($(this.nationality), true);
+        }
+        
+        if (!this.published.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.published), false);
+            firstInvalidElement = this.published;
+        } else {
+            showFeedBack($(this.published), true);
+        }
+        
+        if (!this.synopsis.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.synopsis), false);
+            firstInvalidElement = this.synopsis;
+        } else {
+            showFeedBack($(this.synopsis), true);
+        }
+        
+        if (!this.productionImage.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.productionImage), false);
+            firstInvalidElement = this.productionImage;
+        } else {
+            showFeedBack($(this.productionImage), true);
+        }
 
         if (!this.director.checkValidity()) {
             isValid = false;
@@ -78,7 +110,7 @@ function createProductionValidation(handler) {
         if (!isValid) {
             firstInvalidElement.focus();
         } else {
-            handler(this.title.value, this.prodType.value, this.director.value, $("#castSelect :selected").toArray().map(item => item.value), $("#categoriesSelect :selected").toArray().map(item => item.value));
+            handler(this.title.value, this.prodType.value, this.nationality.value, this.published.value, this.synopsis.value, this.productionImage.value, this.director.value, $("#castSelect :selected").toArray().map(item => item.value), $("#categoriesSelect :selected").toArray().map(item => item.value));
         }
 
     })
@@ -92,13 +124,17 @@ function createProductionValidation(handler) {
 
     $(form.title).change(defaultCheckElement);
     $(form.prodType).change(defaultCheckElement);
-    $(form.lastname2).change(defaultCheckElement);
+    $(form.nationality).change(defaultCheckElement);
+    $(form.published).change(defaultCheckElement);
+    $(form.synopsis).change(defaultCheckElement);
+    $(form.productionImage).change(defaultCheckElement);
     $(form.director).change(defaultCheckElement);
+    //$(form.cast).change(defaultCheckElement);
     $(form.categories).change(defaultCheckElement);
 }
 
 function removeProductionValidation(handler) {
-    let form = document.forms.fRemoveCategory;
+    let form = document.forms.fRemoveProduction;
     $(form).attr('novalidate', true);
 
     $(form).submit(function (event) {
@@ -113,8 +149,6 @@ function removeProductionValidation(handler) {
             showFeedBack($(this.rProdName), true);
         }
 
-        event.preventDefault();
-        event.stopPropagation();
 
         if (!isValid) {
             firstInvalidElement.focus();
@@ -122,6 +156,8 @@ function removeProductionValidation(handler) {
             handler(this.rProdName.value);
         }
 
+        event.preventDefault();
+        event.stopPropagation();
     })
 
     form.addEventListener('reset', (function (event) {
@@ -175,14 +211,14 @@ function assignProductionValidation(handler) {
             showFeedBack($(this.role), true);
         }
 
-        event.preventDefault();
-        event.stopPropagation();
-
         if (!isValid) {
             firstInvalidElement.focus();
         } else {
             handler(this.productionType.value, this.productionTitle.value, this.person.value, this.role.value);
         }
+        
+        event.preventDefault();
+        event.stopPropagation();
     })
 
     form.addEventListener('reset', (function (event) {
@@ -287,8 +323,6 @@ function createPersonValidation(handler) {
     $(form).submit(function (event) {
         let isValid = true;
         let firstInvalidElement = null;
-        event.preventDefault();
-        event.stopPropagation();
 
         if (!this.name.checkValidity()) {
             isValid = false;
@@ -345,6 +379,8 @@ function createPersonValidation(handler) {
             handler(this.name.value, this.lastname1.value, this.lastname2.value, this.born.value, this.image.value, this.role.value);
         }
 
+        event.preventDefault();
+        event.stopPropagation();
     })
 
     form.addEventListener('reset', (function (event) {

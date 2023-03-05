@@ -86,7 +86,7 @@ class VideoSystemView {
   showCategories(categories) {
     this.main.append(`
         <div class="container justify-content-center text-center">
-            <h1> Cateogrías </h1>
+            <h1> Categorías </h1>
             <div id="categories" class="container justify-content-center text-center row">
 
             </div>
@@ -378,18 +378,50 @@ class VideoSystemView {
                       <form name="" role="form">
 
                           <div class="mb-3">
-                            <label class="form-label">Título</label>
-                            <input type="text" class="form-control" placeholder="Título" name="title" required>
+                          <label>
+                            Tipo de producción
+                          </label>
+                            <select class="form-select" name="prodType" required>
+                              <option>Película</option>
+                              <option>Serie</option>
+                            </select>
+                            <div class="invalid-feedback">El tipo es obligatorio.</div>
+                            <div class="valid-feedback">Correcto.</div>
                           </div>
 
                           <div class="mb-3">
-                            <label>
-                              Tipo de producción
-                            </label>
-                              <select class="form-select" name="prodType" required>
-                                <option>Película</option>
-                                <option>Serie</option>
-                              </select>
+                            <label class="form-label">Título</label>
+                            <input type="text" class="form-control" placeholder="Título" name="title" required>
+                            <div class="invalid-feedback">El título es obligatorio.</div>
+                            <div class="valid-feedback">Correcto.</div>
+                          </div>
+                          
+                          <div class="mb-3">
+                            <label class="form-label">Nacionalidad</label>
+                            <input type="text" class="form-control" placeholder="Nacionalidad" name="nationality" required>
+                            <div class="invalid-feedback">La nacionalidad es obligatoria.</div>
+                            <div class="valid-feedback">Correcto.</div>
+                          </div>
+
+                          <div class="mb-3">
+                            <label class="form-label">Publicación</label>
+                            <input type="date" class="form-control" name="published" required>
+                            <div class="invalid-feedback">La publicación es obligatoria.</div>
+                            <div class="valid-feedback">Correcto.</div>
+                          </div>
+                          
+                          <div class="mb-3">
+                            <label class="form-label">Sinopsis</label>
+                            <input type="text" class="form-control" placeholder="Sinopsis" name="synopsis" required>
+                            <div class="invalid-feedback">La sinopsis es obligatoria.</div>
+                            <div class="valid-feedback">Correcto.</div>
+                          </div>
+                          
+                          <div class="mb-3">
+                            <label class="form-label">Imagen</label>
+                            <input type="text" class="form-control" placeholder="http://..." name="productionImage" required>
+                            <div class="invalid-feedback">La imagen es obligatoria.</div>
+                            <div class="valid-feedback">Correcto.</div>
                           </div>
 
                           <div class="mb-3">
@@ -399,6 +431,8 @@ class VideoSystemView {
                               <select class="form-select personSelect" name="director" required>
 
                               </select>
+                              <div class="invalid-feedback">El director es obligatorio.</div>
+                              <div class="valid-feedback">Correcto.</div>
                           </div>
 
                           <div class="mb-3">
@@ -408,6 +442,8 @@ class VideoSystemView {
                               <select id="castSelect" multiple class="form-select personSelect" name="cast" required>
 
                               </select>
+                              <div class="invalid-feedback">El actor es obligatorio.</div>
+                              <div class="valid-feedback">Correcto.</div>
                           </div>
 
                           <div class="mb-3">
@@ -417,6 +453,8 @@ class VideoSystemView {
                               <select id="categoriesSelect" multiple class="form-select categorySelect" name="cProdCategories" required>
 
                               </select>
+                              <div class="invalid-feedback">La categoría es obligatoria.</div>
+                              <div class="valid-feedback">Correcto.</div>
                           </div>
 
                           <button type="submit" class="btn btn-primary">Crear</button>
@@ -446,6 +484,8 @@ class VideoSystemView {
                           <select class="form-select productionSelect" name="rProdName">
 
                           </select>
+                          <div class="invalid-feedback">La producción es obligatoria.</div>
+                          <div class="valid-feedback">Correcto.</div>
                         </div>
                         <button type="submit" class="btn btn-danger">Eliminar</button>
                     </div>
@@ -476,6 +516,8 @@ class VideoSystemView {
                                   <option>Asignar</option>
                                   <option>Desasignar</option>
                                 </select>
+                                <div class="invalid-feedback">El tipo es obligatorio.</div>
+							                  <div class="valid-feedback">Correcto.</div>
                             </div>
 
                             <div class="mb-3">
@@ -485,6 +527,8 @@ class VideoSystemView {
                                 <select class="form-select productionSelect" name="productionTitle" required>
 
                                 </select>
+                                <div class="invalid-feedback">La producción es obligatoria.</div>
+							                  <div class="valid-feedback">Correcto.</div>
                             </div>
 
                             <div class="mb-3">
@@ -494,6 +538,8 @@ class VideoSystemView {
                                 <select class="form-select personSelect" name="person" required>
 
                                 </select>
+                                <div class="invalid-feedback">La persona es obligatoria.</div>
+							                  <div class="valid-feedback">Correcto.</div>
                             </div>
 
                             
@@ -505,6 +551,8 @@ class VideoSystemView {
                                   <option>Actor</option>
                                   <option>Director</option>
                                 </select>
+                                <div class="invalid-feedback">El rol es obligatorio.</div>
+							                  <div class="valid-feedback">Correcto.</div>
                             </div>
 
                                 <button type="submit" class="btn btn-primary">Realizar</button>
@@ -569,6 +617,8 @@ class VideoSystemView {
                           <select class="form-select categorySelect" name="rcName" required>
 
                           </select>
+                          <div class="invalid-feedback">La categoría es obligatoria.</div>
+                          <div class="valid-feedback">Correcto.</div>
                         </div>
                         <button type="submit" class="btn btn-danger">Eliminar</button>
                     </div>
@@ -593,26 +643,36 @@ class VideoSystemView {
                           <div class="mb-3">
                             <label class="form-label">Nombre</label>
                             <input type="text" class="form-control" placeholder="Nombre" name="name" required>
+                            <div class="invalid-feedback">El nombre es obligatorio.</div>
+                            <div class="valid-feedback">Correcto.</div>
                           </div>
 
                           <div class="mb-3">
                             <label class="form-label">Apellido1</label>
                             <input type="text" class="form-control" placeholder="Apellido1" name="lastname1" required>
+                            <div class="invalid-feedback">El apellido1 es obligatorio.</div>
+                            <div class="valid-feedback">Correcto.</div>
                           </div>
 
                           <div class="mb-3">
                             <label class="form-label">Apellido2</label>
                             <input type="text" class="form-control" placeholder="Apellido2" name="lastname2" required>
+                            <div class="invalid-feedback">El apellido2 es obligatorio.</div>
+                            <div class="valid-feedback">Correcto.</div>
                           </div>
 
                           <div class="mb-3">
                             <label class="form-label">Nacimiento</label>
                             <input type="date" class="form-control" name="born" required>
+                            <div class="invalid-feedback">El nacimiento es obligatorio.</div>
+                            <div class="valid-feedback">Correcto.</div>
                           </div>
 
                           <div class="mb-3">
                             <label class="form-label">Imagen</label>
                             <input type="text" class="form-control" placeholder="http://..." name="image" required>
+                            <div class="invalid-feedback">La imagen es obligatoria.</div>
+                            <div class="valid-feedback">Correcto.</div>
                           </div>
 
                           <div class="mb-3">
@@ -623,6 +683,8 @@ class VideoSystemView {
                                 <option>Actor</option>
                                 <option>Director</option>
                               </select>
+                              <div class="invalid-feedback">El rol es obligatorio.</div>
+                              <div class="valid-feedback">Correcto.</div>
                           </div>
 
                         <button type="submit" class="btn btn-primary">Crear</button>
@@ -652,6 +714,8 @@ class VideoSystemView {
                           <select class="form-select personSelect" name="rpName" required>
 
                           </select>
+                          <div class="invalid-feedback">La persona es obligatoria.</div>
+                          <div class="valid-feedback">Correcto.</div>
                         </div>
                         <button type="submit" class="btn btn-danger">Eliminar</button>
                     </div>
@@ -718,8 +782,8 @@ class VideoSystemView {
   }
 
   showResultModal(done, error, type, message) {
-    $('body').append(`
-    <div class="modal fade text-light" id="resultModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog">
+    $('main').append(`
+    <div class="modal fade text-light resultModal" id="resultModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content bg-dark">
           <div class="modal-header">
@@ -738,8 +802,6 @@ class VideoSystemView {
       </div>
     </div>
     `);
-
-    //$(".modal").modal('hide');
 
     let newResultModal = $("#resultModal");
     newResultModal.modal("show");

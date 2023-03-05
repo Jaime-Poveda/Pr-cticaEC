@@ -334,15 +334,25 @@ class VideoSystemController {
         this.#videoSystemView.bindCreateProductionForm(this.handleCreateProduction);
     }
 
-    handleCreateProduction = (title, prodType, directorId, cast, categoriesSelected) => {
+    handleCreateProduction = (title, prodType, nationality, published, synopsis, image, directorId, cast, categoriesSelected) => {
         let done, error;
-
-
 
         try {
             let newProduction;
 
-            prodType === "Película" ? newProduction = new Movie(title, "none", new Date(), "", "", new Resource(1, 1), []) : new Serie(title, "none", new Date(), "", "", [], []);
+            prodType === "Película" ? newProduction = new Movie(title, nationality, new Date(published), synopsis, image, new Resource(1, 1), []) : newProduction = new Serie(title, nationality, new Date(published), synopsis, image, [], [], 1);
+
+            /* if (prodType === "Película") {
+                newProduction = new Movie(title, "none", new Date(), "", "", new Resource(1, 1), [])
+            } else {
+                new Serie(title, "none", new Date(), "", "", [], [], 1)
+            } */
+
+            /* try {
+                newProduction = new Serie(title, "none", new Date(), "", "", [], [], 1)
+            } catch (error) {
+                console.log(error);
+            } */
 
             //insertar produccion
             this.#videoSystem.addProduction(newProduction);
