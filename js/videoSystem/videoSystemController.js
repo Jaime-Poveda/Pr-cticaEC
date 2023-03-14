@@ -289,16 +289,24 @@ class VideoSystemController {
         data.append("upfile", new Blob(["CONTENT"], { type: "text/plain" }));
         fetch("SERVER.SCRIPT", { method: "POST", body: data }); */
 
-        /* var fileWriter = new Writer();
-        var text = "This is a test string";
-        var fileName = "Test.doc";
-        fileWriter.writeToFile("sfopera.com", text, fileName, function (err, url) {
-            if (err) {
-                resp.error("Write failed");
-            } else {
-                resp.success(url);
-            }
+        let jsonString = JSON.stringify([...this.#videoSystem.actors]);
+
+        /* $.ajax({
+            url: 'php/save.php',
+            data: { 'jsonString': jsonString },
+            type: 'POST'
         }); */
+
+        fetch('php/save.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "username": "YOUR_USERNAME",
+                "password": "YOUR_PASSWORD"
+            })
+        })
     }
 
     /* function replacer(key, value) {
