@@ -178,11 +178,143 @@ class VideoSystemController {
         videoSystem.assignActor(actor14, serie1);
         videoSystem.assignDirector(director11, serie1);
 
-        let user1 = new User("John", "john@gmail.com", "john1234");
+        let user1 = new User("admin", "admin@gmail.com", "admin");
 
         videoSystem.addUser(user1);
 
+        /* console.log(JSON.stringify([...this.#videoSystem.actors][0].actor.toString()));
+        let actorsJSON = JSON.stringify([...this.#videoSystem.actors]);
+        console.log(actorsJSON);
+        console.log(JSON.parse(actorsJSON)); */
+
+        console.log("Usuarios: ");
+        console.log(JSON.stringify([...this.#videoSystem.users]));
+        console.log("\n\n")
+        console.log("Producciones: ");
+        console.log(JSON.stringify([...this.#videoSystem.productions]));
+        console.log("\n\n")
+        console.log("Categorías: ");
+        console.log(JSON.stringify([...this.#videoSystem.categories]));
+        console.log("\n\n")
+        console.log("Actores: ");
+        console.log(JSON.stringify([...this.#videoSystem.actors]));
+        console.log("\n\n")
+        console.log("Directores: ");
+        console.log(JSON.stringify([...this.#videoSystem.directors]));
+        console.log("\n\n")
+
+        let actorsJSON = JSON.stringify([...this.#videoSystem.actors]);
+        console.log(actorsJSON);
+        console.log(JSON.parse(actorsJSON)[0].actor);
+        console.log([...this.#videoSystem.actors]);
+
+        this.saveJSON();
     }
+
+    saveJSON() {
+        /* let fs = require('fs');
+        fs.writeFile("actors.JSON", JSON.stringify([...this.#videoSystem.actors])); */
+
+        /* let file = new File(["actors"], "actors.json");
+        console.log(file); */
+
+        /* let htmlString = `<?php 
+            echo "hola";
+        ?>`
+        alert(htmlString); */
+
+        /* let blob = new Blob(["Hola"], { type: "text/plain;charset=utf-8" });
+        saveAs(blob, "static.txt"); */
+
+        /* var a = document.createElement("a");
+        a.href = window.URL.createObjectURL(new Blob(["CONTENT"], { type: "text/plain" }));
+        a.download = "demo.txt";
+        a.click(); */
+
+        /* const fileHandle = await window.showSaveFilePicker();
+        const fileStream = await fileHandle.createWritable();
+        await fileStream.write(new Blob(["CONTENT"], { type: "text/plain" }));
+        await fileStream.close(); */
+
+        /* var formData = new FormData();
+
+        formData.append("username", "Groucho");
+        formData.append("accountnum", 123456); // number 123456 is immediately converted to string "123456"
+
+        // HTML file input user's choice...
+        //formData.append("userfile", fileInputElement.files[0]);
+
+        // JavaScript file-like object...
+        var content = '<a id="a"><b id="b">hey!</b></a>'; // the body of the new file...
+        var blob = new Blob([content], { type: "text/xml" });
+
+        formData.append("webmasterfile", blob);
+
+        var request = new XMLHttpRequest();
+        request.open("POST", "json.json");
+        request.send(formData); */
+
+        /* let vfPostFile = $('#vfPostFile');
+        let base = location.protocol + '//' + location.host + location.pathname;
+        let url = new URL('submitForm.php', base);
+        let formData = new FormData();
+        formData.append('results', '8');
+        formData.append('gender', 'female');
+        //formData.append('webmasterfile', vfPostFile.get(0).files[0]);
+        let product = {
+            id: 123,
+            name: 'PC',
+            brand: 'HP',
+            model: 'EliteBook'
+        }
+        let blob = new Blob([JSON.stringify(product)], { type: "text/xml" });
+        formData.append("blobField", blob);
+        formData.append("product", JSON.stringify(product));
+
+        fetch(url, {
+            method: 'post',
+            body: formData
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            console.dir(data);
+            $$result.log(data);
+            $$result.log(JSON.stringify(data));
+        }).catch(function (err) {
+            $$result.log('No se ha recibido respuesta.');
+            $$result.log(err.toString());
+        }); */
+
+        /* var data = new FormData();
+        data.append("upfile", new Blob(["CONTENT"], { type: "text/plain" }));
+        fetch("SERVER.SCRIPT", { method: "POST", body: data }); */
+
+        /* var fileWriter = new Writer();
+        var text = "This is a test string";
+        var fileName = "Test.doc";
+        fileWriter.writeToFile("sfopera.com", text, fileName, function (err, url) {
+            if (err) {
+                resp.error("Write failed");
+            } else {
+                resp.success(url);
+            }
+        }); */
+    }
+
+    /* function replacer(key, value) {
+        if (key === "publication") {
+            return new Date(value).toLocaleDateString();
+        }
+        return value;
+    }
+
+    function reviver(key, value){
+        if (key === 'publication'){
+            console.log(new Date(value));
+            return new Date(value);
+        }
+        return value;
+    } */
 
     constructor(model, view) {
         this.#videoSystem = model;
@@ -203,6 +335,8 @@ class VideoSystemController {
         this.#videoSystemView.bindProductionWindow(this.handleProductionWindow.bind(this));
         this.#videoSystemView.bindCloseWindows(this.handleCloseWindows.bind(this));
         this.#videoSystemView.bindForms(this.handleForms.bind(this));
+        this.#videoSystemView.bindLoginButton(this.handleLogin.bind(this));
+        this.#videoSystemView.bindCloseSession(this.handleCloseSession.bind(this));
     }
 
     onLoad = () => {
@@ -602,6 +736,51 @@ class VideoSystemController {
 
         this.onDeletePersons();
     }
+
+    handleLogin = () => {
+        this.#videoSystemView.showLogin();
+        this.#videoSystemView.bindLoginForm(this.handleLoginForm);
+        this.binds();
+    }
+
+    handleLoginForm = (userName, password) => {
+        let done, error;
+        let message;
+
+        let userExists = false;
+        try {
+            //this.#videoSystem.removePerson(person);
+            userExists = [...this.#videoSystem.users].find((user) => {
+                return user.username === userName && user.password === password;
+            })
+            userExists ? message = "Login correcto" : message = "Login incorrecto";
+            done = true;
+        } catch (exception) {
+            done = false;
+            error = exception;
+        }
+
+        if (userExists) {
+            document.cookie = `User=${userName};`;
+            history.replaceState({ action: "init" }, null, "#");
+            this.handleInit();
+        }
+
+        this.#videoSystemView.showLoginResultModal(done, error, "Login", message);
+
+        //this.onDeletePersons();
+    }
+
+    handleCloseSession = () => {
+        document.cookie = `User=;`
+        history.replaceState({ action: "init" }, null, "#");
+        this.handleInit();
+        this.binds();
+    }
 }
+
+/* (function() {
+    document.cookie = `User=;`
+})(); */
 
 export { VideoSystemController };

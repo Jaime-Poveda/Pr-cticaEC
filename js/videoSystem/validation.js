@@ -45,7 +45,7 @@ function createProductionValidation(handler) {
         } else {
             showFeedBack($(this.prodType), true);
         }
-        
+
         if (!this.nationality.checkValidity()) {
             isValid = false;
             showFeedBack($(this.nationality), false);
@@ -53,7 +53,7 @@ function createProductionValidation(handler) {
         } else {
             showFeedBack($(this.nationality), true);
         }
-        
+
         if (!this.published.checkValidity()) {
             isValid = false;
             showFeedBack($(this.published), false);
@@ -61,7 +61,7 @@ function createProductionValidation(handler) {
         } else {
             showFeedBack($(this.published), true);
         }
-        
+
         if (!this.synopsis.checkValidity()) {
             isValid = false;
             showFeedBack($(this.synopsis), false);
@@ -69,7 +69,7 @@ function createProductionValidation(handler) {
         } else {
             showFeedBack($(this.synopsis), true);
         }
-        
+
         if (!this.productionImage.checkValidity()) {
             isValid = false;
             showFeedBack($(this.productionImage), false);
@@ -216,7 +216,7 @@ function assignProductionValidation(handler) {
         } else {
             handler(this.productionType.value, this.productionTitle.value, this.person.value, this.role.value);
         }
-        
+
         event.preventDefault();
         event.stopPropagation();
     })
@@ -436,4 +436,53 @@ function removePersonValidation(handler) {
     $(form.rpName).change(defaultCheckElement);
 }
 
-export { createProductionValidation, removeProductionValidation, assignProductionValidation, newCategoryValidation, removeCategoryValidation, createPersonValidation, removePersonValidation };
+function loginUserValidation(handler) {
+    let form = document.forms.fLoginUser;
+    $(form).attr('novalidate', true);
+
+    $(form).submit(function (event) {
+        let isValid = true;
+        let firstInvalidElement = null;
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (!this.userName.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.userName), false);
+            firstInvalidElement = this.userName;
+        } else {
+            showFeedBack($(this.userName), true);
+        }
+        
+        if (!this.userPassword.checkValidity()) {
+            isValid = false;
+            showFeedBack($(this.userPassword), false);
+            firstInvalidElement = this.userPassword;
+        } else {
+            showFeedBack($(this.userPassword), true);
+        }
+
+
+        if (!isValid) {
+            firstInvalidElement.focus();
+        } else {
+            handler(this.userName.value, this.userPassword.value);
+        }
+
+        $(form.userName).change(defaultCheckElement);
+        $(form.userPassword).change(defaultCheckElement);
+    })
+
+
+    form.addEventListener('reset', (function (event) {
+        let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
+        feedDivs.removeClass('d-block').addClass('d-none');
+        let inputs = $(this).find('input');
+        inputs.removeClass('is-vlaid is-invalid');
+    }));
+
+    $(form.rpName).change(defaultCheckElement);
+}
+
+export { createProductionValidation, removeProductionValidation, assignProductionValidation, newCategoryValidation, removeCategoryValidation, createPersonValidation, removePersonValidation, loginUserValidation };
