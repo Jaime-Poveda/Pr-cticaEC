@@ -10,54 +10,6 @@ const server = http.createServer((req, res) => {
     res.setHeader('Content-Type', 'text/plain');
     //res.end('Hello World');
 
-    //res.writeHead(200, { "Content-Type": "application/json" });
-    if (req.url === "/hola") {
-
-        req.on('end', () => {
-            console.log("hola");
-        });
-
-        res.end("hola");
-    }
-
-    if (req.url === "/readUsers") {
-        let data = '';
-        req.on('data', chunk => {
-            data += chunk;
-            readUsers();
-        })
-    }
-    if (req.url === "/readUsers") {
-        let data = '';
-        req.on('data', chunk => {
-            data += chunk;
-            readProductions();
-        })
-    }
-    if (req.url === "/readUsers") {
-        let data = '';
-        req.on('data', chunk => {
-            data += chunk;
-            readCategories();
-        })
-    }
-    if (req.url === "/readUsers") {
-        let data = '';
-        req.on('data', chunk => {
-            data += chunk;
-            //console.log(JSON.parse(data).length);
-            readActors();
-        })
-    }
-    if (req.url === "/saveDirectors") {
-        let data = '';
-        req.on('data', chunk => {
-            data += chunk;
-            readDirectors();
-        })
-    }
-
-
     if (req.url === "/saveUsers") {
         let data = '';
         req.on('data', chunk => {

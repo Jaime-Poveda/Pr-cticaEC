@@ -393,7 +393,7 @@ class VideoSystemView {
             </button>
 
           <h1>Guardado</h1>
-            <button id="saveButton" class="btn btn-secondary me-3">Save</button>
+            <button id="saveButton" class="btn btn-secondary me-3">Backup</button>
             
             <div class="modal fade" id="createProduction" tabindex="-1">
               <form name="fCreateProduction" role="form" novalidate>
@@ -699,7 +699,7 @@ class VideoSystemView {
 
                           <div class="mb-3">
                             <label class="form-label">Imagen</label>
-                            <input type="text" class="form-control" placeholder="http://..." name="image" required>
+                            <input type="text" class="form-control" placeholder="Url de la imagen" name="image" required>
                             <div class="invalid-feedback">La imagen es obligatoria.</div>
                             <div class="valid-feedback">Correcto.</div>
                           </div>

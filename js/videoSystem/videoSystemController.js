@@ -1,5 +1,11 @@
 import { VideoSystem } from "./videoSystemModel.js";
 import { Person, Category, Resource, Production, Movie, Serie, User, Coordinate } from "../entities/objectsVideoSystem.js";
+import productionsJson from '../../json/load/producciones.json' assert { type: 'json' };
+import categoriesJson from '../../json/load/categorias.json' assert { type: 'json' };
+import actorsJson from '../../json/load/actores.json' assert { type: 'json' };
+import directorsJson from '../../json/load/directores.json' assert { type: 'json' };
+import usersJson from '../../json/load/usuarios.json' assert { type: 'json' };
+
 
 class VideoSystemController {
     #videoSystem;
@@ -8,8 +14,20 @@ class VideoSystemController {
     #windows = [];
 
     #loadObjects() {
+        this.loadProductions(productionsJson);
+        this.loadCategories(categoriesJson);
+        this.loadActores(actorsJson);
+        this.loadDirectors(directorsJson);
+        this.loadUsers(usersJson);
 
-        fetch("../../json/load/producciones.json")
+        /* console.log([...this.#videoSystem.productions]);
+        console.log([...this.#videoSystem.categories]);
+        console.log([...this.#videoSystem.actors]);
+        console.log([...this.#videoSystem.directors]);
+        console.log([...this.#videoSystem.users]); */
+
+
+        /* fetch("../../json/load/producciones.json")
             .then(response => response.json())
             .then(json => this.loadProductions(json));
         fetch("../../json/load/categorias.json")
@@ -29,10 +47,10 @@ class VideoSystemController {
         console.log([...this.#videoSystem.categories]);
         console.log([...this.#videoSystem.actors]);
         console.log([...this.#videoSystem.directors]);
-        console.log([...this.#videoSystem.users]);
+        console.log([...this.#videoSystem.users]); */
 
-        let videoSystem = this.#videoSystem;
 
+        /* let videoSystem = this.#videoSystem;
 
         let category1 = new Category("Acción", "Producciones con un toque de adrenalina. Incluyen acrobacias físicas, persecuciones rescates y batallas.");
         let category2 = new Category("Musical", "Música, emociones y coreografías espectaculares para disfrutar.");
@@ -200,12 +218,13 @@ class VideoSystemController {
 
         videoSystem.assignActor(actor13, serie1);
         videoSystem.assignActor(actor14, serie1);
-        videoSystem.assignDirector(director11, serie1);
+        videoSystem.assignDirector(director11, serie1); */
 
         /* let user1 = new User("admin", "admin@gmail.com", "admin");
 
         videoSystem.addUser(user1); */
     }
+
 
     loadProductions(productions) {
         //console.log(productions[0].resource.duration);
@@ -213,7 +232,7 @@ class VideoSystemController {
             let newProd;
             //console.log(productions[i].seasons);
             if (productions[i].seasons === undefined) {
-                newProd = new Movie(productions[i].title, productions[i].nationality, new Date(productions[i].published), productions[i].synopsis, productions[i].image, new Resource(productions[i].resource.duration, productions[i].resource.link), productions[i].locations);
+                newProd = new Movie(productions[i].title, productions[i].nationality, new Date(productions[i].publication), productions[i].synopsis, productions[i].image, new Resource(productions[i].resource.duration, productions[i].resource.link), productions[i].locations);
 
                 //console.log(newProd);
             } else {
@@ -222,7 +241,7 @@ class VideoSystemController {
                     resources.push(new Resource(productions[i].resources[e].duration, productions[i].resources[e].link));
                 }
 
-                newProd = new Serie(productions[i].title, productions[i].nationality, new Date(productions[i].published), productions[i].synopsis, productions[i].image, resources, productions[i].locations);
+                newProd = new Serie(productions[i].title, productions[i].nationality, new Date(productions[i].publication), productions[i].synopsis, productions[i].image, resources, productions[i].locations);
 
                 //console.log(newProd);
             }
@@ -273,21 +292,6 @@ class VideoSystemController {
         }
         //console.log([...this.#videoSystem.users]);
     }
-
-    /* function replacer(key, value) {
-        if (key === "publication") {
-            return new Date(value).toLocaleDateString();
-        }
-        return value;
-    }
-
-    function reviver(key, value){
-        if (key === 'publication'){
-            console.log(new Date(value));
-            return new Date(value);
-        }
-        return value;
-    } */
 
     constructor(model, view) {
         this.#videoSystem = model;
