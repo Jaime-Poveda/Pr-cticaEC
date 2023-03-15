@@ -8,11 +8,31 @@ class VideoSystemController {
     #windows = [];
 
     #loadObjects() {
+
+        fetch("../../json/load/producciones.json")
+            .then(response => response.json())
+            .then(json => this.loadProductions(json));
+        fetch("../../json/load/categorias.json")
+            .then(response => response.json())
+            .then(json => this.loadCategories(json));
+        fetch("../../json/load/actores.json")
+            .then(response => response.json())
+            .then(json => this.loadActores(json));
+        fetch("../../json/load/directores.json")
+            .then(response => response.json())
+            .then(json => this.loadDirectors(json));
+        fetch("../../json/load/usuarios.json")
+            .then(response => response.json())
+            .then(json => this.loadUsers(json));
+
+        console.log([...this.#videoSystem.productions]);
+        console.log([...this.#videoSystem.categories]);
+        console.log([...this.#videoSystem.actors]);
+        console.log([...this.#videoSystem.directors]);
+        console.log([...this.#videoSystem.users]);
+
         let videoSystem = this.#videoSystem;
 
-        fetch('http://127.0.0.1:5000')
-            .then(res => res.text())
-            .then(text => console.log(text));
 
         let category1 = new Category("Acción", "Producciones con un toque de adrenalina. Incluyen acrobacias físicas, persecuciones rescates y batallas.");
         let category2 = new Category("Musical", "Música, emociones y coreografías espectaculares para disfrutar.");
@@ -182,35 +202,76 @@ class VideoSystemController {
         videoSystem.assignActor(actor14, serie1);
         videoSystem.assignDirector(director11, serie1);
 
-        let user1 = new User("admin", "admin@gmail.com", "admin");
+        /* let user1 = new User("admin", "admin@gmail.com", "admin");
 
-        videoSystem.addUser(user1);
+        videoSystem.addUser(user1); */
+    }
 
-        /* console.log(JSON.stringify([...this.#videoSystem.actors][0].actor.toString()));
-        let actorsJSON = JSON.stringify([...this.#videoSystem.actors]);
-        console.log(actorsJSON);
-        console.log(JSON.parse(actorsJSON)); */
+    loadProductions(productions) {
+        //console.log(productions[0].resource.duration);
+        for (let i = 0; i < productions.length; i++) {
+            let newProd;
+            //console.log(productions[i].seasons);
+            if (productions[i].seasons === undefined) {
+                newProd = new Movie(productions[i].title, productions[i].nationality, new Date(productions[i].published), productions[i].synopsis, productions[i].image, new Resource(productions[i].resource.duration, productions[i].resource.link), productions[i].locations);
 
-        /* console.log("Usuarios: ");
-        console.log(JSON.stringify([...this.#videoSystem.users]));
-        console.log("\n\n")
-        console.log("Producciones: ");
-        console.log(JSON.stringify([...this.#videoSystem.productions]));
-        console.log("\n\n")
-        console.log("Categorías: ");
-        console.log(JSON.stringify([...this.#videoSystem.categories]));
-        console.log("\n\n")
-        console.log("Actores: ");
-        console.log(JSON.stringify([...this.#videoSystem.actors]));
-        console.log("\n\n")
-        console.log("Directores: ");
-        console.log(JSON.stringify([...this.#videoSystem.directors]));
-        console.log("\n\n")
+                //console.log(newProd);
+            } else {
+                let resources = [];
+                for (let e = 0; e < productions[i].resources; e++) {
+                    resources.push(new Resource(productions[i].resources[e].duration, productions[i].resources[e].link));
+                }
 
-        let actorsJSON = JSON.stringify([...this.#videoSystem.actors]);
-        console.log(actorsJSON);
-        console.log(JSON.parse(actorsJSON)[0].actor);
-        console.log([...this.#videoSystem.actors]); */
+                newProd = new Serie(productions[i].title, productions[i].nationality, new Date(productions[i].published), productions[i].synopsis, productions[i].image, resources, productions[i].locations);
+
+                //console.log(newProd);
+            }
+            this.#videoSystem.addProduction(newProd);
+        };
+    }
+    loadCategories(categories) {
+        for (let i = 0; i < categories.length; i++) {
+            let newCategory = new Category(categories[i].category.name, categories[i].category.description);
+            this.#videoSystem.addCategory(newCategory);
+
+            for (let e = 0; e < categories[i].productions.length; e++) {
+                let newProduction = this.#videoSystem.getProductionByName(categories[i].productions[e]);
+                this.#videoSystem.assignCategory(newCategory, newProduction);
+            }
+        }
+    }
+    loadActores(actors) {
+        //console.log(actors);
+        for (let i = 0; i < actors.length; i++) {
+            let newActor = new Person(actors[i].actor.name, actors[i].actor.lastname1, actors[i].actor.lastname2, new Date(actors[i].actor.born), actors[i].actor.picture);
+            this.#videoSystem.addActor(newActor);
+
+            for (let e = 0; e < actors[i].productions.length; e++) {
+                let newProduction = this.#videoSystem.getProductionByName(actors[i].productions[e]);
+                this.#videoSystem.assignActor(newActor, newProduction);
+            }
+        }
+    }
+    loadDirectors(directors) {
+        //console.log(directors);
+        for (let i = 0; i < directors.length; i++) {
+            let newDirector = new Person(directors[i].director.name, directors[i].director.lastname1, directors[i].director.lastname2, new Date(directors[i].director.born), directors[i].director.picture);
+            this.#videoSystem.addDirector(newDirector);
+
+            for (let e = 0; e < directors[i].productions.length; e++) {
+                let newProduction = this.#videoSystem.getProductionByName(directors[i].productions[e]);
+                this.#videoSystem.assignDirector(newDirector, newProduction);
+            }
+        }
+
+    }
+    loadUsers(users) {
+        for (let i = 0; i < users.length; i++) {
+            let newUser = new User(users[i].username, users[i].email, users[i].password);
+
+            this.#videoSystem.addUser(newUser);
+        }
+        //console.log([...this.#videoSystem.users]);
     }
 
     /* function replacer(key, value) {

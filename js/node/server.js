@@ -8,7 +8,55 @@ const port = 5000;
 const server = http.createServer((req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
-    res.end('Hello World');
+    //res.end('Hello World');
+
+    //res.writeHead(200, { "Content-Type": "application/json" });
+    if (req.url === "/hola") {
+
+        req.on('end', () => {
+            console.log("hola");
+        });
+
+        res.end("hola");
+    }
+
+    if (req.url === "/readUsers") {
+        let data = '';
+        req.on('data', chunk => {
+            data += chunk;
+            readUsers();
+        })
+    }
+    if (req.url === "/readUsers") {
+        let data = '';
+        req.on('data', chunk => {
+            data += chunk;
+            readProductions();
+        })
+    }
+    if (req.url === "/readUsers") {
+        let data = '';
+        req.on('data', chunk => {
+            data += chunk;
+            readCategories();
+        })
+    }
+    if (req.url === "/readUsers") {
+        let data = '';
+        req.on('data', chunk => {
+            data += chunk;
+            //console.log(JSON.parse(data).length);
+            readActors();
+        })
+    }
+    if (req.url === "/saveDirectors") {
+        let data = '';
+        req.on('data', chunk => {
+            data += chunk;
+            readDirectors();
+        })
+    }
+
 
     if (req.url === "/saveUsers") {
         let data = '';
@@ -50,7 +98,7 @@ const server = http.createServer((req, res) => {
 
 
 function saveUsers(data) {
-    fs.writeFile(`../../json/backup/usuarios_${(new Date().toJSON().slice(0,10))}_${(new Date()).getHours()}-${(new Date()).getMinutes()}-${(new Date()).getSeconds()}.json`, data, err => {
+    fs.writeFile(`../../json/backup/usuarios_${(new Date().toJSON().slice(0, 10))}_${(new Date()).getHours()}-${(new Date()).getMinutes()}-${(new Date()).getSeconds()}.json`, data, err => {
         if (err) {
             console.error(err);
         } else {
@@ -59,7 +107,7 @@ function saveUsers(data) {
     });
 }
 function saveProductions(data) {
-    fs.writeFile(`../../json/backup/producciones_${(new Date().toJSON().slice(0,10))}_${(new Date()).getHours()}-${(new Date()).getMinutes()}-${(new Date()).getSeconds()}.json`, data, err => {
+    fs.writeFile(`../../json/backup/producciones_${(new Date().toJSON().slice(0, 10))}_${(new Date()).getHours()}-${(new Date()).getMinutes()}-${(new Date()).getSeconds()}.json`, data, err => {
         if (err) {
             console.error(err);
         } else {
@@ -68,7 +116,7 @@ function saveProductions(data) {
     });
 }
 function saveCategories(data) {
-    fs.writeFile(`../../json/backup/categorias_${(new Date().toJSON().slice(0,10))}_${(new Date()).getHours()}-${(new Date()).getMinutes()}-${(new Date()).getSeconds()}.json`, data, err => {
+    fs.writeFile(`../../json/backup/categorias_${(new Date().toJSON().slice(0, 10))}_${(new Date()).getHours()}-${(new Date()).getMinutes()}-${(new Date()).getSeconds()}.json`, data, err => {
         if (err) {
             console.error(err);
         } else {
@@ -77,7 +125,7 @@ function saveCategories(data) {
     });
 }
 function saveActors(data) {
-    fs.writeFile(`../../json/backup/actores_${(new Date().toJSON().slice(0,10))}_${(new Date()).getHours()}-${(new Date()).getMinutes()}-${(new Date()).getSeconds()}.json`, data, err => {
+    fs.writeFile(`../../json/backup/actores_${(new Date().toJSON().slice(0, 10))}_${(new Date()).getHours()}-${(new Date()).getMinutes()}-${(new Date()).getSeconds()}.json`, data, err => {
         if (err) {
             console.error(err);
         } else {
@@ -86,7 +134,7 @@ function saveActors(data) {
     });
 }
 function saveDirectors(data) {
-    fs.writeFile(`../../json/backup/directores_${(new Date().toJSON().slice(0,10))}_${(new Date()).getHours()}-${(new Date()).getMinutes()}-${(new Date()).getSeconds()}.json`, data, err => {
+    fs.writeFile(`../../json/backup/directores_${(new Date().toJSON().slice(0, 10))}_${(new Date()).getHours()}-${(new Date()).getMinutes()}-${(new Date()).getSeconds()}.json`, data, err => {
         if (err) {
             console.error(err);
         } else {
