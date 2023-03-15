@@ -337,6 +337,8 @@ class VideoSystemController {
             //console.log(err.toString());
         }); */
 
+        console.log("fetch");
+
         fetch('http://127.0.0.1:5000/saveUsers', {
             method: 'POST',
             headers: {
@@ -345,11 +347,15 @@ class VideoSystemController {
             mode: "no-cors",
             body: JSON.stringify([...this.#videoSystem.users])
         }).then(function (response) {
+            console.log("hola");
             return response.json();
         }).then(function (data) {
+            console.log(data);
         }).catch(function (err) {
+            console.log(err);
         });
 
+        /*
         fetch('http://127.0.0.1:5000/saveProductions', {
             method: 'POST',
             headers: {
@@ -400,7 +406,7 @@ class VideoSystemController {
             return response.json();
         }).then(function (data) {
         }).catch(function (err) {
-        });
+        }); */
     }
 
     onLoad = () => {

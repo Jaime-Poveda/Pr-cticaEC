@@ -15,6 +15,7 @@ const server = http.createServer((req, res) => {
         req.on('data', chunk => {
             data += chunk;
             saveUsers(data);
+            res.end();
         })
     }
     if (req.url === "/saveProductions") {
