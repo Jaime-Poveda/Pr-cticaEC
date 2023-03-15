@@ -337,25 +337,35 @@ class VideoSystemController {
             //console.log(err.toString());
         }); */
 
-        console.log("fetch");
+        //console.log("fetch");
+
+        /* let formData = new FormData();
+        formData.append("", JSON.stringify([...this.#videoSystem.users])) */
+
+        /* try {
+            fetch('http://127.0.0.1:5000/saveUsers', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: "no-cors",
+                body: JSON.stringify([...this.#videoSystem.users])
+            })
+        } catch (error) {
+            console.log(error);
+        } */
 
         fetch('http://127.0.0.1:5000/saveUsers', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
             mode: "no-cors",
             body: JSON.stringify([...this.#videoSystem.users])
-        }).then(function (response) {
-            console.log("hola");
-            return response.json();
-        }).then(function (data) {
-            console.log(data);
-        }).catch(function (err) {
-            console.log(err);
-        });
+        })
 
-        /*
         fetch('http://127.0.0.1:5000/saveProductions', {
             method: 'POST',
             headers: {
@@ -363,11 +373,7 @@ class VideoSystemController {
             },
             mode: "no-cors",
             body: JSON.stringify([...this.#videoSystem.productions])
-        }).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-        }).catch(function (err) {
-        });
+        })
 
         fetch('http://127.0.0.1:5000/saveCategories', {
             method: 'POST',
@@ -376,12 +382,7 @@ class VideoSystemController {
             },
             mode: "no-cors",
             body: JSON.stringify([...this.#videoSystem.categories])
-        }).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-        }).catch(function (err) {
-        });
-
+        })
         fetch('http://127.0.0.1:5000/saveActors', {
             method: 'POST',
             headers: {
@@ -389,11 +390,7 @@ class VideoSystemController {
             },
             mode: "no-cors",
             body: JSON.stringify([...this.#videoSystem.actors])
-        }).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-        }).catch(function (err) {
-        });
+        })
 
         fetch('http://127.0.0.1:5000/saveDirectors', {
             method: 'POST',
@@ -402,11 +399,7 @@ class VideoSystemController {
             },
             mode: "no-cors",
             body: JSON.stringify([...this.#videoSystem.directors])
-        }).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-        }).catch(function (err) {
-        }); */
+        })
     }
 
     onLoad = () => {
