@@ -400,6 +400,8 @@ class VideoSystemController {
             mode: "no-cors",
             body: JSON.stringify([...this.#videoSystem.directors])
         })
+        
+        this.#videoSystemView.showResultModal(true, "", "Backup", "Backup creado correctamente");
     }
 
     onLoad = () => {

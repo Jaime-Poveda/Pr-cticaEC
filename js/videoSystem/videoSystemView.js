@@ -1078,8 +1078,8 @@ class VideoSystemView {
   bindSaveButton(handler) {
     $("#saveButton").click((event) => {
       //handler();
-      this.#excecuteHandler(handler, [], 'body', { action: 'init' }, '#', event);
-      //this.#excecuteHandler(handler, [], 'body', { action: 'forms' }, '#forms', event);
+      //this.#excecuteHandler(handler, [], 'body', { action: 'init' }, '#', event);
+      this.#excecuteHandler(handler, [], 'body', { action: 'forms' }, '#forms', event);
     })
   }
 
