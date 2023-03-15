@@ -10,6 +10,10 @@ class VideoSystemController {
     #loadObjects() {
         let videoSystem = this.#videoSystem;
 
+        fetch('http://127.0.0.1:5000')
+            .then(res => res.text())
+            .then(text => console.log(text));
+
         let category1 = new Category("Acción", "Producciones con un toque de adrenalina. Incluyen acrobacias físicas, persecuciones rescates y batallas.");
         let category2 = new Category("Musical", "Música, emociones y coreografías espectaculares para disfrutar.");
         let category3 = new Category("Ciencia Ficción", "Combinación de ciencia futurista y dilemas éticos o espacio-temporales.");
@@ -187,7 +191,7 @@ class VideoSystemController {
         console.log(actorsJSON);
         console.log(JSON.parse(actorsJSON)); */
 
-        console.log("Usuarios: ");
+        /* console.log("Usuarios: ");
         console.log(JSON.stringify([...this.#videoSystem.users]));
         console.log("\n\n")
         console.log("Producciones: ");
@@ -206,107 +210,7 @@ class VideoSystemController {
         let actorsJSON = JSON.stringify([...this.#videoSystem.actors]);
         console.log(actorsJSON);
         console.log(JSON.parse(actorsJSON)[0].actor);
-        console.log([...this.#videoSystem.actors]);
-
-        this.saveJSON();
-    }
-
-    saveJSON() {
-        /* let fs = require('fs');
-        fs.writeFile("actors.JSON", JSON.stringify([...this.#videoSystem.actors])); */
-
-        /* let file = new File(["actors"], "actors.json");
-        console.log(file); */
-
-        /* let htmlString = `<?php 
-            echo "hola";
-        ?>`
-        alert(htmlString); */
-
-        /* let blob = new Blob(["Hola"], { type: "text/plain;charset=utf-8" });
-        saveAs(blob, "static.txt"); */
-
-        /* var a = document.createElement("a");
-        a.href = window.URL.createObjectURL(new Blob(["CONTENT"], { type: "text/plain" }));
-        a.download = "demo.txt";
-        a.click(); */
-
-        /* const fileHandle = await window.showSaveFilePicker();
-        const fileStream = await fileHandle.createWritable();
-        await fileStream.write(new Blob(["CONTENT"], { type: "text/plain" }));
-        await fileStream.close(); */
-
-        /* var formData = new FormData();
-
-        formData.append("username", "Groucho");
-        formData.append("accountnum", 123456); // number 123456 is immediately converted to string "123456"
-
-        // HTML file input user's choice...
-        //formData.append("userfile", fileInputElement.files[0]);
-
-        // JavaScript file-like object...
-        var content = '<a id="a"><b id="b">hey!</b></a>'; // the body of the new file...
-        var blob = new Blob([content], { type: "text/xml" });
-
-        formData.append("webmasterfile", blob);
-
-        var request = new XMLHttpRequest();
-        request.open("POST", "json.json");
-        request.send(formData); */
-
-        /* let vfPostFile = $('#vfPostFile');
-        let base = location.protocol + '//' + location.host + location.pathname;
-        let url = new URL('submitForm.php', base);
-        let formData = new FormData();
-        formData.append('results', '8');
-        formData.append('gender', 'female');
-        //formData.append('webmasterfile', vfPostFile.get(0).files[0]);
-        let product = {
-            id: 123,
-            name: 'PC',
-            brand: 'HP',
-            model: 'EliteBook'
-        }
-        let blob = new Blob([JSON.stringify(product)], { type: "text/xml" });
-        formData.append("blobField", blob);
-        formData.append("product", JSON.stringify(product));
-
-        fetch(url, {
-            method: 'post',
-            body: formData
-        }).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            console.dir(data);
-            $$result.log(data);
-            $$result.log(JSON.stringify(data));
-        }).catch(function (err) {
-            $$result.log('No se ha recibido respuesta.');
-            $$result.log(err.toString());
-        }); */
-
-        /* var data = new FormData();
-        data.append("upfile", new Blob(["CONTENT"], { type: "text/plain" }));
-        fetch("SERVER.SCRIPT", { method: "POST", body: data }); */
-
-        let jsonString = JSON.stringify([...this.#videoSystem.actors]);
-
-        /* $.ajax({
-            url: 'php/save.php',
-            data: { 'jsonString': jsonString },
-            type: 'POST'
-        }); */
-
-        fetch('php/save.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "username": "YOUR_USERNAME",
-                "password": "YOUR_PASSWORD"
-            })
-        })
+        console.log([...this.#videoSystem.actors]); */
     }
 
     /* function replacer(key, value) {
@@ -345,6 +249,93 @@ class VideoSystemController {
         this.#videoSystemView.bindForms(this.handleForms.bind(this));
         this.#videoSystemView.bindLoginButton(this.handleLogin.bind(this));
         this.#videoSystemView.bindCloseSession(this.handleCloseSession.bind(this));
+        this.#videoSystemView.bindSaveButton(this.fetchSave.bind(this));
+    }
+
+    fetchSave = () => {
+        /* fetch('http://127.0.0.1:5000/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            mode: "no-cors",
+            body: JSON.stringify([...this.#videoSystem.actors])
+        }).then(function (response) {
+            //console.log("Fetch realizado")
+            return response.json();
+        }).then(function (data) {
+            //console.dir(data);
+            //console.log(data);
+            //console.log(JSON.stringify(data));
+        }).catch(function (err) {
+            //console.log('No se ha recibido respuesta.');
+            //console.log(err.toString());
+        }); */
+
+        fetch('http://127.0.0.1:5000/saveUsers', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            mode: "no-cors",
+            body: JSON.stringify([...this.#videoSystem.users])
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+        }).catch(function (err) {
+        });
+
+        fetch('http://127.0.0.1:5000/saveProductions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            mode: "no-cors",
+            body: JSON.stringify([...this.#videoSystem.productions])
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+        }).catch(function (err) {
+        });
+
+        fetch('http://127.0.0.1:5000/saveCategories', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            mode: "no-cors",
+            body: JSON.stringify([...this.#videoSystem.categories])
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+        }).catch(function (err) {
+        });
+
+        fetch('http://127.0.0.1:5000/saveActors', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            mode: "no-cors",
+            body: JSON.stringify([...this.#videoSystem.actors])
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+        }).catch(function (err) {
+        });
+
+        fetch('http://127.0.0.1:5000/saveDirectors', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            mode: "no-cors",
+            body: JSON.stringify([...this.#videoSystem.directors])
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+        }).catch(function (err) {
+        });
     }
 
     onLoad = () => {

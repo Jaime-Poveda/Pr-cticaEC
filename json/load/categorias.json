@@ -1,0 +1,38 @@
+[
+    {
+        "category": {
+            "name": "Acción",
+            "description": "Producciones con un toque de adrenalina. Incluyen acrobacias físicas, persecuciones rescates y batallas."
+        },
+        "productions": [
+            "Kingsman",
+            "X-Men Origins",
+            "Spiderman 2",
+            "Drive"
+        ]
+    },
+    {
+        "category": {
+            "name": "Musical",
+            "description": "Música, emociones y coreografías espectaculares para disfrutar."
+        },
+        "productions": [
+            "La La Land",
+            "Mamma Mia",
+            "Sing",
+            "El gran showman"
+        ]
+    },
+    {
+        "category": {
+            "name": "Ciencia Ficción",
+            "description": "Combinación de ciencia futurista y dilemas éticos o espacio-temporales."
+        },
+        "productions": [
+            "Dune",
+            "Blade Runner 2049",
+            "Star Wars: El Despertar de la Fuerza",
+            "Black Mirror"
+        ]
+    }
+]

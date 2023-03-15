@@ -53,7 +53,7 @@ class VideoSystemView {
                       Hola ${this.getCookie("User")}
                     </div>
                     <a class="me-3 btn btn-success" id="closeSession" href="#">Cerrar sesión</a>
-                    <a class="me-3 btn btn-info" id="formsButton" href="#forms">Formularios</a>
+                    <a class="me-3 btn btn-info" id="formsButton" href="#forms">Administración</a>
                     ` : `
                     <a class="me-3 btn btn-success" id="loginButton" href="#login">Login</a>
                     `}
@@ -363,6 +363,7 @@ class VideoSystemView {
 
     this.main.append(`
         <div class="container my-4">
+          <h1>Formularios</h1>
             <button id="bCreateProduction" type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#createProduction">
               Crear producción
             </button>
@@ -391,6 +392,8 @@ class VideoSystemView {
               Eliminar persona
             </button>
 
+          <h1>Guardado</h1>
+            <button id="saveButton" class="btn btn-secondary me-3">Save</button>
             
             <div class="modal fade" id="createProduction" tabindex="-1">
               <form name="fCreateProduction" role="form" novalidate>
@@ -1069,6 +1072,14 @@ class VideoSystemView {
   bindCloseSession(handler) {
     $("#closeSession").click((event) => {
       handler();
+    })
+  }
+
+  bindSaveButton(handler) {
+    $("#saveButton").click((event) => {
+      //handler();
+      this.#excecuteHandler(handler, [], 'body', { action: 'init' }, '#', event);
+      //this.#excecuteHandler(handler, [], 'body', { action: 'forms' }, '#forms', event);
     })
   }
 

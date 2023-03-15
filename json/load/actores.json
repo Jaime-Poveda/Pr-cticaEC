@@ -1,0 +1,180 @@
+[
+    {
+        "actor": {
+            "name": "Taron",
+            "lastname1": "Egerton",
+            "lastname2": "",
+            "born": "1989-11-09T23:00:00.000Z",
+            "picture": "img/taron-egerton.jpg"
+        },
+        "productions": [
+            "Kingsman",
+            "Sing"
+        ]
+    },
+    {
+        "actor": {
+            "name": "Colin",
+            "lastname1": "Firth",
+            "lastname2": "",
+            "born": "1960-09-09T23:00:00.000Z",
+            "picture": "img/colin-firth.jpg"
+        },
+        "productions": [
+            "Kingsman",
+            "Mamma Mia"
+        ]
+    },
+    {
+        "actor": {
+            "name": "Hugh",
+            "lastname1": "Jackman",
+            "lastname2": "",
+            "born": "1968-10-11T23:00:00.000Z",
+            "picture": "img/hugh-jackman.jpg"
+        },
+        "productions": [
+            "X-Men Origins",
+            "El gran showman"
+        ]
+    },
+    {
+        "actor": {
+            "name": "Ryan",
+            "lastname1": "Reynolds",
+            "lastname2": "",
+            "born": "1976-10-22T23:00:00.000Z",
+            "picture": "img/ryan-reynolds.jpg"
+        },
+        "productions": [
+            "X-Men Origins"
+        ]
+    },
+    {
+        "actor": {
+            "name": "Tobey",
+            "lastname1": "Maguire",
+            "lastname2": "",
+            "born": "1975-06-26T22:00:00.000Z",
+            "picture": "img/tobey-maguire.jpg"
+        },
+        "productions": [
+            "Spiderman 2"
+        ]
+    },
+    {
+        "actor": {
+            "name": "J.K.",
+            "lastname1": "Simmons",
+            "lastname2": "",
+            "born": "1955-01-08T23:00:00.000Z",
+            "picture": "img/jk-simmons.jpg"
+        },
+        "productions": [
+            "Spiderman 2",
+            "La La Land"
+        ]
+    },
+    {
+        "actor": {
+            "name": "Ryan",
+            "lastname1": "Gosling",
+            "lastname2": "",
+            "born": "1980-11-11T23:00:00.000Z",
+            "picture": "img/ryan-gosling.jpg"
+        },
+        "productions": [
+            "Drive",
+            "La La Land",
+            "Blade Runner 2049"
+        ]
+    },
+    {
+        "actor": {
+            "name": "Oscar",
+            "lastname1": "Isaac",
+            "lastname2": "",
+            "born": "1979-03-08T23:00:00.000Z",
+            "picture": "img/oscar-isaac.jpg"
+        },
+        "productions": [
+            "Drive",
+            "Dune"
+        ]
+    },
+    {
+        "actor": {
+            "name": "Pierce",
+            "lastname1": "Brosnan",
+            "lastname2": "",
+            "born": "1953-05-15T23:00:00.000Z",
+            "picture": "img/pierce-brosnan.jpg"
+        },
+        "productions": [
+            "Mamma Mia"
+        ]
+    },
+    {
+        "actor": {
+            "name": "Matthew",
+            "lastname1": "McConaughey",
+            "lastname2": "",
+            "born": "1969-11-03T23:00:00.000Z",
+            "picture": "img/matthew-mcconaughey.jpg"
+        },
+        "productions": [
+            "Sing"
+        ]
+    },
+    {
+        "actor": {
+            "name": "Zendaya",
+            "lastname1": "Zendaya",
+            "lastname2": "",
+            "born": "1996-08-31T22:00:00.000Z",
+            "picture": "img/zendaya.jpg"
+        },
+        "productions": [
+            "El gran showman",
+            "Dune"
+        ]
+    },
+    {
+        "actor": {
+            "name": "Harrison",
+            "lastname1": "Ford",
+            "lastname2": "",
+            "born": "1942-07-12T22:00:00.000Z",
+            "picture": "img/harrison-ford.jpg"
+        },
+        "productions": [
+            "Blade Runner 2049",
+            "Star Wars: El Despertar de la Fuerza"
+        ]
+    },
+    {
+        "actor": {
+            "name": "Domhall",
+            "lastname1": "Gleeson",
+            "lastname2": "",
+            "born": "1983-05-11T22:00:00.000Z",
+            "picture": "img/domhall-gleeson.jpg"
+        },
+        "productions": [
+            "Star Wars: El Despertar de la Fuerza",
+            "Black Mirror"
+        ]
+    },
+    {
+        "actor": {
+            "name": "Hayley",
+            "lastname1": "Atwell",
+            "lastname2": "",
+            "born": "1982-04-04T22:00:00.000Z",
+            "picture": "img/hayley-atwell.jpg"
+        },
+        "productions": [
+            "Black Mirror"
+        ]
+    }
+]
