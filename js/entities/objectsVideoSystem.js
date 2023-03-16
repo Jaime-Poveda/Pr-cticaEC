@@ -7,11 +7,11 @@ import { BaseException, EmptyValueException, InvalidValueException, InvalidTypeE
 class Person {
     //Atributos privados
     #id;
-    #name;
-    #lastname1;
-    #lastname2;
-    #born;
-    #picture;
+    name;
+    lastname1;
+    lastname2;
+    born;
+    picture;
 
     //Constructor
     constructor(name, lastname1, lastname2, born, picture) {
@@ -23,11 +23,11 @@ class Person {
 
         //Asignación
         this.#id = Person.id();
-        this.#name = name;
-        this.#lastname1 = lastname1;
-        this.#lastname2 = lastname2;
-        this.#born = born;
-        this.#picture = picture;
+        this.name = name;
+        this.lastname1 = lastname1;
+        this.lastname2 = lastname2;
+        this.born = born;
+        this.picture = picture;
     }
 
     //Método estático para el id de los objetos Person creados
@@ -47,32 +47,32 @@ class Person {
         return this.#id;
     }
     get name() {
-        return this.#name;
+        return this.name;
     }
     get lastname1() {
-        return this.#lastname1;
+        return this.lastname1;
     }
     get lastname2() {
-        return this.#lastname2;
+        return this.lastname2;
     }
     get born() {
-        return this.#born;
+        return this.born;
     }
     get picture() {
-        return this.#picture;
+        return this.picture;
     }
 
     //Método toString
     toString() {
-        return "Id: " + this.#id + ", Name: " + this.#name + ", Lastname1: " + this.#lastname1 + ", Lastname2: " + this.#lastname2 + ", Born: " + this.#born + ", Picture: " + this.#picture;
+        return "Id: " + this.#id + ", Name: " + this.name + ", Lastname1: " + this.lastname1 + ", Lastname2: " + this.lastname2 + ", Born: " + this.born + ", Picture: " + this.picture;
     }
 }
 
 //Clase Category
 class Category {
     //Atributos privados
-    #name;
-    #description;
+    name;
+    description;
 
     //Constructor
     constructor(name, description = "") {
@@ -80,29 +80,29 @@ class Category {
         if (name === "") throw new EmptyValueException("name");
 
         //Asignación
-        this.#name = name;
-        this.#description = description;
+        this.name = name;
+        this.description = description;
     }
 
     //Getters
     get name() {
-        return this.#name;
+        return this.name;
     }
     get description() {
-        return this.#description;
+        return this.description;
     }
 
     //Método toString
     toString() {
-        return "Name: " + this.#name + ", Description: " + this.#description;
+        return "Name: " + this.name + ", Description: " + this.description;
     }
 }
 
 //Clase Resourse
 class Resource {
     //Atributos privados
-    #duration;
-    #link;
+    duration;
+    link;
 
     //Constructor
     constructor(duration, link) {
@@ -112,21 +112,21 @@ class Resource {
         if (Number.isNaN(duration)) throw new InvalidValueException("duration", duration);
 
         //Asignación
-        this.#duration = duration;
-        this.#link = link;
+        this.duration = duration;
+        this.link = link;
     }
 
     //Getters
     get duration() {
-        return this.#duration;
+        return this.duration;
     }
     get link() {
-        return this.#link;
+        return this.link;
     }
 
     //Método toString
     toString() {
-        return "Duration: " + this.#duration + ", Link: " + this.#link;
+        return "Duration: " + this.duration + ", Link: " + this.link;
     }
 }
 
@@ -143,11 +143,11 @@ class Abstract {
 //Clase abstracta Production que hereda Abstract
 class Production extends Abstract {
     //Atributos privados
-    #title;
-    #nationality;
-    #publication;
-    #synopsis;
-    #image;
+    title;
+    nationality;
+    publication;
+    synopsis;
+    image;
 
     //Constructor
     constructor(title, nationality, publication, synopsis = "", image = "") {
@@ -164,42 +164,42 @@ class Production extends Abstract {
         super();
 
         //Asignación
-        this.#title = title;
-        this.#nationality = nationality;
-        this.#publication = publication;
-        this.#synopsis = synopsis;
-        this.#image = image;
+        this.title = title;
+        this.nationality = nationality;
+        this.publication = publication;
+        this.synopsis = synopsis;
+        this.image = image;
     }
 
     //Getters
     get title() {
-        return this.#title;
+        return this.title;
     }
     get nationality() {
-        return this.#nationality;
+        return this.nationality;
     }
     get publication() {
-        return this.#publication;
+        return this.publication;
     }
     get synopsis() {
-        return this.#synopsis;
+        return this.synopsis;
     }
     get image() {
-        return this.#image;
+        return this.image;
     }
 
 
     //Método toString
     toString() {
-        return "Title: " + this.#title + ", Nationality: " + this.#nationality + ", Publication: " + this.#publication + ", Synopsis: " + this.#synopsis + ", Image: " + this.#image;
+        return "Title: " + this.title + ", Nationality: " + this.nationality + ", Publication: " + this.publication + ", Synopsis: " + this.synopsis + ", Image: " + this.image;
     }
 }
 
 //Clase Movie que hereda de Production
 class Movie extends Production {
     //Atributos privados
-    #resource;
-    #locations;
+    resource;
+    locations;
 
     //Constructor
     constructor(title, nationality, publication, synopsis = "", image = "", resource = null, locations = []) {
@@ -212,30 +212,30 @@ class Movie extends Production {
         super(title, nationality, publication, synopsis, image);
 
         //Asignación
-        this.#resource = resource;
-        this.#locations = locations;
+        this.resource = resource;
+        this.locations = locations;
     }
 
     //Getters
     get resource() {
-        return this.#resource;
+        return this.resource;
     }
     get locations() {
-        return this.#locations;
+        return this.locations;
     }
 
     //toString
     toString() {
-        return super.toString() + ", Resource: { " + this.#resource + " }, Locations: " + this.#locations;
+        return super.toString() + ", Resource: { " + this.resource + " }, Locations: " + this.locations;
     }
 }
 
 //Clase Serie que hereda de Production
 class Serie extends Production {
     //Atributos privados
-    #resources;
-    #locations;
-    #seasons;
+    resources;
+    locations;
+    seasons;
 
     //Constructor
     constructor(title, nationality = "", publication, synopsis = "", image = "", resources = [], locations = [], seasons) {
@@ -250,34 +250,34 @@ class Serie extends Production {
         super(title, nationality, publication, synopsis, image);
 
         //Asignación
-        this.#resources = resources;
-        this.#locations = locations;
-        this.#seasons = seasons;
+        this.resources = resources;
+        this.locations = locations;
+        this.seasons = seasons;
     }
 
     //Getters
     get resources() {
-        return this.#resources;
+        return this.resources;
     }
     get locations() {
-        return this.#locations;
+        return this.locations;
     }
     get seasons() {
-        return this.#seasons;
+        return this.seasons;
     }
 
     //Método toString
     toString() {
-        return super.toString() + ", Resource: { " + this.#resources + " }, Locations: { " + this.#locations + " }, Seasons: " + this.#seasons;
+        return super.toString() + ", Resource: { " + this.resources + " }, Locations: { " + this.locations + " }, Seasons: " + this.seasons;
     }
 }
 
 //Clase User
 class User {
     //Atributos privados
-    #username;
-    #email;
-    #password;
+    username;
+    email;
+    password;
 
     //Constructor
     constructor(username, email, password) {
@@ -287,33 +287,33 @@ class User {
         if (password === "") throw new EmptyValueException("password");
 
         //Asignación
-        this.#username = username;
-        this.#email = email;
-        this.#password = password;
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
     //Getters
     get username() {
-        return this.#username;
+        return this.username;
     }
     get email() {
-        return this.#email;
+        return this.email;
     }
     get password() {
-        return this.#password;
+        return this.password;
     }
 
     //Método toString
     toString() {
-        return "Username: " + this.#username + ", Email: " + this.#email + ", Password: " + this.#password;
+        return "Username: " + this.username + ", Email: " + this.email + ", Password: " + this.password;
     }
 }
 
 //Clase Coordinate
 class Coordinate {
     //Atributos privados
-    #latitude;
-    #longitude;
+    latitude;
+    longitude;
 
     //Constructor
     constructor(latitude = 0, longitude = 0) {
@@ -322,21 +322,21 @@ class Coordinate {
         if (Number.isNaN(longitude)) throw new InvalidValueException("longitude", longitude);
 
         //Asignación
-        this.#latitude = latitude;
-        this.#longitude = longitude;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     //Getters
     get latitude() {
-        return this.#latitude;
+        return this.latitude;
     }
     get longitude() {
-        return this.#longitude;
+        return this.longitude;
     }
 
     //Método toString
     toString() {
-        return "Latitude: " + this.#latitude + ", Longitude: " + this.#longitude;
+        return "Latitude: " + this.latitude + ", Longitude: " + this.longitude;
     }
 }
 

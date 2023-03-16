@@ -1,5 +1,11 @@
 import { VideoSystem } from "./videoSystemModel.js";
 import { Person, Category, Resource, Production, Movie, Serie, User, Coordinate } from "../entities/objectsVideoSystem.js";
+import productionsJson from '../../json/load/producciones.json' assert { type: 'json' };
+import categoriesJson from '../../json/load/categorias.json' assert { type: 'json' };
+import actorsJson from '../../json/load/actores.json' assert { type: 'json' };
+import directorsJson from '../../json/load/directores.json' assert { type: 'json' };
+import usersJson from '../../json/load/usuarios.json' assert { type: 'json' };
+
 
 class VideoSystemController {
     #videoSystem;
@@ -8,7 +14,43 @@ class VideoSystemController {
     #windows = [];
 
     #loadObjects() {
-        let videoSystem = this.#videoSystem;
+        this.loadProductions(productionsJson);
+        this.loadCategories(categoriesJson);
+        this.loadActores(actorsJson);
+        this.loadDirectors(directorsJson);
+        this.loadUsers(usersJson);
+
+        /* console.log([...this.#videoSystem.productions]);
+        console.log([...this.#videoSystem.categories]);
+        console.log([...this.#videoSystem.actors]);
+        console.log([...this.#videoSystem.directors]);
+        console.log([...this.#videoSystem.users]); */
+
+
+        /* fetch("../../json/load/producciones.json")
+            .then(response => response.json())
+            .then(json => this.loadProductions(json));
+        fetch("../../json/load/categorias.json")
+            .then(response => response.json())
+            .then(json => this.loadCategories(json));
+        fetch("../../json/load/actores.json")
+            .then(response => response.json())
+            .then(json => this.loadActores(json));
+        fetch("../../json/load/directores.json")
+            .then(response => response.json())
+            .then(json => this.loadDirectors(json));
+        fetch("../../json/load/usuarios.json")
+            .then(response => response.json())
+            .then(json => this.loadUsers(json));
+
+        console.log([...this.#videoSystem.productions]);
+        console.log([...this.#videoSystem.categories]);
+        console.log([...this.#videoSystem.actors]);
+        console.log([...this.#videoSystem.directors]);
+        console.log([...this.#videoSystem.users]); */
+
+
+        /* let videoSystem = this.#videoSystem;
 
         let category1 = new Category("Acción", "Producciones con un toque de adrenalina. Incluyen acrobacias físicas, persecuciones rescates y batallas.");
         let category2 = new Category("Musical", "Música, emociones y coreografías espectaculares para disfrutar.");
@@ -176,12 +218,79 @@ class VideoSystemController {
 
         videoSystem.assignActor(actor13, serie1);
         videoSystem.assignActor(actor14, serie1);
-        videoSystem.assignDirector(director11, serie1);
+        videoSystem.assignDirector(director11, serie1); */
 
-        let user1 = new User("John", "john@gmail.com", "john1234");
+        /* let user1 = new User("admin", "admin@gmail.com", "admin");
 
-        videoSystem.addUser(user1);
+        videoSystem.addUser(user1); */
+    }
 
+
+    loadProductions(productions) {
+        //console.log(productions[0].resource.duration);
+        for (let i = 0; i < productions.length; i++) {
+            let newProd;
+            //console.log(productions[i].seasons);
+            if (productions[i].seasons === undefined) {
+                newProd = new Movie(productions[i].title, productions[i].nationality, new Date(productions[i].publication), productions[i].synopsis, productions[i].image, new Resource(productions[i].resource.duration, productions[i].resource.link), productions[i].locations);
+
+                //console.log(newProd);
+            } else {
+                let resources = [];
+                for (let e = 0; e < productions[i].resources; e++) {
+                    resources.push(new Resource(productions[i].resources[e].duration, productions[i].resources[e].link));
+                }
+
+                newProd = new Serie(productions[i].title, productions[i].nationality, new Date(productions[i].publication), productions[i].synopsis, productions[i].image, resources, productions[i].locations);
+
+                //console.log(newProd);
+            }
+            this.#videoSystem.addProduction(newProd);
+        };
+    }
+    loadCategories(categories) {
+        for (let i = 0; i < categories.length; i++) {
+            let newCategory = new Category(categories[i].category.name, categories[i].category.description);
+            this.#videoSystem.addCategory(newCategory);
+
+            for (let e = 0; e < categories[i].productions.length; e++) {
+                let newProduction = this.#videoSystem.getProductionByName(categories[i].productions[e]);
+                this.#videoSystem.assignCategory(newCategory, newProduction);
+            }
+        }
+    }
+    loadActores(actors) {
+        //console.log(actors);
+        for (let i = 0; i < actors.length; i++) {
+            let newActor = new Person(actors[i].actor.name, actors[i].actor.lastname1, actors[i].actor.lastname2, new Date(actors[i].actor.born), actors[i].actor.picture);
+            this.#videoSystem.addActor(newActor);
+
+            for (let e = 0; e < actors[i].productions.length; e++) {
+                let newProduction = this.#videoSystem.getProductionByName(actors[i].productions[e]);
+                this.#videoSystem.assignActor(newActor, newProduction);
+            }
+        }
+    }
+    loadDirectors(directors) {
+        //console.log(directors);
+        for (let i = 0; i < directors.length; i++) {
+            let newDirector = new Person(directors[i].director.name, directors[i].director.lastname1, directors[i].director.lastname2, new Date(directors[i].director.born), directors[i].director.picture);
+            this.#videoSystem.addDirector(newDirector);
+
+            for (let e = 0; e < directors[i].productions.length; e++) {
+                let newProduction = this.#videoSystem.getProductionByName(directors[i].productions[e]);
+                this.#videoSystem.assignDirector(newDirector, newProduction);
+            }
+        }
+
+    }
+    loadUsers(users) {
+        for (let i = 0; i < users.length; i++) {
+            let newUser = new User(users[i].username, users[i].email, users[i].password);
+
+            this.#videoSystem.addUser(newUser);
+        }
+        //console.log([...this.#videoSystem.users]);
     }
 
     constructor(model, view) {
@@ -203,6 +312,96 @@ class VideoSystemController {
         this.#videoSystemView.bindProductionWindow(this.handleProductionWindow.bind(this));
         this.#videoSystemView.bindCloseWindows(this.handleCloseWindows.bind(this));
         this.#videoSystemView.bindForms(this.handleForms.bind(this));
+        this.#videoSystemView.bindLoginButton(this.handleLogin.bind(this));
+        this.#videoSystemView.bindCloseSession(this.handleCloseSession.bind(this));
+        this.#videoSystemView.bindSaveButton(this.fetchSave.bind(this));
+    }
+
+    fetchSave = () => {
+        /* fetch('http://127.0.0.1:5000/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            mode: "no-cors",
+            body: JSON.stringify([...this.#videoSystem.actors])
+        }).then(function (response) {
+            //console.log("Fetch realizado")
+            return response.json();
+        }).then(function (data) {
+            //console.dir(data);
+            //console.log(data);
+            //console.log(JSON.stringify(data));
+        }).catch(function (err) {
+            //console.log('No se ha recibido respuesta.');
+            //console.log(err.toString());
+        }); */
+
+        //console.log("fetch");
+
+        /* let formData = new FormData();
+        formData.append("", JSON.stringify([...this.#videoSystem.users])) */
+
+        /* try {
+            fetch('http://127.0.0.1:5000/saveUsers', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: "no-cors",
+                body: JSON.stringify([...this.#videoSystem.users])
+            })
+        } catch (error) {
+            console.log(error);
+        } */
+
+        fetch('http://127.0.0.1:5000/saveUsers', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            mode: "no-cors",
+            body: JSON.stringify([...this.#videoSystem.users])
+        })
+
+        fetch('http://127.0.0.1:5000/saveProductions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            mode: "no-cors",
+            body: JSON.stringify([...this.#videoSystem.productions])
+        })
+
+        fetch('http://127.0.0.1:5000/saveCategories', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            mode: "no-cors",
+            body: JSON.stringify([...this.#videoSystem.categories])
+        })
+        fetch('http://127.0.0.1:5000/saveActors', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            mode: "no-cors",
+            body: JSON.stringify([...this.#videoSystem.actors])
+        })
+
+        fetch('http://127.0.0.1:5000/saveDirectors', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            mode: "no-cors",
+            body: JSON.stringify([...this.#videoSystem.directors])
+        })
+        
+        this.#videoSystemView.showResultModal(true, "", "Backup", "Backup creado correctamente");
     }
 
     onLoad = () => {
@@ -602,6 +801,51 @@ class VideoSystemController {
 
         this.onDeletePersons();
     }
+
+    handleLogin = () => {
+        this.#videoSystemView.showLogin();
+        this.#videoSystemView.bindLoginForm(this.handleLoginForm);
+        this.binds();
+    }
+
+    handleLoginForm = (userName, password) => {
+        let done, error;
+        let message;
+
+        let userExists = false;
+        try {
+            //this.#videoSystem.removePerson(person);
+            userExists = [...this.#videoSystem.users].find((user) => {
+                return user.username === userName && user.password === password;
+            })
+            userExists ? message = "Login correcto" : message = "Login incorrecto";
+            done = true;
+        } catch (exception) {
+            done = false;
+            error = exception;
+        }
+
+        if (userExists) {
+            document.cookie = `User=${userName};`;
+            history.replaceState({ action: "init" }, null, "#");
+            this.handleInit();
+        }
+
+        this.#videoSystemView.showLoginResultModal(done, error, "Login", message);
+
+        //this.onDeletePersons();
+    }
+
+    handleCloseSession = () => {
+        document.cookie = `User=;`
+        history.replaceState({ action: "init" }, null, "#");
+        this.handleInit();
+        this.binds();
+    }
 }
+
+/* (function() {
+    document.cookie = `User=;`
+})(); */
 
 export { VideoSystemController };

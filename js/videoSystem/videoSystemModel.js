@@ -711,6 +711,19 @@ let VideoSystem = (function () {
                 
             }
 
+            getProductionByName(prodName){
+                let prod;
+
+                [...this.productions].find((production) => {
+                    if (production.title === prodName) {
+                        prod = production;
+                    }
+                    return production.title === prodName;
+                })
+
+                return prod;
+            }
+
         }
 
 

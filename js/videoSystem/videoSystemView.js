@@ -1,4 +1,4 @@
-import { createProductionValidation, removeProductionValidation, assignProductionValidation, newCategoryValidation, removeCategoryValidation, createPersonValidation, removePersonValidation } from './validation.js';
+import { createProductionValidation, removeProductionValidation, assignProductionValidation, newCategoryValidation, removeCategoryValidation, createPersonValidation, removePersonValidation, loginUserValidation } from './validation.js';
 
 class VideoSystemView {
 
@@ -13,8 +13,26 @@ class VideoSystemView {
     this.main = $('main');
   }
 
+  getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
   showHeader() {
     this.main.empty();
+
+    //console.log("User: " + this.getCookie("User"));
 
     this.main.append(`
         <header>
@@ -30,8 +48,16 @@ class VideoSystemView {
                         </ul>
                     </div>
                     
-                    <a class="me-3 btn btn-info" id="formsButton" href="#forms">Formularios</a>
-
+                    ${this.getCookie("User") === "admin" ? `
+                    <div class="text-white me-3">
+                      Hola ${this.getCookie("User")}
+                    </div>
+                    <a class="me-3 btn btn-success" id="closeSession" href="#">Cerrar sesión</a>
+                    <a class="me-3 btn btn-info" id="formsButton" href="#forms">Administración</a>
+                    ` : `
+                    <a class="me-3 btn btn-success" id="loginButton" href="#login">Login</a>
+                    `}
+                    
                     <button id="close-windows" class="btn btn-danger me-3">Cerrar Ventanas</button>
                     <a id="init" class="navbar-brand" href="#">
                         <img src="img/logoBotonBlanco.png" alt="LogoBoton" style="height: 40px;">
@@ -333,10 +359,11 @@ class VideoSystemView {
     this.main.empty();
     this.showHeader();
 
-    let persons = [].concat(directors, actors);
+    //let persons = [].concat(directors, actors);
 
     this.main.append(`
         <div class="container my-4">
+          <h1>Formularios</h1>
             <button id="bCreateProduction" type="button" class="btn btn-info mb-2" data-bs-toggle="modal" data-bs-target="#createProduction">
               Crear producción
             </button>
@@ -365,6 +392,8 @@ class VideoSystemView {
               Eliminar persona
             </button>
 
+          <h1>Guardado</h1>
+            <button id="saveButton" class="btn btn-secondary me-3">Backup</button>
             
             <div class="modal fade" id="createProduction" tabindex="-1">
               <form name="fCreateProduction" role="form" novalidate>
@@ -670,7 +699,7 @@ class VideoSystemView {
 
                           <div class="mb-3">
                             <label class="form-label">Imagen</label>
-                            <input type="text" class="form-control" placeholder="http://..." name="image" required>
+                            <input type="text" class="form-control" placeholder="Url de la imagen" name="image" required>
                             <div class="invalid-feedback">La imagen es obligatoria.</div>
                             <div class="valid-feedback">Correcto.</div>
                           </div>
@@ -807,8 +836,8 @@ class VideoSystemView {
     newResultModal.modal("show");
     newResultModal.find('button').click(() => {
       newResultModal.on('hidden.bs.modal', function (event) {
-        document.fNewCategory.reset();
-        document.fNewCategory.ncName.focus();
+        //document.fNewCategory.reset();
+        //document.fNewCategory.ncName.focus();
         this.remove();
       });
       newResultModal.modal('hide');
@@ -959,6 +988,99 @@ class VideoSystemView {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  /* bindForms(handler) {
+    $("#formsButton").click((event) => {
+      this.#excecuteHandler(handler, [], 'body', { action: 'forms' }, '#forms', event);
+    })
+  } */
+
+  bindLoginButton(handler) {
+    $("#loginButton").click((event) => {
+      handler();
+      //this.#excecuteHandler(handler, [], 'body', { action: 'login' }, '#login', event);
+    })
+  }
+
+  showLogin() {
+    this.main.empty();
+    this.showHeader();
+
+    this.main.append(`
+    <div class="container border rounded d-flex justify-content-center align-items-center mt-5" style="max-width: 50vh;">
+      <form class="p-3 text-center" name="fLoginUser" role="form" novalidate>
+        <h1>Inicio de Sesión</h1>
+        <div class="mb-3">
+          <label for="userName" class="form-label">Usuario</label>
+          <input type="text" class="form-control" name="userName" required>
+          <div class="invalid-feedback">El usuario es obligatorio.</div>
+          <div class="valid-feedback">Correcto.</div>
+        </div>
+        <div class="mb-3">
+          <label for="userPassword" class="form-label">Contraseña</label>
+          <input type="password" class="form-control" name="userPassword" required>
+          <div class="invalid-feedback">La contraseña es obligatoria.</div>
+          <div class="valid-feedback">Correcto.</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+      </form>
+    </div>
+    `)
+  }
+
+  bindLoginForm(handler) {
+    try {
+      loginUserValidation(handler);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  showLoginResultModal(done, error, type, message) {
+    $('main').append(`
+    <div class="modal fade text-light resultModal" id="resultModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content bg-dark">
+          <div class="modal-header">
+            <h5 class="modal-title">`+ type + `</h5>
+            <button type="button" class="close bg-dark text-light" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            `+ (done ? message : error) + `
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
+
+    let newResultModal = $("#resultModal");
+    newResultModal.modal("show");
+    newResultModal.find('button').click(() => {
+      newResultModal.on('hidden.bs.modal', function (event) {
+        this.remove();
+      });
+      newResultModal.modal('hide');
+    })
+  }
+  
+  bindCloseSession(handler) {
+    $("#closeSession").click((event) => {
+      handler();
+    })
+  }
+
+  bindSaveButton(handler) {
+    $("#saveButton").click((event) => {
+      //handler();
+      //this.#excecuteHandler(handler, [], 'body', { action: 'init' }, '#', event);
+      this.#excecuteHandler(handler, [], 'body', { action: 'forms' }, '#forms', event);
+    })
   }
 
 }
